@@ -38,7 +38,7 @@ Centralizar e versionar documentos do SGQ, garantindo:
 
 ## 📧 Contato
 - **Gestora da Qualidade:** Stephane Fernandes  
-- **E-mail institucional:** qualidade@laboratoriocdc.com.br  
+- **E-mail institucional:** contato@laboratoriocdc.com.br  
 - **Laboratório CDC - Cabo Frio / RJ**  
 
 ---
