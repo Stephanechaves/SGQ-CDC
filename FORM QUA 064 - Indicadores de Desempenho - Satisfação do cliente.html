@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORM QUA 064 - Indicadores de Desempenho</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .compliance-badge {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(39, 174, 96, 0.2);
+            border: 2px solid #27ae60;
+            color: #27ae60;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            padding: 30px;
+        }
+        
+        .tabs {
+            display: flex;
+            border-bottom: 3px solid #ecf0f1;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #7f8c8d;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+        
+        .tab:hover {
+            color: #2c3e50;
+            transform: translateY(-2px);
+        }
+        
+        .tab.active {
+            color: #2c3e50;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid;
+        }
+        
+        .alert-info {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: #667eea;
+            color: #2c3e50;
+        }
+        
+        .alert-warning {
+            background: rgba(243, 156, 18, 0.1);
+            border-color: #f39c12;
+            color: #856404;
+        }
+        
+        .alert-success {
+            background: rgba(39, 174, 96, 0.1);
+            border-color: #27ae60;
+            color: #155724;
+        }
+        
+        .alert-danger {
+            background: rgba(231, 76, 60, 0.1);
+            border-color: #e74c3c;
+            color: #721c24;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .form-group:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .file-upload {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .file-upload:hover {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+        
+        .indicators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .indicator-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+            border-top: 5px solid;
+            position: relative;
+        }
+        
+        .indicator-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .indicator-value {
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .indicator-label {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .indicator-meta {
+            color: #7f8c8d;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .indicator-target {
+            font-size: 0.8em;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+        
+        .status-ok { 
+            border-top-color: #27ae60;
+        }
+        
+        .status-ok .indicator-value { color: #27ae60; }
+        .status-ok .indicator-target { background: #d4edda; color: #155724; }
+        
+        .status-warning { 
+            border-top-color: #f39c12;
+        }
+        
+        .status-warning .indicator-value { color: #f39c12; }
+        .status-warning .indicator-target { background: #fff3cd; color: #856404; }
+        
+        .status-danger { 
+            border-top-color: #e74c3c;
+        }
+        
+        .status-danger .indicator-value { color: #e74c3c; }
+        .status-danger .indicator-target { background: #f8d7da; color: #721c24; }
+        
+        .status-na { 
+            border-top-color: #6c757d;
+        }
+        
+        .status-na .indicator-value { color: #6c757d; }
+        .status-na .indicator-target { background: #f8f9fa; color: #6c757d; }
+        
+        .data-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .data-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        .data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ecf0f1;
+            transition: background-color 0.2s ease;
+        }
+        
+        .data-table tr:hover td {
+            background-color: #f8f9fa;
+        }
+        
+        .rating-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .rating-superou {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .rating-atendeu {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .rating-nao_atendeu {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.8em; }
+            .main-content { padding: 15px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .indicators-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+            .compliance-badge { position: relative; top: auto; right: auto; margin-top: 10px; }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="compliance-badge">ISO 9001 + DICQ/SBAC</div>
+            <h1>📊 FORM QUA 064 - Indicadores de Desempenho</h1>
+            <p class="subtitle">Laboratório CDC - Sistema de Gestão da Qualidade</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('import')">📥 Importar Dados</button>
+                <button class="tab" onclick="showTab('indicators')">📈 Indicadores</button>
+                <button class="tab" onclick="showTab('analysis')">🔍 Análise Detalhada</button>
+                <button class="tab" onclick="showTab('non-conformities')">⚠️ Não Conformidades</button>
+                <button class="tab" onclick="showTab('reports')">📋 Relatórios</button>
+            </div>
+            
+            <!-- Tab: Importar Dados -->
+            <div id="import" class="tab-content active">
+                <div class="alert alert-info">
+                    <strong>📌 INSTRUÇÕES FORM QUA 064:</strong><br>
+                    Faça upload do arquivo CSV exportado do Google Forms com a pesquisa de satisfação.<br>
+                    <strong>Pergunta obrigatória:</strong> "De maneira geral, como você avalia a sua experiência no Laboratório CDC?"<br>
+                    <strong>Respostas esperadas:</strong> A = Superou | B = Atendeu | C = Não atendeu
+                </div>
+                
+                <div id="processingAlert" class="alert alert-info" style="display: none;">
+                    <strong>⏳ Processando arquivo...</strong><br>
+                    <div style="width: 100%; height: 20px; background: #e9ecef; border-radius: 10px; overflow: hidden; margin: 10px 0;">
+                        <div id="progressFill" style="width: 0%; height: 100%; background: #667eea; transition: width 1s ease; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold;">0%</div>
+                    </div>
+                    <span id="processingMessage">Iniciando processamento...</span>
+                </div>
+                
+                <div id="resultAlert" style="display: none;"></div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>📅 Período de Análise</label>
+                        <select id="periodType" onchange="updatePeriodOptions()">
+                            <option value="month">Mensal</option>
+                            <option value="quarter">Trimestral</option>
+                            <option value="semester">Semestral</option>
+                            <option value="year">Anual</option>
+                            <option value="custom">Personalizado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="monthSelector">
+                        <label>📅 Mês/Ano</label>
+                        <input type="month" id="analysisMonth" onchange="updatePeriod()">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>👤 Responsável pela Análise</label>
+                        <select id="responsiblePerson">
+                            <option>Líder de Atendimento</option>
+                            <option>Gestor da Qualidade</option>
+                            <option>Diretor do Laboratório</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📊 Período Selecionado</label>
+                        <div style="padding: 12px; background: #e8f5e8; border: 2px solid #27ae60; border-radius: 8px; color: #2c3e50; font-weight: 600;">
+                            <span id="selectedPeriod">Selecione um período acima</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="file-upload" onclick="document.getElementById('fileInput').click()" 
+                     ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                    <div style="font-size: 48px; margin-bottom: 20px;">📄</div>
+                    <h3>Arraste o arquivo CSV do Google Forms aqui</h3>
+                    <p style="margin-top: 10px; color: #7f8c8d;">Formato aceito: .csv</p>
+                    <input type="file" id="fileInput" accept=".csv" style="display: none;" onchange="handleFileSelect(event)">
+                </div>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <button class="btn" onclick="processData()" id="processBtn" disabled>🚀 Processar Dados</button>
+                    <button class="btn btn-danger" onclick="clearAllData()">🗑️ Limpar Todos os Dados</button>
+                </div>
+            </div>
+
+            <!-- Tab: Indicadores -->
+            <div id="indicators" class="tab-content">
+                <div class="alert alert-info">
+                    <strong>🎯 METAS FORM QUA 064:</strong><br>
+                    • Índice de Satisfação Geral (A+B): ≥ 85%<br>
+                    • Taxa "Superou Expectativas" (A): ≥ 30%<br>
+                    • Taxa de Insatisfação (C): ≤ 15%
+                </div>
+                
+                <div class="indicators-grid">
+                    <div class="indicator-card status-na" id="card-satisfaction">
+                        <div class="indicator-value" id="satisfactionIndex">N/D</div>
+                        <div class="indicator-label">Índice Geral de Satisfação</div>
+                        <div class="indicator-meta" id="satisfactionBreakdown">Superou + Atendeu</div>
+                        <div class="indicator-target">Meta QUA 064: ≥ 85%</div>
+                    </div>
+                    
+                    <div class="indicator-card status-na" id="card-excellent">
+                        <div class="indicator-value" id="excellentRate">N/D</div>
+                        <div class="indicator-label">Taxa "Superou Expectativas"</div>
+                        <div class="indicator-meta" id="excellentBreakdown">Apenas avaliações A</div>
+                        <div class="indicator-target">Meta QUA 064: ≥ 30%</div>
+                    </div>
+                    
+                    <div class="indicator-card status-na" id="card-dissatisfaction">
+                        <div class="indicator-value" id="dissatisfactionRate">N/D</div>
+                        <div class="indicator-label">Taxa de Insatisfação</div>
+                        <div class="indicator-meta" id="dissatisfactionBreakdown">Apenas avaliações C</div>
+                        <div class="indicator-target">Meta QUA 064: ≤ 15%</div>
+                    </div>
+                    
+                    <div class="indicator-card status-na" id="card-responses">
+                        <div class="indicator-value" id="totalResponses">0</div>
+                        <div class="indicator-label">Total de Respostas</div>
+                        <div class="indicator-meta">Amostra no período</div>
+                        <div class="indicator-target">Conforme arquivo importado</div>
+                    </div>
+                    
+                    <div class="indicator-card status-na" id="card-breakdown">
+                        <div class="indicator-value" id="responseBreakdown">A:0 B:0 C:0</div>
+                        <div class="indicator-label">Distribuição de Respostas</div>
+                        <div class="indicator-meta">A = Superou | B = Atendeu | C = Não atendeu</div>
+                        <div class="indicator-target">Distribuição percentual</div>
+                    </div>
+                    
+                    <div class="indicator-card status-na" id="card-period">
+                        <div class="indicator-value" id="periodCoverage">N/D</div>
+                        <div class="indicator-label">Cobertura do Período</div>
+                        <div class="indicator-meta">Dias com respostas</div>
+                        <div class="indicator-target">Distribuição temporal</div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-warning" id="ncAlert" style="display: none;">
+                    <strong>⚠️ NÃO CONFORMIDADES IDENTIFICADAS:</strong><br>
+                    <span id="ncMessage"></span>
+                </div>
+                
+                <div class="data-table">
+                    <div style="background: #f8f9fa; padding: 15px; border-bottom: 1px solid #dee2e6;">
+                        <strong>📈 Evolução dos Indicadores</strong>
+                    </div>
+                    <div id="chartArea" style="padding: 30px; text-align: center; color: #7f8c8d;">
+                        Importe os dados para visualizar os gráficos de evolução
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab: Análise Detalhada -->
+            <div id="analysis" class="tab-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>🎯 Filtrar por Avaliação</label>
+                        <select id="ratingFilter" onchange="updateAnalysisTable()">
+                            <option value="">Todas as Avaliações</option>
+                            <option value="superou">A - Superou as expectativas</option>
+                            <option value="atendeu">B - Atendeu as expectativas</option>
+                            <option value="nao_atendeu">C - Não atendeu as expectativas</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📅 Período</label>
+                        <select id="periodFilter" onchange="updateAnalysisTable()">
+                            <option value="">Todo o período</option>
+                            <option value="7">Últimos 7 dias</option>
+                            <option value="30">Últimos 30 dias</option>
+                            <option value="90">Últimos 90 dias</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>🔍 Buscar em Comentários</label>
+                        <input type="text" id="commentSearch" placeholder="Digite palavras-chave..." onkeyup="updateAnalysisTable()">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📊 Ordenar Por</label>
+                        <select id="sortBy" onchange="updateAnalysisTable()">
+                            <option value="date-desc">Data (mais recente)</option>
+                            <option value="date-asc">Data (mais antiga)</option>
+                            <option value="rating-desc">Avaliação (melhor)</option>
+                            <option value="rating-asc">Avaliação (pior)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <button class="btn" onclick="exportFilteredData()">📊 Exportar Dados Filtrados</button>
+                    <button class="btn btn-secondary" onclick="resetFilters()">🔄 Limpar Filtros</button>
+                </div>
+                
+                <div class="data-table">
+                    <div style="background: #f8f9fa; padding: 15px; border-bottom: 1px solid #dee2e6;">
+                        <strong>📋 Respostas da Pesquisa de Satisfação</strong>
+                        <span id="tableInfo" style="color: #6c757d; margin-left: 15px;">0 de 0 respostas</span>
+                    </div>
+                    <div style="max-height: 500px; overflow-y: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Avaliação</th>
+                                    <th>Comentário</th>
+                                    <th>Cliente</th>
+                                    <th>E-mail</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="analysisTableBody">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                                        📊 Importe os dados para visualizar as respostas
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Não Conformidades -->
+            <div id="non-conformities" class="tab-content">
+                <div class="alert alert-info">
+                    <strong>📋 GESTÃO DE NÃO CONFORMIDADES FORM QUA 064:</strong><br>
+                    Todas as respostas "C - Não atendeu" são automaticamente registradas como NC e requerem tratativa conforme procedimento.
+                </div>
+
+                <div id="ncEmptyState" style="text-align: center; padding: 50px; color: #7f8c8d;">
+                    📊 Importe os dados para identificar não conformidades
+                </div>
+
+                <div id="ncManagement" style="display: none;">
+                    <div class="form-grid" style="margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label>📊 Status das NCs</label>
+                            <div style="padding: 12px; background: #e8f5e8; border: 2px solid #27ae60; border-radius: 8px; color: #2c3e50; font-weight: 600;">
+                                <span id="ncStats">Carregando...</span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>🔍 Filtrar por Status</label>
+                            <select id="ncStatusFilter" onchange="updateNCTable()">
+                                <option value="">Todos os Status</option>
+                                <option value="pendente">Pendente</option>
+                                <option value="em_andamento">Em Andamento</option>
+                                <option value="concluida">Concluída</option>
+                                <option value="sem_acao">Sem Ação</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>📅 Período</label>
+                            <select id="ncPeriodFilter" onchange="updateNCTable()">
+                                <option value="">Todo o período</option>
+                                <option value="7">Últimos 7 dias</option>
+                                <option value="30">Últimos 30 dias</option>
+                                <option value="90">Últimos 90 dias</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="data-table">
+                        <div style="background: #f8f9fa; padding: 15px; border-bottom: 1px solid #dee2e6;">
+                            <strong>⚠️ Não Conformidades Identificadas</strong>
+                            <span id="ncTableInfo" style="color: #6c757d; margin-left: 15px;">0 de 0 NCs</span>
+                        </div>
+                        <div style="max-height: 500px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>NC ID</th>
+                                        <th>Data</th>
+                                        <th>Cliente</th>
+                                        <th>Reclamação</th>
+                                        <th>Tipo NC</th>
+                                        <th>Status</th>
+                                        <th>Responsável</th>
+                                        <th>Data Resposta</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ncTableBody">
+                                    <tr>
+                                        <td colspan="9" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                                            📊 Importe os dados para identificar não conformidades
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Relatórios -->
+            <div id="reports" class="tab-content">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>📄 Tipo de Relatório</label>
+                        <select id="reportType" onchange="updateReportPreview()">
+                            <option value="">Selecione o tipo...</option>
+                            <option value="monthly">Relatório Mensal QUA 064</option>
+                            <option value="iso9001">Evidência ISO 9001 (Item 9.1.2)</option>
+                            <option value="dicq">Relatório DICQ/SBAC</option>
+                            <option value="nc-report">Relatório de Não Conformidades</option>
+                            <option value="audit">Preparação para Auditoria</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📧 E-mails para Envio</label>
+                        <textarea id="emailRecipients" rows="3" placeholder="Digite os e-mails separados por vírgula"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📝 Observações</label>
+                        <textarea id="reportNotes" rows="3" placeholder="Observações específicas para incluir no relatório"></textarea>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <button class="btn" onclick="generateReport()">📊 Gerar Relatório</button>
+                    <button class="btn btn-secondary" onclick="exportReport('pdf')">📄 Exportar PDF</button>
+                    <button class="btn btn-secondary" onclick="exportReport('excel')">📊 Exportar Excel</button>
+                </div>
+                
+                <div id="reportPreview" style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 10px; padding: 20px; min-height: 300px;">
+                    <div style="text-align: center; color: #6c757d; padding: 50px;">
+                        📋 Selecione um tipo de relatório para ver o preview
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Tratativa de NC -->
+    <div id="ncModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNCModal()">&times;</span>
+            <h2 id="ncModalTitle">📝 Registrar Tratativa da NC</h2>
+            <div class="form-group">
+                <label>👤 Responsável *</label>
+                <input type="text" id="ncResponsavel" placeholder="Nome do responsável pela tratativa" required>
+            </div>
+            <div class="form-group">
+                <label>📊 Status *</label>
+                <select id="ncStatus" required>
+                    <option value="pendente">Pendente</option>
+                    <option value="em_andamento">Em Andamento</option>
+                    <option value="concluida">Concluída</option>
+                    <option value="sem_acao">Sem Ação</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>🏷️ Tipo da NC *</label>
+                <select id="ncTipo" required>
+                    <option value="atendimento">Atendimento</option>
+                    <option value="prazo">Prazo</option>
+                    <option value="tecnica">Técnica</option>
+                    <option value="instalacoes">Instalações</option>
+                    <option value="sistema">Sistema</option>
+                    <option value="outro">Outro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>📅 Data da Resposta *</label>
+                <input type="datetime-local" id="ncDataResposta" required>
+            </div>
+            <div class="form-group">
+                <label>📝 Tratativa Realizada</label>
+                <textarea id="ncTratativa" rows="4" placeholder="Descreva detalhadamente a ação realizada para tratar esta não conformidade..."></textarea>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn" onclick="saveNCTratativa()">💾 Salvar Tratativa</button>
+                <button class="btn btn-secondary" onclick="closeNCModal()">❌ Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados principais
+        let satisfactionData = [];
+        let filteredData = [];
+        let nonConformities = [];
+        let currentPeriod = '';
+        let fileColumns = [];
+        let rawCsvData = [];
+
+        // Configurações FORM QUA 064 (Corrigidas)
+        const FORM_QUA_064_TARGETS = {
+            satisfaction: 85,      // ≥ 85% (A + B)
+            excellent: 30,         // ≥ 30% (apenas A)
+            dissatisfaction: 15,   // ≤ 15% (apenas C)
+            sample: 30            // ≥ 30% dos clientes
+        };
+
+        // Mapeamento das colunas do Google Forms
+        const COLUMN_MAPPING = {
+            timestamp: ['carimbo de data/hora', 'timestamp', 'data/hora', 'data'],
+            rating: ['de maneira geral', 'como você avalia', 'experiência', 'avaliação'],
+            comment: ['deixe suas observações', 'comentário', 'observações', 'feedback', 'sugestões'],
+            name: ['nome completo', 'nome', 'cliente'],
+            email: ['endereço de e-mail', 'email', 'e-mail']
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            document.getElementById('analysisMonth').value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+            updatePeriod();
+            console.log('Dashboard FORM QUA 064 inicializado');
+        });
+
+        // Funções de navegação
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Funções de período
+        function updatePeriodOptions() {
+            const periodType = document.getElementById('periodType').value;
+            
+            document.getElementById('monthSelector').style.display = 'none';
+            
+            if (periodType === 'custom') {
+                // Implementar seletores customizados se necessário
+            } else {
+                document.getElementById('monthSelector').style.display = 'block';
+            }
+            
+            updatePeriod();
+        }
+
+        function updatePeriod() {
+            const periodType = document.getElementById('periodType').value;
+            let periodText = '';
+            
+            const monthInput = document.getElementById('analysisMonth').value;
+            if (monthInput) {
+                const date = new Date(monthInput + '-01');
+                switch(periodType) {
+                    case 'month':
+                        periodText = date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long' });
+                        break;
+                    case 'quarter':
+                        const quarter = Math.floor(date.getMonth() / 3) + 1;
+                        periodText = `${quarter}º Trimestre ${date.getFullYear()}`;
+                        break;
+                    case 'semester':
+                        const semester = Math.floor(date.getMonth() / 6) + 1;
+                        periodText = `${semester}º Semestre ${date.getFullYear()}`;
+                        break;
+                    case 'year':
+                        periodText = `Ano ${date.getFullYear()}`;
+                        break;
+                }
+            }
+            
+            document.getElementById('selectedPeriod').textContent = periodText || 'Selecione um período';
+            currentPeriod = periodText;
+        }
+
+        // Funções de upload de arquivo
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.currentTarget.style.borderColor = '#764ba2';
+        }
+
+        function handleDragLeave(event) {
+            event.currentTarget.style.borderColor = '#667eea';
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            handleDragLeave(event);
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                processFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                processFile(file);
+            }
+        }
+
+        function processFile(file) {
+            showProcessingAlert();
+            
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            
+            if (fileExtension === 'csv') {
+                processCsvFile(file);
+            } else {
+                showError('Apenas arquivos CSV são aceitos. Exporte o Google Forms como CSV.');
+            }
+        }
+
+        function processCsvFile(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const csvText = e.target.result;
+                
+                updateProgress(20, 'Analisando estrutura do arquivo...');
+                
+                Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    transformHeader: function(header) {
+                        return header.toLowerCase().trim();
+                    },
+                    complete: function(results) {
+                        updateProgress(60, 'Validando estrutura FORM QUA 064...');
+                        
+                        if (results.errors.length > 0) {
+                            console.warn('Avisos no CSV:', results.errors);
+                        }
+                        
+                        rawCsvData = results.data;
+                        fileColumns = Object.keys(rawCsvData[0] || {});
+                        
+                        console.log('Colunas encontradas:', fileColumns);
+                        console.log('Total de linhas:', rawCsvData.length);
+                        
+                        setTimeout(() => {
+                            updateProgress(80, 'Processando dados conforme FORM QUA 064...');
+                            
+                            const mappedData = mapCsvData(rawCsvData);
+                            updateProgress(100, 'Processamento concluído!');
+                            
+                            setTimeout(() => {
+                                if (mappedData.length > 0) {
+                                    satisfactionData = mappedData;
+                                    showSuccess(`✅ Arquivo processado com sucesso! ${mappedData.length} respostas válidas encontradas.`);
+                                    document.getElementById('processBtn').disabled = false;
+                                    console.log('Dados processados:', {
+                                        total: satisfactionData.length,
+                                        distribuicao: getDistribution()
+                                    });
+                                } else {
+                                    showError('❌ Nenhum dado válido encontrado após processamento.');
+                                }
+                                hideProcessingAlert();
+                            }, 1000);
+                        }, 500);
+                    },
+                    error: function(error) {
+                        console.error('Erro ao processar CSV:', error);
+                        showError('❌ Erro ao processar arquivo CSV.');
+                        hideProcessingAlert();
+                    }
+                });
+            };
+            
+            reader.onerror = function() {
+                showError('❌ Erro ao ler o arquivo.');
+                hideProcessingAlert();
+            };
+            
+            reader.readAsText(file, 'UTF-8');
+        }
+
+        function findColumns(columns) {
+            const columnMap = {};
+            
+            for (const [field, possibleNames] of Object.entries(COLUMN_MAPPING)) {
+                for (const column of columns) {
+                    for (const possibleName of possibleNames) {
+                        if (column.includes(possibleName)) {
+                            columnMap[field] = column;
+                            break;
+                        }
+                    }
+                    if (columnMap[field]) break;
+                }
+            }
+            
+            return columnMap;
+        }
+
+        function mapCsvData(csvData) {
+            const mappedData = [];
+            const columnMap = findColumns(fileColumns);
+            
+            console.log('Mapeamento de colunas:', columnMap);
+            
+            csvData.forEach((row, index) => {
+                try {
+                    const timestamp = row[columnMap.timestamp];
+                    const rating = row[columnMap.rating];
+                    
+                    if (!timestamp || !rating) {
+                        console.warn(`Linha ${index + 1}: dados obrigatórios ausentes`);
+                        return;
+                    }
+                    
+                    // Processar timestamp
+                    const parsedDate = parseTimestamp(timestamp);
+                    if (!parsedDate) {
+                        console.warn(`Linha ${index + 1}: data inválida: ${timestamp}`);
+                        return;
+                    }
+                    
+                    // Processar avaliação
+                    const ratingData = processRating(rating);
+                    if (!ratingData) {
+                        console.warn(`Linha ${index + 1}: avaliação não reconhecida: ${rating}`);
+                        return;
+                    }
+                    
+                    mappedData.push({
+                        id: `RESP_${String(index + 1).padStart(4, '0')}`,
+                        timestamp: parsedDate.toLocaleString('pt-BR'),
+                        date: parsedDate,
+                        rating: ratingData.emoji,
+                        ratingText: ratingData.text,
+                        ratingCategory: ratingData.category,
+                        ratingLetter: ratingData.letter,
+                        comment: row[columnMap.comment] || '',
+                        name: row[columnMap.name] || 'Não informado',
+                        email: row[columnMap.email] || 'Não informado'
+                    });
+                } catch (error) {
+                    console.error(`Erro na linha ${index + 1}:`, error);
+                }
+            });
+            
+            return mappedData;
+        }
+
+        function processRating(rating) {
+            const ratingLower = rating.toLowerCase().trim();
+            
+            // Verificar respostas diretas A, B, C primeiro
+            if (ratingLower === 'a') {
+                return { emoji: '😀', text: 'A - Superou as expectativas', category: 'superou', letter: 'A' };
+            }
+            if (ratingLower === 'b') {
+                return { emoji: '🙂', text: 'B - Atendeu as expectativas', category: 'atendeu', letter: 'B' };
+            }
+            if (ratingLower === 'c') {
+                return { emoji: '🙁', text: 'C - Não atendeu as expectativas', category: 'nao_atendeu', letter: 'C' };
+            }
+            
+            // Verificar texto completo das respostas
+            if (ratingLower.includes('superou')) {
+                return { emoji: '😀', text: 'A - Superou as expectativas', category: 'superou', letter: 'A' };
+            }
+            
+            if (ratingLower.includes('atendeu') && !ratingLower.includes('não')) {
+                return { emoji: '🙂', text: 'B - Atendeu as expectativas', category: 'atendeu', letter: 'B' };
+            }
+            
+            if (ratingLower.includes('não atendeu')) {
+                return { emoji: '🙁', text: 'C - Não atendeu as expectativas', category: 'nao_atendeu', letter: 'C' };
+            }
+            
+            console.warn('Resposta de avaliação não reconhecida:', rating);
+            return null;
+        }
+
+        function parseTimestamp(timestamp) {
+            // Tentar vários formatos de data/hora
+            const formats = [
+                /(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2}):(\d{2})/,
+                /(\d{4})-(\d{1,2})-(\d{1,2})\s+(\d{1,2}):(\d{2}):(\d{2})/,
+                /(\d{1,2})\/(\d{1,2})\/(\d{4})/,
+                /(\d{4})-(\d{1,2})-(\d{1,2})/
+            ];
+            
+            for (const format of formats) {
+                const match = timestamp.match(format);
+                if (match) {
+                    if (format === formats[0]) { // DD/MM/YYYY HH:MM:SS
+                        return new Date(match[3], match[2] - 1, match[1], match[4] || 0, match[5] || 0, match[6] || 0);
+                    } else if (format === formats[1]) { // YYYY-MM-DD HH:MM:SS
+                        return new Date(match[1], match[2] - 1, match[3], match[4] || 0, match[5] || 0, match[6] || 0);
+                    } else if (format === formats[2]) { // DD/MM/YYYY
+                        return new Date(match[3], match[2] - 1, match[1]);
+                    } else if (format === formats[3]) { // YYYY-MM-DD
+                        return new Date(match[1], match[2] - 1, match[3]);
+                    }
+                }
+            }
+            
+            const parsed = new Date(timestamp);
+            return isNaN(parsed.getTime()) ? null : parsed;
+        }
+
+        function getDistribution() {
+            const dist = { A: 0, B: 0, C: 0 };
+            satisfactionData.forEach(item => {
+                dist[item.ratingLetter]++;
+            });
+            return dist;
+        }
+
+        function showProcessingAlert() {
+            document.getElementById('processingAlert').style.display = 'block';
+            document.getElementById('resultAlert').style.display = 'none';
+        }
+
+        function hideProcessingAlert() {
+            document.getElementById('processingAlert').style.display = 'none';
+        }
+
+        function updateProgress(percentage, message) {
+            const progressFill = document.getElementById('progressFill');
+            const processingMessage = document.getElementById('processingMessage');
+            
+            progressFill.style.width = percentage + '%';
+            progressFill.textContent = percentage + '%';
+            processingMessage.textContent = message;
+        }
+
+        function showSuccess(message) {
+            const resultAlert = document.getElementById('resultAlert');
+            resultAlert.className = 'alert alert-success';
+            resultAlert.innerHTML = `<strong>✅ Sucesso!</strong><br>${message}`;
+            resultAlert.style.display = 'block';
+        }
+
+        function showError(message) {
+            const resultAlert = document.getElementById('resultAlert');
+            resultAlert.className = 'alert alert-danger';
+            resultAlert.innerHTML = `<strong>❌ Erro!</strong><br>${message}`;
+            resultAlert.style.display = 'block';
+        }
+
+        function processData() {
+            if (satisfactionData.length === 0) {
+                alert('❌ Por favor, importe um arquivo primeiro.');
+                return;
+            }
+            
+            updateIndicators();
+            updateAnalysisTable();
+            updateNonConformitiesManagement();
+            showTab('indicators');
+            
+            // Ativar tab de indicadores
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            
+            alert('✅ Dados processados com sucesso! Veja os indicadores na aba correspondente.');
+        }
+
+        function updateIndicators() {
+            const total = satisfactionData.length;
+            if (total === 0) return;
+            
+            // Cálculos conforme FORM QUA 064
+            const distribution = getDistribution();
+            
+            // Índice Geral de Satisfação = (A + B) / Total
+            const satisfiedResponses = distribution.A + distribution.B;
+            const satisfactionIndex = Math.round((satisfiedResponses / total) * 100);
+            
+            // Taxa "Superou Expectativas" = A / Total
+            const excellentRate = Math.round((distribution.A / total) * 100);
+            
+            // Taxa de Insatisfação = C / Total
+            const dissatisfactionRate = Math.round((distribution.C / total) * 100);
+            
+            // Cobertura temporal
+            const dates = satisfactionData.map(d => d.date.toDateString());
+            const uniqueDates = [...new Set(dates)];
+            const dateRange = getDateRange();
+            const periodCoverage = Math.round((uniqueDates.length / dateRange) * 100);
+            
+            // Distribuição das respostas
+            const responseBreakdown = `A:${distribution.A} B:${distribution.B} C:${distribution.C}`;
+            
+            // Atualizar valores na tela
+            document.getElementById('satisfactionIndex').textContent = satisfactionIndex + '%';
+            document.getElementById('excellentRate').textContent = excellentRate + '%';
+            document.getElementById('dissatisfactionRate').textContent = dissatisfactionRate + '%';
+            document.getElementById('totalResponses').textContent = total.toLocaleString('pt-BR');
+            document.getElementById('responseBreakdown').textContent = responseBreakdown;
+            document.getElementById('periodCoverage').textContent = periodCoverage + '%';
+            
+            // Atualizar breakdowns detalhados
+            document.getElementById('satisfactionBreakdown').textContent = `${distribution.A} + ${distribution.B} = ${satisfiedResponses} respostas`;
+            document.getElementById('excellentBreakdown').textContent = `${distribution.A} de ${total} respostas`;
+            document.getElementById('dissatisfactionBreakdown').textContent = `${distribution.C} de ${total} respostas`;
+            
+            // Atualizar status dos cards
+            updateCardStatus('satisfaction', satisfactionIndex, FORM_QUA_064_TARGETS.satisfaction);
+            updateCardStatus('excellent', excellentRate, FORM_QUA_064_TARGETS.excellent);
+            updateCardStatus('dissatisfaction', dissatisfactionRate, FORM_QUA_064_TARGETS.dissatisfaction, true);
+            updateCardStatus('responses', 100, 80); // Sempre OK se temos dados
+            updateCardStatus('breakdown', 100, 80); // Sempre OK
+            updateCardStatus('period', periodCoverage, 60);
+            
+            // Verificar não conformidades
+            checkNonConformities(satisfactionIndex, excellentRate, dissatisfactionRate);
+            
+            // Atualizar gráfico
+            updateChart();
+            
+            console.log('Indicadores atualizados:', {
+                total,
+                distribution,
+                satisfactionIndex,
+                excellentRate,
+                dissatisfactionRate
+            });
+        }
+
+        function getDateRange() {
+            if (satisfactionData.length === 0) return 1;
+            
+            const dates = satisfactionData.map(d => d.date);
+            const minDate = new Date(Math.min(...dates));
+            const maxDate = new Date(Math.max(...dates));
+            
+            const diffTime = Math.abs(maxDate - minDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            
+            return Math.max(1, diffDays);
+        }
+
+        function updateCardStatus(cardSuffix, value, target, isReverse = false) {
+            const card = document.getElementById(`card-${cardSuffix}`);
+            if (!card) return;
+            
+            let status;
+            
+            if (isReverse) {
+                // Para indicadores onde menor é melhor (ex: insatisfação)
+                if (value <= target) status = 'status-ok';
+                else if (value <= target * 1.5) status = 'status-warning';
+                else status = 'status-danger';
+            } else {
+                // Para indicadores onde maior é melhor
+                if (value >= target) status = 'status-ok';
+                else if (value >= target * 0.8) status = 'status-warning';
+                else status = 'status-danger';
+            }
+            
+            card.className = `indicator-card ${status}`;
+        }
+
+        function checkNonConformities(satisfaction, excellent, dissatisfaction) {
+            const issues = [];
+            
+            if (satisfaction < FORM_QUA_064_TARGETS.satisfaction) {
+                issues.push(`Índice de Satisfação (${satisfaction}%) abaixo da meta (${FORM_QUA_064_TARGETS.satisfaction}%)`);
+            }
+            
+            if (excellent < FORM_QUA_064_TARGETS.excellent) {
+                issues.push(`Taxa "Superou Expectativas" (${excellent}%) abaixo da meta (${FORM_QUA_064_TARGETS.excellent}%)`);
+            }
+            
+            if (dissatisfaction > FORM_QUA_064_TARGETS.dissatisfaction) {
+                issues.push(`Taxa de Insatisfação (${dissatisfaction}%) acima da meta (≤${FORM_QUA_064_TARGETS.dissatisfaction}%)`);
+            }
+            
+            const ncAlert = document.getElementById('ncAlert');
+            if (issues.length > 0) {
+                document.getElementById('ncMessage').innerHTML = `${issues.length} indicador(es) fora da meta FORM QUA 064:<br>• ${issues.join('<br>• ')}`;
+                ncAlert.style.display = 'block';
+            } else {
+                ncAlert.style.display = 'none';
+            }
+        }
+
+        function updateChart() {
+            const distribution = getDistribution();
+            const total = satisfactionData.length;
+            
+            document.getElementById('chartArea').innerHTML = `
+                <div style="text-align: left;">
+                    <h4 style="margin-bottom: 15px;">📊 Distribuição de Respostas FORM QUA 064</h4>
+                    <div style="display: flex; align-items: end; height: 200px; gap: 20px; justify-content: center; margin-bottom: 20px;">
+                        <div style="text-align: center;">
+                            <div style="
+                                width: 80px; 
+                                height: ${Math.max(20, (distribution.A / total) * 180)}px; 
+                                background: #27ae60;
+                                margin-bottom: 5px;
+                                border-radius: 4px 4px 0 0;
+                                position: relative;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-weight: bold;
+                            ">
+                                ${distribution.A}
+                                <span style="
+                                    position: absolute;
+                                    top: -25px;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                    font-size: 12px;
+                                    color: #2c3e50;
+                                    background: white;
+                                    padding: 2px 6px;
+                                    border-radius: 4px;
+                                    border: 1px solid #27ae60;
+                                ">${Math.round((distribution.A / total) * 100)}%</span>
+                            </div>
+                            <div style="font-size: 14px; color: #2c3e50; font-weight: bold;">A - Superou</div>
+                            <div style="font-size: 12px; color: #27ae60;">😀</div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div style="
+                                width: 80px; 
+                                height: ${Math.max(20, (distribution.B / total) * 180)}px; 
+                                background: #f39c12;
+                                margin-bottom: 5px;
+                                border-radius: 4px 4px 0 0;
+                                position: relative;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-weight: bold;
+                            ">
+                                ${distribution.B}
+                                <span style="
+                                    position: absolute;
+                                    top: -25px;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                    font-size: 12px;
+                                    color: #2c3e50;
+                                    background: white;
+                                    padding: 2px 6px;
+                                    border-radius: 4px;
+                                    border: 1px solid #f39c12;
+                                ">${Math.round((distribution.B / total) * 100)}%</span>
+                            </div>
+                            <div style="font-size: 14px; color: #2c3e50; font-weight: bold;">B - Atendeu</div>
+                            <div style="font-size: 12px; color: #f39c12;">🙂</div>
+                        </div>
+                        
+                        <div style="text-align: center;">
+                            <div style="
+                                width: 80px; 
+                                height: ${Math.max(20, (distribution.C / total) * 180)}px; 
+                                background: #e74c3c;
+                                margin-bottom: 5px;
+                                border-radius: 4px 4px 0 0;
+                                position: relative;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                color: white;
+                                font-weight: bold;
+                            ">
+                                ${distribution.C}
+                                <span style="
+                                    position: absolute;
+                                    top: -25px;
+                                    left: 50%;
+                                    transform: translateX(-50%);
+                                    font-size: 12px;
+                                    color: #2c3e50;
+                                    background: white;
+                                    padding: 2px 6px;
+                                    border-radius: 4px;
+                                    border: 1px solid #e74c3c;
+                                ">${Math.round((distribution.C / total) * 100)}%</span>
+                            </div>
+                            <div style="font-size: 14px; color: #2c3e50; font-weight: bold;">C - Não Atendeu</div>
+                            <div style="font-size: 12px; color: #e74c3c;">🙁</div>
+                        </div>
+                    </div>
+                    
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <h5 style="color: #2c3e50; margin-bottom: 10px;">📋 Resumo Estatístico FORM QUA 064</h5>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; font-size: 14px;">
+                            <div><strong>Total de Respostas:</strong> ${total}</div>
+                            <div><strong>Satisfação Geral:</strong> ${Math.round(((distribution.A + distribution.B) / total) * 100)}% (A+B)</div>
+                            <div><strong>Excelência:</strong> ${Math.round((distribution.A / total) * 100)}% (A)</div>
+                            <div><strong>Insatisfação:</strong> ${Math.round((distribution.C / total) * 100)}% (C)</div>
+                            <div><strong>Período:</strong> ${getDateRange()} dias</div>
+                            <div><strong>Última Atualização:</strong> ${new Date().toLocaleDateString('pt-BR')}</div>
+                        </div>
+                        
+                        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #dee2e6;">
+                            <strong>✅ Status das Metas FORM QUA 064:</strong><br>
+                            <div style="margin-top: 8px; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
+                                <div>Satisfação Geral: ${Math.round(((distribution.A + distribution.B) / total) * 100)}% ${Math.round(((distribution.A + distribution.B) / total) * 100) >= 85 ? '✅' : '❌'} (Meta: ≥85%)</div>
+                                <div>Taxa Excelência: ${Math.round((distribution.A / total) * 100)}% ${Math.round((distribution.A / total) * 100) >= 30 ? '✅' : '❌'} (Meta: ≥30%)</div>
+                                <div>Taxa Insatisfação: ${Math.round((distribution.C / total) * 100)}% ${Math.round((distribution.C / total) * 100) <= 15 ? '✅' : '❌'} (Meta: ≤15%)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function updateAnalysisTable() {
+            filteredData = [...satisfactionData];
+            
+            // Aplicar filtros
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            const periodFilter = document.getElementById('periodFilter').value;
+            const searchTerm = document.getElementById('commentSearch').value.toLowerCase();
+            
+            if (ratingFilter) {
+                filteredData = filteredData.filter(item => item.ratingCategory === ratingFilter);
+            }
+            
+            if (periodFilter) {
+                const daysAgo = parseInt(periodFilter);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - daysAgo);
+                
+                filteredData = filteredData.filter(item => item.date >= cutoffDate);
+            }
+            
+            if (searchTerm) {
+                filteredData = filteredData.filter(item => 
+                    item.comment.toLowerCase().includes(searchTerm) ||
+                    item.name.toLowerCase().includes(searchTerm) ||
+                    item.email.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Aplicar ordenação
+            const sortBy = document.getElementById('sortBy').value;
+            filteredData.sort((a, b) => {
+                switch(sortBy) {
+                    case 'date-desc':
+                        return b.date - a.date;
+                    case 'date-asc':
+                        return a.date - b.date;
+                    case 'rating-desc':
+                        const ratingOrder = { 'superou': 3, 'atendeu': 2, 'nao_atendeu': 1 };
+                        return ratingOrder[b.ratingCategory] - ratingOrder[a.ratingCategory];
+                    case 'rating-asc':
+                        const ratingOrderAsc = { 'superou': 3, 'atendeu': 2, 'nao_atendeu': 1 };
+                        return ratingOrderAsc[a.ratingCategory] - ratingOrderAsc[b.ratingCategory];
+                    default:
+                        return 0;
+                }
+            });
+            
+            // Atualizar informação da tabela
+            document.getElementById('tableInfo').textContent = 
+                `${filteredData.length} de ${satisfactionData.length} respostas`;
+            
+            // Atualizar tabela
+            const tbody = document.getElementById('analysisTableBody');
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                            🔍 Nenhuma resposta encontrada com os filtros aplicados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = filteredData.slice(0, 50).map(item => `
+                <tr>
+                    <td>${item.timestamp}</td>
+                    <td>
+                        <span class="rating-badge rating-${item.ratingCategory}">
+                            ${item.rating} ${item.ratingText}
+                        </span>
+                    </td>
+                    <td title="${item.comment}">
+                        ${item.comment ? (item.comment.length > 80 ? item.comment.substring(0, 80) + '...' : item.comment) : '<em>Sem comentário</em>'}
+                    </td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td>
+                        <button onclick="viewResponse('${item.id}')" style="background: #3498db; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                            👁️ Ver
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function resetFilters() {
+            document.getElementById('ratingFilter').value = '';
+            document.getElementById('periodFilter').value = '';
+            document.getElementById('commentSearch').value = '';
+            document.getElementById('sortBy').value = 'date-desc';
+            updateAnalysisTable();
+        }
+
+        function viewResponse(responseId) {
+            const response = satisfactionData.find(item => item.id === responseId);
+            if (!response) return;
+            
+            alert(`📋 DETALHES DA RESPOSTA FORM QUA 064
+
+ID: ${response.id}
+Data/Hora: ${response.timestamp}
+Cliente: ${response.name}
+E-mail: ${response.email}
+Avaliação: ${response.ratingText}
+Categoria: ${response.ratingLetter}
+
+Comentário:
+"${response.comment || 'Nenhum comentário fornecido'}"
+
+${response.ratingCategory === 'nao_atendeu' ? '\n⚠️ ATENÇÃO: Resposta negativa requer acompanhamento conforme FORM QUA 064' : ''}
+${response.ratingCategory === 'superou' ? '\n✅ DESTAQUE: Cliente altamente satisfeito' : ''}`);
+        }
+
+        function exportFilteredData() {
+            if (filteredData.length === 0) {
+                alert('❌ Nenhum dado para exportar com os filtros aplicados.');
+                return;
+            }
+            
+            const csvData = [
+                ['Data/Hora', 'Avaliação', 'Categoria', 'Comentário', 'Cliente', 'E-mail'],
+                ...filteredData.map(item => [
+                    item.timestamp,
+                    item.ratingText,
+                    item.ratingLetter,
+                    item.comment,
+                    item.name,
+                    item.email
+                ])
+            ];
+            
+            const csvContent = csvData.map(row => 
+                row.map(cell => `"${cell.toString().replace(/"/g, '""')}"`).join(',')
+            ).join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `satisfacao_filtrada_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            
+            alert(`📊 ${filteredData.length} registros exportados com sucesso!`);
+        }
+
+        // Funções para Gestão de Não Conformidades
+        function updateNonConformitiesManagement() {
+            // Identificar respostas negativas como NCs
+            const negativeResponses = satisfactionData.filter(item => item.ratingCategory === 'nao_atendeu');
+            
+            if (negativeResponses.length === 0) {
+                document.getElementById('ncManagement').style.display = 'none';
+                document.getElementById('ncEmptyState').style.display = 'block';
+                return;
+            }
+            
+            document.getElementById('ncManagement').style.display = 'block';
+            document.getElementById('ncEmptyState').style.display = 'none';
+            
+            // Criar NCs se não existirem
+            negativeResponses.forEach(response => {
+                if (!nonConformities.find(nc => nc.responseId === response.id)) {
+                    nonConformities.push({
+                        id: `NC_${String(nonConformities.length + 1).padStart(4, '0')}`,
+                        responseId: response.id,
+                        data: response.date,
+                        cliente: response.name,
+                        reclamacao: response.comment || 'Avaliação negativa sem comentário específico',
+                        tipo: classifyNCType(response.comment),
+                        status: 'pendente',
+                        responsavel: '',
+                        dataResposta: '',
+                        tratativa: ''
+                    });
+                }
+            });
+            
+            updateNCStats();
+            updateNCTable();
+        }
+
+        function classifyNCType(comment) {
+            if (!comment) return 'outro';
+            
+            const commentLower = comment.toLowerCase();
+            
+            if (commentLower.includes('demora') || commentLower.includes('espera') || commentLower.includes('demorou')) {
+                return 'prazo';
+            }
+            if (commentLower.includes('atendimento') || commentLower.includes('funcionário') || commentLower.includes('educado')) {
+                return 'atendimento';
+            }
+            if (commentLower.includes('agendamento') || commentLower.includes('sistema')) {
+                return 'sistema';
+            }
+            if (commentLower.includes('limpe') || commentLower.includes('instala')) {
+                return 'instalacoes';
+            }
+            if (commentLower.includes('resultado') || commentLower.includes('exame')) {
+                return 'tecnica';
+            }
+            
+            return 'outro';
+        }
+
+        function updateNCStats() {
+            const total = nonConformities.length;
+            const pendentes = nonConformities.filter(nc => nc.status === 'pendente').length;
+            const emAndamento = nonConformities.filter(nc => nc.status === 'em_andamento').length;
+            const concluidas = nonConformities.filter(nc => nc.status === 'concluida').length;
+            const semAcao = nonConformities.filter(nc => nc.status === 'sem_acao').length;
+            
+            const stats = `Total: ${total} | Pendentes: ${pendentes} | Em andamento: ${emAndamento} | Concluídas: ${concluidas} | Sem ação: ${semAcao}`;
+            document.getElementById('ncStats').textContent = stats;
+        }
+
+        function updateNCTable() {
+            let filteredNCs = [...nonConformities];
+            
+            // Aplicar filtros
+            const statusFilter = document.getElementById('ncStatusFilter').value;
+            const periodFilter = document.getElementById('ncPeriodFilter').value;
+            
+            if (statusFilter) {
+                filteredNCs = filteredNCs.filter(nc => nc.status === statusFilter);
+            }
+            
+            if (periodFilter) {
+                const daysAgo = parseInt(periodFilter);
+                const cutoffDate = new Date();
+                cutoffDate.setDate(cutoffDate.getDate() - daysAgo);
+                
+                filteredNCs = filteredNCs.filter(nc => nc.data >= cutoffDate);
+            }
+            
+            // Atualizar info da tabela
+            document.getElementById('ncTableInfo').textContent = `${filteredNCs.length} de ${nonConformities.length} NCs`;
+            
+            // Atualizar tabela
+            const tbody = document.getElementById('ncTableBody');
+            if (filteredNCs.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                            🔍 Nenhuma não conformidade encontrada com os filtros aplicados
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = filteredNCs.map(nc => `
+                <tr>
+                    <td><strong>${nc.id}</strong></td>
+                    <td>${nc.data.toLocaleDateString('pt-BR')}</td>
+                    <td>${nc.cliente}</td>
+                    <td title="${nc.reclamacao}">
+                        ${nc.reclamacao.length > 50 ? nc.reclamacao.substring(0, 50) + '...' : nc.reclamacao}
+                    </td>
+                    <td>
+                        <span class="rating-badge" style="background: #fff3cd; color: #856404;">
+                            ${getTipoNCLabel(nc.tipo)}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="rating-badge rating-${getStatusClass(nc.status)}">
+                            ${getStatusLabel(nc.status)}
+                        </span>
+                    </td>
+                    <td>${nc.responsavel || '<em>Não atribuído</em>'}</td>
+                    <td>${nc.dataResposta || '<em>Pendente</em>'}</td>
+                    <td>
+                        <button onclick="openNCModal('${nc.id}')" style="background: #3498db; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+                            ✏️ Tratar
+                        </button>
+                        <button onclick="viewNCDetails('${nc.id}')" style="background: #95a5a6; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 5px;">
+                            👁️ Ver
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getTipoNCLabel(tipo) {
+            const labels = {
+                'atendimento': 'Atendimento',
+                'prazo': 'Prazo',
+                'tecnica': 'Técnica',
+                'instalacoes': 'Instalações',
+                'sistema': 'Sistema',
+                'outro': 'Outro'
+            };
+            return labels[tipo] || 'Não classificado';
+        }
+
+        function getStatusClass(status) {
+            const classes = {
+                'pendente': 'nao_atendeu',
+                'em_andamento': 'atendeu',
+                'concluida': 'superou',
+                'sem_acao': 'superou'
+            };
+            return classes[status] || 'nao_atendeu';
+        }
+
+        function getStatusLabel(status) {
+            const labels = {
+                'pendente': 'Pendente',
+                'em_andamento': 'Em Andamento',
+                'concluida': 'Concluída',
+                'sem_acao': 'Sem Ação'
+            };
+            return labels[status] || 'Indefinido';
+        }
+
+        let currentNCId = null;
+
+        function openNCModal(ncId) {
+            currentNCId = ncId;
+            const nc = nonConformities.find(item => item.id === ncId);
+            
+            if (!nc) return;
+            
+            // Preencher campos com dados existentes
+            document.getElementById('ncResponsavel').value = nc.responsavel;
+            document.getElementById('ncStatus').value = nc.status;
+            document.getElementById('ncTipo').value = nc.tipo;
+            document.getElementById('ncTratativa').value = nc.tratativa;
+            
+            if (nc.dataResposta) {
+                const date = new Date(nc.dataResposta);
+                document.getElementById('ncDataResposta').value = date.toISOString().slice(0, 16);
+            } else {
+                // Preencher com data/hora atual
+                const now = new Date();
+                document.getElementById('ncDataResposta').value = now.toISOString().slice(0, 16);
+            }
+            
+            document.getElementById('ncModalTitle').textContent = `📝 Registrar Tratativa da NC ${ncId}`;
+            document.getElementById('ncModal').style.display = 'block';
+        }
+
+        function closeNCModal() {
+            document.getElementById('ncModal').style.display = 'none';
+            currentNCId = null;
+        }
+
+        function saveNCTratativa() {
+            if (!currentNCId) return;
+            
+            const responsavel = document.getElementById('ncResponsavel').value;
+            const status = document.getElementById('ncStatus').value;
+            const tipo = document.getElementById('ncTipo').value;
+            const dataResposta = document.getElementById('ncDataResposta').value;
+            const tratativa = document.getElementById('ncTratativa').value;
+            
+            if (!responsavel || !tipo || !dataResposta) {
+                alert('❌ Preencha todos os campos obrigatórios: Responsável, Tipo e Data da Resposta.');
+                return;
+            }
+            
+            if (status !== 'sem_acao' && !tratativa.trim()) {
+                alert('❌ Para status diferente de "Sem Ação", é obrigatório descrever a tratativa.');
+                return;
+            }
+            
+            // Atualizar NC
+            const ncIndex = nonConformities.findIndex(nc => nc.id === currentNCId);
+            if (ncIndex >= 0) {
+                nonConformities[ncIndex].responsavel = responsavel;
+                nonConformities[ncIndex].status = status;
+                nonConformities[ncIndex].tipo = tipo;
+                nonConformities[ncIndex].dataResposta = new Date(dataResposta).toLocaleString('pt-BR');
+                nonConformities[ncIndex].tratativa = tratativa;
+                
+                alert(`✅ Tratativa da ${currentNCId} salva com sucesso!`);
+                
+                updateNCStats();
+                updateNCTable();
+                closeNCModal();
+                
+                // Log para auditoria
+                console.log(`NC ${currentNCId} atualizada:`, nonConformities[ncIndex]);
+            }
+        }
+
+        function viewNCDetails(ncId) {
+            const nc = nonConformities.find(item => item.id === ncId);
+            if (!nc) return;
+            
+            const response = satisfactionData.find(item => item.id === nc.responseId);
+            
+            alert(`📋 DETALHES DA NÃO CONFORMIDADE
+
+ID: ${nc.id}
+Data: ${nc.data.toLocaleString('pt-BR')}
+Cliente: ${nc.cliente}
+E-mail: ${response ? response.email : 'Não disponível'}
+
+🏷️ CLASSIFICAÇÃO:
+Tipo: ${getTipoNCLabel(nc.tipo)}
+Status: ${getStatusLabel(nc.status)}
+
+📝 RECLAMAÇÃO ORIGINAL:
+"${nc.reclamacao}"
+
+👤 TRATATIVA:
+Responsável: ${nc.responsavel || 'Não atribuído'}
+Data Resposta: ${nc.dataResposta || 'Pendente'}
+Ação Realizada: ${nc.tratativa || 'Nenhuma ação registrada'}
+
+${nc.status === 'pendente' ? '⚠️ ATENÇÃO: NC pendente de tratativa conforme FORM QUA 064' : ''}
+${nc.status === 'concluida' ? '✅ NC tratada e finalizada' : ''}`);
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ ATENÇÃO: Esta ação irá limpar TODOS os dados carregados.\n\nIsso inclui:\n• Dados de satisfação importados\n• Não conformidades registradas\n• Tratativas realizadas\n\nDeseja continuar?')) {
+                satisfactionData = [];
+                filteredData = [];
+                nonConformities = [];
+                rawCsvData = [];
+                fileColumns = [];
+                
+                // Limpar interface
+                document.getElementById('resultAlert').style.display = 'none';
+                document.getElementById('processBtn').disabled = true;
+                
+                // Reset indicators
+                document.getElementById('satisfactionIndex').textContent = 'N/D';
+                document.getElementById('excellentRate').textContent = 'N/D';
+                document.getElementById('dissatisfactionRate').textContent = 'N/D';
+                document.getElementById('totalResponses').textContent = '0';
+                document.getElementById('responseBreakdown').textContent = 'A:0 B:0 C:0';
+                document.getElementById('periodCoverage').textContent = 'N/D';
+                
+                // Reset card status
+                document.querySelectorAll('.indicator-card').forEach(card => {
+                    card.className = 'indicator-card status-na';
+                });
+                
+                // Reset tables
+                document.getElementById('analysisTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                            📊 Importe os dados do Google Forms para visualizar as respostas
+                        </td>
+                    </tr>
+                `;
+                
+                document.getElementById('ncTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="9" style="text-align: center; padding: 40px; color: #7f8c8d;">
+                            📊 Importe os dados para identificar não conformidades
+                        </td>
+                    </tr>
+                `;
+                
+                // Reset charts
+                document.getElementById('chartArea').innerHTML = `
+                    <div style="padding: 30px; text-align: center; color: #7f8c8d;">
+                        Importe os dados para visualizar os gráficos de evolução
+                    </div>
+                `;
+                
+                // Reset NC management
+                document.getElementById('ncManagement').style.display = 'none';
+                document.getElementById('ncEmptyState').style.display = 'block';
+                
+                // Reset alerts
+                document.getElementById('ncAlert').style.display = 'none';
+                
+                // Reset file input
+                document.getElementById('fileInput').value = '';
+                
+                alert('🗑️ Todos os dados foram limpos com sucesso!\n\nVocê pode importar um novo arquivo CSV.');
+                
+                console.log('✅ Dados limpos - Sistema resetado para estado inicial');
+            }
+        }
+
+        // Funções de relatórios
+        function updateReportPreview() {
+            const reportType = document.getElementById('reportType').value;
+            if (!reportType) {
+                document.getElementById('reportPreview').innerHTML = `
+                    <div style="text-align: center; color: #6c757d; padding: 50px;">
+                        📋 Selecione um tipo de relatório para ver o preview
+                    </div>
+                `;
+                return;
+            }
+            
+            if (satisfactionData.length === 0) {
+                document.getElementById('reportPreview').innerHTML = `
+                    <div style="text-align: center; color: #6c757d; padding: 50px;">
+                        ❌ Importe os dados primeiro para gerar relatórios
+                    </div>
+                `;
+                return;
+            }
+            
+            const distribution = getDistribution();
+            const total = satisfactionData.length;
+            const satisfactionRate = Math.round(((distribution.A + distribution.B) / total) * 100);
+            const excellenceRate = Math.round((distribution.A / total) * 100);
+            const dissatisfactionRate = Math.round((distribution.C / total) * 100);
+            
+            const reports = {
+                monthly: `
+                    <h3>📊 Relatório Mensal FORM QUA 064</h3>
+                    <p><strong>Período:</strong> ${currentPeriod}</p>
+                    <p><strong>Total de Respostas:</strong> ${total.toLocaleString('pt-BR')}</p>
+                    <p><strong>Distribuição:</strong> A:${distribution.A} | B:${distribution.B} | C:${distribution.C}</p>
+                    <p><strong>Índice de Satisfação:</strong> ${satisfactionRate}% (Meta: ≥85%)</p>
+                    <p><strong>Taxa de Excelência:</strong> ${excellenceRate}% (Meta: ≥30%)</p>
+                    <p><strong>Taxa de Insatisfação:</strong> ${dissatisfactionRate}% (Meta: ≤15%)</p>
+                    <p><strong>Status das Metas:</strong> ${checkTargetsStatus()}</p>
+                    <p><strong>Responsável:</strong> ${document.getElementById('responsiblePerson').value}</p>
+                `,
+                iso9001: `
+                    <h3>📋 Evidência ISO 9001:2015 - Item 9.1.2</h3>
+                    <p><strong>Monitoramento da Satisfação do Cliente</strong></p>
+                    <p><strong>Procedimento:</strong> FORM QUA 064</p>
+                    <p><strong>Método:</strong> Pesquisa estruturada via Google Forms</p>
+                    <p><strong>Frequência:</strong> Contínua pós-atendimento</p>
+                    <p><strong>Pergunta Principal:</strong> "De maneira geral, como você avalia a sua experiência no Laboratório CDC?"</p>
+                    <p><strong>Opções de Resposta:</strong> A=Superou | B=Atendeu | C=Não atendeu</p>
+                    <p><strong>Amostra:</strong> ${total} respostas em ${currentPeriod}</p>
+                    <p><strong>Resultado:</strong> ${satisfactionRate}% de satisfação geral</p>
+                    <p><strong>Conformidade:</strong> ${satisfactionRate >= 85 ? 'Meta atingida' : 'Requer ação corretiva'}</p>
+                    <p><strong>Responsável:</strong> ${document.getElementById('responsiblePerson').value}</p>
+                `,
+                dicq: `
+                    <h3>🏥 Relatório DICQ/SBAC</h3>
+                    <p><strong>Conformidade com ABNT NBR ISO 15189:2015</strong></p>
+                    <p><strong>Requisito:</strong> 4.14.7 - Satisfação do Cliente</p>
+                    <p><strong>Sistema implementado conforme FORM QUA 064</strong></p>
+                    <p><strong>Método validado e documentado</strong></p>
+                    <p><strong>Indicadores monitorados:</strong></p>
+                    <ul>
+                        <li>Satisfação Geral: ${satisfactionRate}%</li>
+                        <li>Excelência: ${excellenceRate}%</li>
+                        <li>Insatisfação: ${dissatisfactionRate}%</li>
+                    </ul>
+                    <p><strong>Período de análise:</strong> ${currentPeriod}</p>
+                    <p><strong>Evidências disponíveis para auditoria</strong></p>
+                `,
+                'nc-report': `
+                    <h3>⚠️ Relatório de Não Conformidades</h3>
+                    <p><strong>Total de NCs identificadas:</strong> ${nonConformities.length}</p>
+                    <p><strong>NCs por status:</strong></p>
+                    <ul>
+                        <li>Pendentes: ${nonConformities.filter(nc => nc.status === 'pendente').length}</li>
+                        <li>Em andamento: ${nonConformities.filter(nc => nc.status === 'em_andamento').length}</li>
+                        <li>Concluídas: ${nonConformities.filter(nc => nc.status === 'concluida').length}</li>
+                        <li>Sem ação: ${nonConformities.filter(nc => nc.status === 'sem_acao').length}</li>
+                    </ul>
+                    <p><strong>Principais tipos de NC:</strong></p>
+                    <p><strong>Tratativas em andamento conforme FORM QUA 064</strong></p>
+                    <p><strong>Rastreabilidade completa das ações corretivas</strong></p>
+                `,
+                audit: `
+                    <h3>🔍 Preparação para Auditoria</h3>
+                    <p><strong>Evidências de conformidade com requisitos normativos</strong></p>
+                    <p><strong>Registros de monitoramento:</strong> ${total} respostas válidas</p>
+                    <p><strong>Procedimento FORM QUA 064:</strong> Implementado e operacional</p>
+                    <p><strong>Resultados obtidos:</strong></p>
+                    <ul>
+                        <li>Satisfação geral: ${satisfactionRate}%</li>
+                        <li>Taxa de excelência: ${excellenceRate}%</li>
+                        <li>Taxa de insatisfação: ${dissatisfactionRate}%</li>
+                    </ul>
+                    <p><strong>Status das metas:</strong> ${checkTargetsStatus()}</p>
+                    <p><strong>Não conformidades:</strong> ${nonConformities.length} identificadas com tratativas registradas</p>
+                    <p><strong>Evidências organizadas e disponíveis para apresentação</strong></p>
+                `
+            };
+            
+            document.getElementById('reportPreview').innerHTML = reports[reportType] || 'Relatório não encontrado.';
+        }
+
+        function checkTargetsStatus() {
+            const distribution = getDistribution();
+            const total = satisfactionData.length;
+            const satisfactionRate = Math.round(((distribution.A + distribution.B) / total) * 100);
+            const excellenceRate = Math.round((distribution.A / total) * 100);
+            const dissatisfactionRate = Math.round((distribution.C / total) * 100);
+            
+            let status = [];
+            if (satisfactionRate >= FORM_QUA_064_TARGETS.satisfaction) status.push('✅ Satisfação');
+            else status.push('❌ Satisfação');
+            
+            if (excellenceRate >= FORM_QUA_064_TARGETS.excellent) status.push('✅ Excelência');
+            else status.push('❌ Excelência');
+            
+            if (dissatisfactionRate <= FORM_QUA_064_TARGETS.dissatisfaction) status.push('✅ Insatisfação');
+            else status.push('❌ Insatisfação');
+            
+            return status.join(', ');
+        }
+
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            if (!reportType) {
+                alert('❌ Selecione um tipo de relatório primeiro.');
+                return;
+            }
+            
+            if (satisfactionData.length === 0) {
+                alert('❌ Importe os dados primeiro para gerar o relatório.');
+                return;
+            }
+            
+            const distribution = getDistribution();
+            const total = satisfactionData.length;
+            
+            alert(`✅ Relatório "${document.querySelector('#reportType option:checked').text}" gerado com sucesso!
+
+📊 Resumo dos dados processados:
+• Total de respostas: ${total}
+• Distribuição: A:${distribution.A} | B:${distribution.B} | C:${distribution.C}
+• Satisfação geral: ${Math.round(((distribution.A + distribution.B) / total) * 100)}%
+• Não conformidades: ${nonConformities.length}
+
+Use os botões de exportação para salvar o relatório.`);
+        }
+
+        function exportReport(format) {
+            const reportType = document.getElementById('reportType').value;
+            if (!reportType) {
+                alert('❌ Selecione um tipo de relatório primeiro.');
+                return;
+            }
+            
+            if (satisfactionData.length === 0) {
+                alert('❌ Importe os dados primeiro.');
+                return;
+            }
+            
+            const distribution = getDistribution();
+            const fileName = `relatorio_satisfacao_${reportType}_${new Date().toISOString().split('T')[0]}`;
+            
+            // Gerar conteúdo completo do relatório
+            const reportContent = generateFullReport(reportType, distribution);
+            
+            if (format === 'pdf') {
+                // Para PDF, criar uma nova janela com o conteúdo
+                const newWindow = window.open('', '_blank');
+                newWindow.document.write(`
+                    <html>
+                    <head>
+                        <title>FORM QUA 064 - ${document.querySelector('#reportType option:checked').text}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; margin: 0 auto; line-height: 1.6; }
+                            .header { background: #2c3e50; color: white; padding: 15px; border-radius: 8px; text-align: center; margin-bottom: 20px; }
+                            .content { background: #f8f9fa; padding: 20px; border-radius: 8px; white-space: pre-wrap; }
+                            table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                            th { background-color: #f2f2f2; }
+                            @media print { body { margin: 0; } }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h1>🏥 Laboratório CDC</h1>
+                            <p>Sistema de Gestão da Qualidade | FORM QUA 064</p>
+                        </div>
+                        <div class="content">${reportContent}</div>
+                        <div style="text-align: center; margin-top: 20px; page-break-inside: avoid;">
+                            <button onclick="window.print()" style="background: #667eea; color: white; border: none; padding: 12px 25px; border-radius: 5px; margin: 10px; font-size: 14px; cursor: pointer;">🖨️ Imprimir</button>
+                            <button onclick="window.close()" style="background: #95a5a6; color: white; border: none; padding: 12px 25px; border-radius: 5px; margin: 10px; font-size: 14px; cursor: pointer;">❌ Fechar</button>
+                        </div>
+                    </body>
+                    </html>
+                `);
+            } else if (format === 'excel') {
+                // Para Excel, criar CSV estruturado
+                exportExcelReport(reportType, distribution);
+            }
+        }
+
+        function generateFullReport(reportType, distribution) {
+            const total = satisfactionData.length;
+            const satisfactionRate = Math.round(((distribution.A + distribution.B) / total) * 100);
+            const excellenceRate = Math.round((distribution.A / total) * 100);
+            const dissatisfactionRate = Math.round((distribution.C / total) * 100);
+            
+            const reportDate = new Date().toLocaleDateString('pt-BR');
+            const reportTime = new Date().toLocaleTimeString('pt-BR');
+            
+            let content = `
+📋 RELATÓRIO ${document.querySelector('#reportType option:checked').text.toUpperCase()}
+FORM QUA 064 - Indicadores de Desempenho
+Laboratório CDC - Sistema de Gestão da Qualidade
+
+📅 INFORMAÇÕES DO RELATÓRIO:
+• Data de Geração: ${reportDate} às ${reportTime}
+• Período Analisado: ${currentPeriod}
+• Responsável: ${document.getElementById('responsiblePerson').value}
+• Total de Respostas: ${total.toLocaleString('pt-BR')}
+
+📊 RESUMO EXECUTIVO:
+• Índice de Satisfação Geral (A+B): ${satisfactionRate}%
+• Taxa "Superou Expectativas" (A): ${excellenceRate}%
+• Taxa de Insatisfação (C): ${dissatisfactionRate}%
+• Distribuição: A:${distribution.A} | B:${distribution.B} | C:${distribution.C}
+
+🎯 STATUS DAS METAS FORM QUA 064:
+• Satisfação Geral: ${satisfactionRate}% ${satisfactionRate >= 85 ? '✅' : '❌'} (Meta: ≥85%)
+• Taxa Excelência: ${excellenceRate}% ${excellenceRate >= 30 ? '✅' : '❌'} (Meta: ≥30%)
+• Taxa Insatisfação: ${dissatisfactionRate}% ${dissatisfactionRate <= 15 ? '✅' : '❌'} (Meta: ≤15%)
+
+⚠️ NÃO CONFORMIDADES:
+• Total identificadas: ${nonConformities.length}
+• Pendentes: ${nonConformities.filter(nc => nc.status === 'pendente').length}
+• Em andamento: ${nonConformities.filter(nc => nc.status === 'em_andamento').length}
+• Concluídas: ${nonConformities.filter(nc => nc.status === 'concluida').length}
+
+📈 ANÁLISE ESTATÍSTICA:
+• Cobertura temporal: ${document.getElementById('periodCoverage').textContent}
+• Média diária de respostas: ${Math.round(total / getDateRange())} respostas/dia
+• Taxa de comentários: ${Math.round((satisfactionData.filter(r => r.comment).length / total) * 100)}%
+
+`;
+
+            // Adicionar seção específica baseada no tipo de relatório
+            switch(reportType) {
+                case 'iso9001':
+                    content += `
+🔍 CONFORMIDADE ISO 9001:2015:
+• Requisito 9.1.2 - Satisfação do Cliente: ✅ ATENDIDO
+• Método de monitoramento: Pesquisa estruturada pós-atendimento
+• Frequência: Contínua (100% dos atendimentos)
+• Registros mantidos: Sim, com rastreabilidade completa
+• Análise crítica: Realizada conforme cronograma
+
+📋 EVIDÊNCIAS DISPONÍVEIS:
+• Arquivo CSV original do Google Forms
+• Dados processados e validados
+• Registros de não conformidades
+• Tratativas e ações corretivas
+• Relatórios de indicadores
+`;
+                    break;
+                case 'dicq':
+                    content += `
+🏥 CONFORMIDADE DICQ/SBAC:
+• ABNT NBR ISO 15189:2015 - Item 4.14.7: ✅ IMPLEMENTADO
+• Sistema de gestão da satisfação: Operacional
+• Monitoramento contínuo: Ativo
+• Ações corretivas: Registradas e rastreáveis
+• Análise crítica: Documentada
+
+🔬 ESPECÍFICO PARA LABORATÓRIO:
+• Satisfação com qualidade analítica: Monitorada
+• Tempo de entrega: Avaliado nas pesquisas
+• Atendimento técnico: Contemplado no escopo
+• Instalações laboratoriais: Avaliadas pelos clientes
+`;
+                    break;
+                case 'nc-report':
+                    content += `
+⚠️ DETALHAMENTO DAS NÃO CONFORMIDADES:
+
+`;
+                    nonConformities.forEach(nc => {
+                        content += `NC ${nc.id}:
+• Cliente: ${nc.cliente}
+• Data: ${nc.data.toLocaleDateString('pt-BR')}
+• Tipo: ${getTipoNCLabel(nc.tipo)}
+• Status: ${getStatusLabel(nc.status)}
+• Responsável: ${nc.responsavel || 'Não atribuído'}
+• Reclamação: "${nc.reclamacao}"
+• Tratativa: ${nc.tratativa || 'Pendente'}
+
+`;
+                    });
+                    break;
+                case 'audit':
+                    content += `
+🔍 PREPARAÇÃO PARA AUDITORIA:
+
+📂 DOCUMENTOS DISPONÍVEIS:
+• Procedimento FORM QUA 064
+• Registros de pesquisas de satisfação
+• Planilhas de indicadores
+• Relatórios de não conformidades
+• Ações corretivas implementadas
+
+✅ PONTOS FORTES IDENTIFICADOS:
+• Sistema automatizado de coleta
+• Rastreabilidade completa dos dados
+• Indicadores alinhados com normas
+• Gestão estruturada de NC
+
+⚠️ OPORTUNIDADES DE MELHORIA:
+• ${satisfactionRate < 85 ? 'Elevar índice de satisfação geral' : 'Manter padrão atual de satisfação'}
+• ${excellenceRate < 30 ? 'Aumentar taxa de excelência' : 'Consolidar taxa de excelência'}
+• ${dissatisfactionRate > 15 ? 'Reduzir taxa de insatisfação' : 'Manter baixo índice de insatisfação'}
+
+📋 RECOMENDAÇÕES:
+• Continuar monitoramento sistemático
+• Implementar melhorias baseadas em feedback
+• Manter registros organizados para auditorias
+• Realizar análise crítica mensal dos indicadores
+`;
+                    break;
+            }
+
+            content += `
+
+📊 DADOS DETALHADOS:
+
+${satisfactionData.slice(0, 10).map(item => `
+${item.timestamp} | ${item.ratingLetter} - ${item.name}
+Comentário: "${item.comment || 'Sem comentário'}"
+`).join('')}
+
+${satisfactionData.length > 10 ? `... e mais ${satisfactionData.length - 10} respostas` : ''}
+
+---
+Relatório gerado automaticamente pelo Sistema FORM QUA 064
+Laboratório CDC - Gestão da Qualidade
+${reportDate} às ${reportTime}
+            `;
+
+            return content;
+        }
+
+        function exportExcelReport(reportType, distribution) {
+            // Criar dados para CSV que pode ser aberto no Excel
+            const headers = ['Métrica', 'Valor', 'Meta', 'Status', 'Observações'];
+            const data = [
+                ['Índice de Satisfação Geral', `${Math.round(((distribution.A + distribution.B) / satisfactionData.length) * 100)}%`, '≥85%', 
+                 Math.round(((distribution.A + distribution.B) / satisfactionData.length) * 100) >= 85 ? 'Conforme' : 'Não Conforme', 
+                 'Soma das avaliações A e B'],
+                ['Taxa Superou Expectativas', `${Math.round((distribution.A / satisfactionData.length) * 100)}%`, '≥30%', 
+                 Math.round((distribution.A / satisfactionData.length) * 100) >= 30 ? 'Conforme' : 'Não Conforme', 
+                 'Apenas avaliações A'],
+                ['Taxa de Insatisfação', `${Math.round((distribution.C / satisfactionData.length) * 100)}%`, '≤15%', 
+                 Math.round((distribution.C / satisfactionData.length) * 100) <= 15 ? 'Conforme' : 'Não Conforme', 
+                 'Apenas avaliações C'],
+                ['Total de Respostas', satisfactionData.length.toString(), 'N/A', 'Informativo', 'Amostra do período'],
+                ['Não Conformidades', nonConformities.length.toString(), 'N/A', 'Informativo', 'NCs identificadas']
+            ];
+
+            const csvContent = [headers, ...data].map(row => 
+                row.map(cell => `"${cell.toString().replace(/"/g, '""')}"`).join(',')
+            ).join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `form_qua_064_${reportType}_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+
+            alert(`📊 Relatório exportado como CSV!\nAbra no Excel para melhor visualização.`);
+        }
+
+        // Inicialização final
+        console.log('🎯 Dashboard FORM QUA 064 - Indicadores de Desempenho carregado com sucesso!');
+        console.log('📋 Funcionalidades implementadas:');
+        console.log('  • Importação e processamento de dados do Google Forms');
+        console.log('  • Cálculo de indicadores conforme metas FORM QUA 064');
+        console.log('  • Gestão completa de não conformidades');
+        console.log('  • Relatórios para auditoria ISO 9001 e DICQ/SBAC');
+        console.log('  • Interface otimizada para equipe da qualidade');
+    </script>
+</body>
+</html>

@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORM QUA 003 - REGISTRO DE MELHORIAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            text-align: center;
+            font-size: 24px;
+        }
+
+        h2 {
+            background-color: #34495e;
+            color: white;
+            padding: 10px;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+        }
+
+        h3 {
+            background-color: #ecf0f1;
+            padding: 8px;
+            margin-top: 20px;
+            font-size: 16px;
+            border-left: 5px solid #3498db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], textarea, select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .status-green { background-color: #2ecc71; color: white; }
+        .status-yellow { background-color: #f1c40f; color: black; }
+        .status-red { background-color: #e74c3c; color: white; }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-success { background-color: #27ae60; }
+        .btn-success:hover { background-color: #229954; }
+
+        .btn-danger { background-color: #e74c3c; }
+        .btn-danger:hover { background-color: #c0392b; }
+
+        .print-btn {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        @media print {
+            .btn, .print-btn, .add-row-btn, .btn-danger { display: none; }
+            body { background-color: white; }
+            .container { box-shadow: none; }
+            .footer-section {
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+            @page {
+                margin: 2cm 1.5cm 3cm 1.5cm;
+            }
+        }
+
+        .header-section {
+            margin-bottom: 20px;
+        }
+
+        .header-section table {
+            border-collapse: collapse;
+            background-color: white;
+            width: 100%;
+        }
+
+        .header-section td {
+            vertical-align: middle;
+            border: 1px solid #000;
+        }
+
+        .footer-section {
+            margin-top: 30px;
+            page-break-inside: avoid;
+        }
+
+        .footer-section table {
+            border: none;
+            background-color: #f8f9fa;
+        }
+
+        .footer-section td {
+            border: 1px solid #bdc3c7;
+        }
+
+        .add-row-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- CABEÇALHO -->
+        <div class="header-section">
+            <table style="margin-bottom: 0; border: 2px solid #000;">
+                <tr>
+                    <td style="width: 60%; text-align: center; padding: 15px; border-right: 1px solid #000;">
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">Laboratório CDC</div>
+                        <div style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">Formulário de Registro</div>
+                        <div style="font-size: 16px; font-weight: bold;">Melhorias</div>
+                    </td>
+                    <td style="width: 40%; padding: 15px;">
+                        <table style="width: 100%; border: none;">
+                            <tr>
+                                <td style="border: none; padding: 3px 0; font-size: 14px;">
+                                    <strong>Código:</strong> <span style="font-weight: bold;">FORM QUA 003</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: none; padding: 3px 0; font-size: 14px;">
+                                    <strong>Versão:</strong> <span style="font-weight: bold;">1</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: none; padding: 3px 0; font-size: 14px;">
+                                    <strong>Páginas:</strong> <span style="font-weight: bold;"><span id="pageNumber">1</span> de <span id="totalPages">1</span></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="print-btn">
+            <button class="btn" onclick="window.print()">Imprimir</button>
+            <button class="btn btn-success" onclick="salvarDados()">Salvar Dados</button>
+            <button class="btn" onclick="limparFormulario()">Limpar Formulário</button>
+        </div>
+
+        <!-- IDENTIFICAÇÃO -->
+        <div class="section">
+            <h2>IDENTIFICAÇÃO DA MELHORIA</h2>
+            <table>
+                <tr>
+                    <th>Número de Registro</th>
+                    <td>
+                        <input type="text" id="numeroRegistro" placeholder="FORM QUA-003-___/20___">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Código sequencial (ex: QUA‑003‑05/2025).</div>
+                    </td>
+                    <th>Data de Identificação</th>
+                    <td>
+                        <input type="date" id="dataIdentificacao">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Quando a melhoria foi percebida.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Identificado por</th>
+                    <td>
+                        <input type="text" id="identificadoPor">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Nome completo do colaborador.</div>
+                    </td>
+                    <th>Cargo/Setor</th>
+                    <td>
+                        <input type="text" id="cargoSetor">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Setor ou cargo do colaborador.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 1. DADOS GERAIS -->
+        <div class="section">
+            <h2>1. DADOS GERAIS</h2>
+            <table>
+                <tr>
+                    <th>Tipo de Melhoria</th>
+                    <td colspan="3">
+                        <div class="checkbox-group">
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="estrategica"> Estratégica - Mudança de processo/sistema</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="sistemica"> Sistêmica - Adequação normativa/regulamentar</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="inovacao"> Inovação - Nova tecnologia/metodologia</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="benchmarking"> Benchmarking - Baseada em melhores práticas</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="auditoria"> Auditoria Externa - Recomendação de auditores</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="analise"> Análise Crítica - Decisão da direção</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="sugestao"> Sugestão Colaborador - Iniciativa da equipe</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2">Guia: Marque o tipo da melhoria.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Origem da Identificação</th>
+                    <td colspan="3">
+                        <div class="checkbox-group">
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="indicadores"> Análise de indicadores (PRO QUA 007)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="auditoria_interna"> Auditoria interna (PRO QUA 003)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="satisfacao"> Satisfação do cliente (PRO QUA 005)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="analise_critica"> Análise crítica (PRO QUA 013)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="riscos"> Gestão de riscos (PRO QUA 008)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="benchmarking_ext"> Benchmarking externo</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="sugestao_colab"> Sugestão de colaborador</div>
+                            <div class="checkbox-item"><input type="checkbox" name="reclamacao"> Reclamação de cliente</div>
+                            <div class="checkbox-item"><input type="checkbox" name="nao_conformidade"> Não conformidade recorrente</div>
+                            <div class="checkbox-item"><input type="checkbox" name="oportunidade"> Oportunidade identificada</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2">Guia: Marque a origem da melhoria. Use as referências de documentos quando aplicável.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Processo/Setor Envolvido</th>
+                    <td colspan="3">
+                        <div class="checkbox-group">
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="pre_analitico"> Pré-analítico</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="analitico"> Analítico</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="pos_analitico"> Pós-analítico</div>
+                            <div class="checkbox-item"><input type="checkbox" name="atendimento"> Atendimento</div>
+                            <div class="checkbox-item"><input type="checkbox" name="qualidade"> Qualidade</div>
+                            <div class="checkbox-item"><input type="checkbox" name="administrativo"> Administrativo</div>
+                            <div class="checkbox-item"><input type="checkbox" name="sistemas"> Sistemas</div>
+                            <div class="checkbox-item"><input type="checkbox" name="rh"> Recursos Humanos</div>
+                            <div class="checkbox-item"><input type="checkbox" name="financeiro"> Financeiro</div>
+                            <div class="checkbox-item"><input type="checkbox" name="todos"> Todos os processos</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2">Guia: Marque o(s) setor(es) que serão impactados pela melhoria.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 2. DESCRIÇÃO DA MELHORIA -->
+        <div class="section">
+            <h2>2. DESCRIÇÃO DA MELHORIA</h2>
+            <table>
+                <tr>
+                    <th>Situação Atual</th>
+                    <td>
+                        <textarea id="situacaoAtual" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Explique o problema ou situação atual de forma detalhada.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Melhoria Proposta</th>
+                    <td>
+                        <textarea id="melhoriaPropostao" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Explique a sugestão ou ideia a ser implantada.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Benefícios Esperados</th>
+                    <td>
+                        <textarea id="beneficiosEsperados" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Quais os ganhos esperados (Ex: Redução de custo, agilidade, segurança)?</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Justificativa</th>
+                    <td>
+                        <textarea id="justificativa" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Por que esta melhoria é necessária? (Ex: Impacto regulatório, satisfação do cliente).</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 3. ANÁLISE DE VIABILIDADE -->
+        <div class="section">
+            <h2>3. ANÁLISE DE VIABILIDADE</h2>
+
+            <h3>Recursos Necessários</h3>
+            <table>
+                <tr>
+                    <th colspan="4" style="background-color: #95a5a6; text-align: center;">RECURSOS HUMANOS</th>
+                </tr>
+                <tr>
+                    <th>Pessoas Envolvidas</th>
+                    <td>
+                        <input type="text" id="pessoasEnvolvidas">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Pessoas envolvidas.</div>
+                    </td>
+                    <th>Horas Estimadas</th>
+                    <td>
+                        <input type="number" id="horasEstimadas"> horas
+                        <div class="text-xs text-gray-500 mt-1">Guia: Horas estimadas para a melhoria.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Treinamento Necessário</th>
+                    <td>
+                        <input type="radio" name="treinamento" value="sim"> Sim
+                        <input type="radio" name="treinamento" value="nao"> Não
+                        <div class="text-xs text-gray-500 mt-1">Guia: Indique se o treinamento é necessário.</div>
+                    </td>
+                    <th>Detalhes</th>
+                    <td>
+                        <input type="text" id="detalhesTreinamento">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Descreva o treinamento.</div>
+                    </td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th colspan="4" style="background-color: #95a5a6; text-align: center;">RECURSOS FINANCEIROS</th>
+                </tr>
+                <tr>
+                    <th>Investimento Estimado</th>
+                    <td>
+                        <input type="number" step="0.01" id="investimento">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Custo total da melhoria.</div>
+                    </td>
+                    <th>Custo de Implementação</th>
+                    <td>
+                        <input type="number" step="0.01" id="custoImplementacao">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Custo da implementação.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Economia Esperada (anual)</th>
+                    <td>
+                        <input type="number" step="0.01" id="economiaEsperada">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Economia esperada anual.</div>
+                    </td>
+                    <th>ROI Estimado</th>
+                    <td>
+                        <input type="number" id="roi">% em <input type="number" id="prazoRoi" style="width: 60px;"> meses
+                        <div class="text-xs text-gray-500 mt-1">Guia: Retorno do investimento.</div>
+                    </td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th colspan="2" style="background-color: #95a5a6; text-align: center;">RECURSOS MATERIAIS/TECNOLÓGICOS</th>
+                </tr>
+                <tr>
+                    <th>Equipamentos</th>
+                    <td>
+                        <textarea id="equipamentos" rows="2"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Equipamentos necessários.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Sistemas</th>
+                    <td>
+                        <textarea id="sistemas" rows="2"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Sistemas necessários.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Infraestrutura</th>
+                    <td>
+                        <textarea id="infraestrutura" rows="2"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Infraestrutura necessária.</div>
+                    </td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th colspan="2" style="background-color: #95a5a6; text-align: center;">ANÁLISE DE RISCOS</th>
+                </tr>
+                <tr>
+                    <th>Riscos Identificados</th>
+                    <td>
+                        <textarea id="riscosIdentificados" rows="3"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: O que pode dar errado?</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Impacto se não implementar</th>
+                    <td>
+                        <textarea id="impactoSemImplementar" rows="3"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Qual prejuízo pode haver?</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Medidas de Mitigação</th>
+                    <td>
+                        <textarea id="medidasMitigacao" rows="3"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Como reduzir os riscos?</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 4. PLANO DE IMPLEMENTAÇÃO -->
+        <div class="section">
+            <h2>4. PLANO DE IMPLEMENTAÇÃO</h2>
+
+            <h3>Cronograma</h3>
+            <table class="cronograma-table">
+                <thead>
+                    <tr>
+                        <th>Etapa</th>
+                        <th>Atividade</th>
+                        <th>Responsável</th>
+                        <th>Prazo</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="cronogramaTable">
+                    <tr>
+                        <td>1</td>
+                        <td><input type="text" placeholder="Descrição da atividade"></td>
+                        <td><input type="text" placeholder="Nome do responsável"></td>
+                        <td><input type="date"></td>
+                        <td>
+                            <select>
+                                <option value="pendente">Pendente</option>
+                                <option value="andamento">Em andamento</option>
+                                <option value="concluida">Concluída</option>
+                            </select>
+                        </td>
+                        <td><button type="button" class="btn-danger" onclick="removerLinha(this)">Remover</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button type="button" class="add-row-btn" onclick="adicionarLinhaCronograma()">Adicionar Etapa</button>
+
+            <table style="margin-top: 20px;">
+                <tr>
+                    <th colspan="2" style="background-color: #95a5a6; text-align: center;">RESPONSABILIDADES</th>
+                </tr>
+                <tr>
+                    <th>Responsável pela implementação</th>
+                    <td>
+                        <input type="text" id="responsavelImplementacao">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Indique o nome do responsável pela implementação.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Apoio técnico</th>
+                    <td>
+                        <input type="text" id="apoioTecnico">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Indique o nome do apoio técnico.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Aprovação necessária</th>
+                    <td>
+                        <input type="text" id="aprovacaoNecessaria">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Descreva a aprovação necessária.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Comunicação</th>
+                    <td>
+                        <input type="text" id="comunicacao">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Descreva a comunicação.</div>
+                    </td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th colspan="2" style="background-color: #95a5a6; text-align: center;">INDICADORES DE SUCESSO</th>
+                </tr>
+                <tr>
+                    <th>Indicador 1</th>
+                    <td>
+                        <input type="text" id="indicador1" placeholder="Nome do indicador"> - Meta: <input type="text" id="meta1" placeholder="Meta a atingir">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Defina como o sucesso será medido.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Indicador 2</th>
+                    <td>
+                        <input type="text" id="indicador2" placeholder="Nome do indicador"> - Meta: <input type="text" id="meta2" placeholder="Meta a atingir">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Defina como o sucesso será medido.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Indicador 3</th>
+                    <td>
+                        <input type="text" id="indicador3" placeholder="Nome do indicador"> - Meta: <input type="text" id="meta3" placeholder="Meta a atingir">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Defina como o sucesso será medido.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 5. APROVAÇÃO -->
+        <div class="section">
+            <h2>5. APROVAÇÃO</h2>
+            <h3>Análise Técnica e Financeira</h3>
+            <table>
+                <tr>
+                    <th colspan="4" style="background-color: #95a5a6; text-align: center;">ANÁLISE TÉCNICA</th>
+                </tr>
+                <tr>
+                    <th>Viabilidade Técnica</th>
+                    <td>
+                        <input type="radio" name="viabilidadeTecnica" value="viavel"> Viável
+                        <input type="radio" name="viabilidadeTecnica" value="viavel_restricoes"> Viável com restrições
+                        <input type="radio" name="viabilidadeTecnica" value="inviavel"> Inviável
+                        <div class="text-xs text-gray-500 mt-1">Guia: Avaliação da área responsável.</div>
+                    </td>
+                    <th>Observações</th>
+                    <td><textarea id="observacoesTecnicas" rows="2"></textarea></td>
+                </tr>
+                <tr>
+                    <th>Analisado por</th>
+                    <td><input type="text" id="analisadoPorTecnico"></td>
+                    <th>Data</th>
+                    <td><input type="date" id="dataAnaliseTecnica"></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th colspan="4" style="background-color: #95a5a6; text-align: center;">ANÁLISE FINANCEIRA</th>
+                </tr>
+                <tr>
+                    <th>Viabilidade Financeira</th>
+                    <td>
+                        <input type="radio" name="viabilidadeFinanceira" value="aprovada"> Aprovada
+                        <input type="radio" name="viabilidadeFinanceira" value="aprovada_restricoes"> Aprovada com restrições
+                        <input type="radio" name="viabilidadeFinanceira" value="rejeitada"> Rejeitada
+                        <div class="text-xs text-gray-500 mt-1">Guia: Avaliação do gestor financeiro.</div>
+                    </td>
+                    <th>Observações</th>
+                    <td><textarea id="observacoesFinanceiras" rows="2"></textarea></td>
+                </tr>
+                <tr>
+                    <th>Analisado por</th>
+                    <td><input type="text" id="analisadoPorFinanceiro"></td>
+                    <th>Data</th>
+                    <td><input type="date" id="dataAnaliseFinanceira"></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <th colspan="4" style="background-color: #95a5a6; text-align: center;">APROVAÇÃO FINAL</th>
+                </tr>
+                <tr>
+                    <th>Decisão</th>
+                    <td>
+                        <input type="radio" name="decisaoFinal" value="aprovada"> Aprovada
+                        <input type="radio" name="decisaoFinal" value="aprovada_modificacoes"> Aprovada com modificações
+                        <input type="radio" name="decisaoFinal" value="rejeitada"> Rejeitada
+                        <input type="radio" name="decisaoFinal" value="adiada"> Adiada
+                        <div class="text-xs text-gray-500 mt-1">Guia: Aprovação da direção técnica.</div>
+                    </td>
+                    <th>Prioridade</th>
+                    <td>
+                        <input type="radio" name="prioridade" value="alta"> Alta
+                        <input type="radio" name="prioridade" value="media"> Média
+                        <input type="radio" name="prioridade" value="baixa"> Baixa
+                        <div class="text-xs text-gray-500 mt-1">Guia: Marque a prioridade.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Observações</th>
+                    <td colspan="3"><textarea id="observacoesAprovacao" rows="2"></textarea></td>
+                </tr>
+                <tr>
+                    <th>Aprovado por</th>
+                    <td><input type="text" id="aprovadoPor"></td>
+                    <th>Data</th>
+                    <td><input type="date" id="dataAprovacao"></td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- 6. ANÁLISE DE CUSTO/BENEFÍCIO -->
+        <div class="section">
+            <h2>6. ANÁLISE DE CUSTO/BENEFÍCIO</h2>
+            <table>
+                <tr>
+                    <th>Avaliação de Custo</th>
+                    <td>
+                        <textarea id="avaliacaoCusto" rows="3"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Resumo da avaliação financeira. O custo é justificável?</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Avaliação de Benefício</th>
+                    <td>
+                        <textarea id="avaliacaoBeneficio" rows="3"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Resumo dos benefícios esperados (ex: aumento de produtividade, melhoria na segurança).</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Justificativa da Relação Custo-Benefício</th>
+                    <td>
+                        <textarea id="justificativaCustoBeneficio" rows="3"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Explique se a melhoria vale o investimento.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 7. AVALIAÇÃO DE EFICÁCIA -->
+        <div class="section">
+            <h2>7. AVALIAÇÃO DE EFICÁCIA</h2>
+            <h3>Período de Avaliação</h3>
+            <table>
+                <tr>
+                    <th>Período de Avaliação - Início</th>
+                    <td><input type="date" id="inicioAvaliacao"></td>
+                    <th>Fim</th>
+                    <td><input type="date" id="fimAvaliacao"></td>
+                </tr>
+                <tr>
+                    <th>Responsável pela avaliação</th>
+                    <td colspan="3"><input type="text" id="responsavelAvaliacao"></td>
+                </tr>
+            </table>
+
+            <h3>Resultados Obtidos</h3>
+            <table>
+                <tr>
+                    <th colspan="4" style="background-color: #95a5a6; text-align: center;">RESULTADOS OBTIDOS</th>
+                </tr>
+                <tr>
+                    <th>Indicador</th>
+                    <th>Meta</th>
+                    <th>Resultado</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="indicadorRes1"></td>
+                    <td><input type="text" id="metaRes1"></td>
+                    <td><input type="text" id="resultadoRes1"></td>
+                    <td>
+                        <label><input type="radio" name="statusRes1" value="green" class="mr-1"> Verde</label>
+                        <label><input type="radio" name="statusRes1" value="yellow" class="mr-1"> Amarelo</label>
+                        <label><input type="radio" name="statusRes1" value="red" class="mr-1"> Vermelho</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="indicadorRes2"></td>
+                    <td><input type="text" id="metaRes2"></td>
+                    <td><input type="text" id="resultadoRes2"></td>
+                    <td>
+                        <label><input type="radio" name="statusRes2" value="green" class="mr-1"> Verde</label>
+                        <label><input type="radio" name="statusRes2" value="yellow" class="mr-1"> Amarelo</label>
+                        <label><input type="radio" name="statusRes2" value="red" class="mr-1"> Vermelho</label>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="text" id="indicadorRes3"></td>
+                    <td><input type="text" id="metaRes3"></td>
+                    <td><input type="text" id="resultadoRes3"></td>
+                    <td>
+                        <label><input type="radio" name="statusRes3" value="green" class="mr-1"> Verde</label>
+                        <label><input type="radio" name="statusRes3" value="yellow" class="mr-1"> Amarelo</label>
+                        <label><input type="radio" name="statusRes3" value="red" class="mr-1"> Vermelho</label>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="text-xs text-gray-500 mt-2">
+                <strong>Legenda:</strong>
+                <span class="mr-4">Verde: Meta atingida ou superada.</span>
+                <span class="mr-4">Amarelo: Desvio de até 10% da meta.</span>
+                <span>Vermelho: Desvio maior que 10% da meta ou crítico.</span>
+            </div>
+
+            <table>
+                <tr>
+                    <th>Benefícios Quantitativos</th>
+                    <td><textarea id="beneficiosQuantitativos" rows="2"></textarea></td>
+                </tr>
+                <tr>
+                    <th>Benefícios Qualitativos</th>
+                    <td><textarea id="beneficiosQualitativos" rows="2"></textarea></td>
+                </tr>
+                <tr>
+                    <th>Benefícios Financeiros</th>
+                    <td><input type="number" step="0.01" id="beneficiosFinanceiros"> (economia/receita)</td>
+                </tr>
+                <tr>
+                    <th>Avaliação Geral</th>
+                    <td>
+                        <input type="radio" name="avaliacaoGeral" value="eficaz"> Eficaz - Objetivos plenamente alcançados<br>
+                        <input type="radio" name="avaliacaoGeral" value="parcialmente"> Parcialmente eficaz - Objetivos parcialmente alcançados<br>
+                        <input type="radio" name="avaliacaoGeral" value="ineficaz"> Ineficaz - Objetivos não alcançados
+                    </td>
+                </tr>
+                <tr>
+                    <th>Justificativa</th>
+                    <td><textarea id="justificativaAvaliacao" rows="3"></textarea></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 8. CONCLUSÃO INICIAL E PRÓXIMOS PASSOS -->
+        <div class="section">
+            <h2>8. CONCLUSÃO INICIAL E PRÓXIMOS PASSOS</h2>
+            <table>
+                <tr>
+                    <th>Resumo da Análise</th>
+                    <td>
+                        <textarea id="resumoAnalise" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Sintetize as análises técnica, financeira e de eficácia.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Recomendações Iniciais</th>
+                    <td>
+                        <textarea id="recomendacoesIniciais" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Recomendações para a equipe e a direção sobre a continuidade do projeto.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 9. ACOMPANHAMENTO E REVISÃO -->
+        <div class="section">
+            <h2>9. ACOMPANHAMENTO E REVISÃO</h2>
+            <table>
+                <tr>
+                    <th>Data de Revisão</th>
+                    <td><input type="date" id="dataRevisao"></td>
+                    <th>Responsável</th>
+                    <td><input type="text" id="responsavelRevisao"></td>
+                </tr>
+                <tr>
+                    <th>Status do Acompanhamento</th>
+                    <td colspan="3">
+                        <select id="statusAcompanhamento">
+                            <option value="em_monitoramento">Em monitoramento</option>
+                            <option value="concluido_sucesso">Concluído com sucesso</option>
+                            <option value="replanejamento">Em replanejamento</option>
+                            <option value="arquivado">Arquivado</option>
+                        </select>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Indique o estado atual da melhoria.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 10. ENCERRAMENTO -->
+        <div class="section">
+            <h2>10. ENCERRAMENTO</h2>
+            <table>
+                <tr>
+                    <th>Conclusão</th>
+                    <td><textarea id="conclusao" rows="4"></textarea></td>
+                </tr>
+                <tr>
+                    <th>Recomendações</th>
+                    <td><textarea id="recomendacoes" rows="4"></textarea></td>
+                </tr>
+                <tr>
+                    <th>Encerrado por</th>
+                    <td><input type="text" id="encerradoPor"></td>
+                    <th>Data</th>
+                    <td><input type="date" id="dataEncerramento"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="print-btn">
+            <button class="btn btn-success" onclick="gerarRelatorio()">Gerar Relatório</button>
+            <button class="btn" onclick="exportarPDF()">Exportar PDF</button>
+        </div>
+
+        <!-- RODAPÉ -->
+        <div class="footer-section">
+            <table style="margin-top: 30px; border-top: 2px solid #000;">
+                <tr>
+                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000;">
+                        <strong>Elaborado por:</strong><br>
+                        Stephane Fernandes<br>
+                        <strong>Cargo:</strong> Gestora da Qualidade<br>
+                        <strong>Data:</strong> 28/08/2025<br>
+                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                    </td>
+                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; text-align: center;">
+                        <strong>Aprovado por:</strong><br>
+                        Dimario Castro<br>
+                        <strong>Cargo:</strong> Diretor<br>
+                        <strong>Data:</strong> 28/08/2025<br>
+                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                    </td>
+                    <td style="width: 40%; padding: 10px; font-size: 10px; color: #000; text-align: right;">
+                        <strong>Próxima Revisão:</strong> 01/09/2026<br>
+                        <strong>Arquivo:</strong> SGQ - Documentos Controlados<br>
+                        <strong>Retenção:</strong> 5 anos após obsolescência
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: center; padding: 15px; background-color: #f8f9fa; font-size: 10px; color: #000; margin-top: 10px; border: 1px solid #000;">
+                <strong>DOCUMENTO CONTROLADO - ISO 9001:2015</strong><br>
+                Este documento faz parte do Sistema de Gestão da Qualidade do Laboratório CDC
+                <br><br>
+                <strong>CLASSIFICAÇÃO:</strong> Formulário de Melhoria Contínua | <strong>DISTRIBUIÇÃO:</strong> Controlada<br>
+                <strong>OBSERVAÇÕES:</strong> Melhorias estratégicas/sistêmicas devem seguir este formulário.<br>
+                Melhorias operacionais rotineiras seguir procedimento PRO QUA 002 (Shift Controller)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Guia de preenchimento em um objeto para fácil acesso
+        const guias = {
+            identificacao: "Nº Registro: Código sequencial (ex: QUA‑003‑05/2025). Data: Quando a melhoria foi percebida. Identificado por / Setor: Nome completo e setor do colaborador.",
+            dadosGerais: "Tipo: Marque o tipo da melhoria. Origem: Marque a origem. Processo: Marque o(s) setor(es) impactados.",
+            descricao: "Situação Atual: Explique o problema. Melhoria Proposta: Explique a sugestão. Benefícios: Descreva os ganhos esperados. Justificativa: Explique por que é necessário.",
+            viabilidade: "Recursos Humanos: Pessoas, horas e treinamento. Recursos Financeiros: Custos, retorno estimado. Recursos Materiais: Equipamentos ou sistemas. Riscos: O que pode dar errado? Mitigação: Como reduzir os riscos?",
+            plano: "Cronograma: Descreva etapas, responsáveis e prazos. Responsabilidades: Defina o responsável. Indicadores: Defina como o sucesso será medido.",
+            aprovacao: "Técnica: Avaliação da área responsável. Financeira: Avaliação do gestor financeiro. Final: Aprovação da direção técnica. Prioridade: Marque alta, média ou baixa.",
+            custoBeneficio: "Avaliação de Custo: Resumo da avaliação financeira. Avaliação de Benefício: Resumo dos benefícios. Justificativa: A melhoria vale o investimento?",
+            avaliacao: "Período: Período de avaliação. Resultados: Defina metas e resultados reais. Avaliação Geral: Marque se a melhoria foi eficaz, parcial ou ineficaz. Justificativa: Explique os resultados.",
+            conclusaoInicial: "Resumo da Análise: Sintetize as análises. Recomendações Iniciais: Recomendações sobre a continuidade do projeto.",
+            acompanhamento: "Data de Revisão: Data para nova revisão. Responsável: Quem fará o acompanhamento. Status: O estado atual da melhoria.",
+            encerramento: "Conclusão e Recomendações: Registre a conclusão. Encerrado por: Preencha local de arquivamento (PNCQ) e responsável."
+        };
+
+        // Função para adicionar linha ao cronograma
+        function adicionarLinhaCronograma() {
+            const tbody = document.getElementById('cronogramaTable');
+            const rowCount = tbody.rows.length + 1;
+            const newRow = tbody.insertRow();
+
+            newRow.innerHTML = `
+                <td>${rowCount}</td>
+                <td><input type="text" placeholder="Descrição da atividade"></td>
+                <td><input type="text" placeholder="Nome do responsável"></td>
+                <td><input type="date"></td>
+                <td>
+                    <select>
+                        <option value="pendente">Pendente</option>
+                        <option value="andamento">Em andamento</option>
+                        <option value="concluida">Concluída</option>
+                    </select>
+                </td>
+                <td><button type="button" class="btn-danger" onclick="removerLinha(this)">Remover</button></td>
+            `;
+        }
+
+        // Função para remover linha do cronograma
+        function removerLinha(button) {
+            const row = button.closest('tr');
+            row.remove();
+
+            // Renumerar as etapas
+            const tbody = document.getElementById('cronogramaTable');
+            const rows = tbody.getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].cells[0].textContent = i + 1;
+            }
+        }
+
+        // Função para salvar dados
+        function salvarDados() {
+            try {
+                const dados = {};
+                const inputs = document.querySelectorAll('input, textarea, select');
+
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        if (input.checked) {
+                            if (!dados[input.name]) dados[input.name] = [];
+                            dados[input.name].push(input.value);
+                        }
+                    } else if (input.id) {
+                        dados[input.id] = input.value;
+                    }
+                });
+
+                console.log('Dados coletados:', dados);
+                alert('Dados salvos com sucesso! Verifique o console para detalhes.');
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                alert('Erro ao salvar dados. Verifique o console.');
+            }
+        }
+
+        // Função para limpar formulário
+        function limparFormulario() {
+            if (confirm('Tem certeza que deseja limpar todos os dados do formulário?')) {
+                try {
+                    const inputs = document.querySelectorAll('input, textarea, select');
+                    inputs.forEach(input => {
+                        if (input.type === 'checkbox' || input.type === 'radio') {
+                            input.checked = false;
+                        } else {
+                            input.value = '';
+                        }
+                    });
+                    alert('Formulário limpo com sucesso!');
+                } catch (error) {
+                    console.error('Erro ao limpar:', error);
+                    alert('Erro ao limpar formulário. Recarregue a página.');
+                }
+            }
+        }
+
+        // Função para gerar relatório (versão corrigida e completa)
+        function gerarRelatorio() {
+            try {
+                const numeroRegistro = document.getElementById('numeroRegistro').value || 'Não informado';
+                const dataIdentificacao = document.getElementById('dataIdentificacao').value || 'Não informado';
+                const identificadoPor = document.getElementById('identificadoPor').value || 'Não informado';
+                const cargoSetor = document.getElementById('cargoSetor').value || 'Não informado';
+                const situacaoAtual = document.getElementById('situacaoAtual').value || 'Não informado';
+                const melhoriaProposta = document.getElementById('melhoriaPropostao').value || 'Não informado';
+                const beneficiosEsperados = document.getElementById('beneficiosEsperados').value || 'Não informado';
+                const justificativa = document.getElementById('justificativa').value || 'Não informado';
+                const pessoasEnvolvidas = document.getElementById('pessoasEnvolvidas').value || 'Não informado';
+                const horasEstimadas = document.getElementById('horasEstimadas').value || 'Não informado';
+                const investimento = document.getElementById('investimento').value || 'Não informado';
+                const economiaEsperada = document.getElementById('economiaEsperada').value || 'Não informado';
+                const obsTecnicas = document.getElementById('observacoesTecnicas').value || 'Não informado';
+                const aprovadoPor = document.getElementById('aprovadoPor').value || 'Não informado';
+                const dataAprovacao = document.getElementById('dataAprovacao').value || 'Não informado';
+                const concluidoPor = document.getElementById('encerradoPor').value || 'Não informado';
+                const dataEncerramento = document.getElementById('dataEncerramento').value || 'Não informado';
+                
+                const avaliacaoCusto = document.getElementById('avaliacaoCusto')?.value || 'Não informado';
+                const avaliacaoBeneficio = document.getElementById('avaliacaoBeneficio')?.value || 'Não informado';
+                const justificativaCustoBeneficio = document.getElementById('justificativaCustoBeneficio')?.value || 'Não informado';
+                const resumoAnalise = document.getElementById('resumoAnalise')?.value || 'Não informado';
+                const recomendacoesIniciais = document.getElementById('recomendacoesIniciais')?.value || 'Não informado';
+                const dataRevisao = document.getElementById('dataRevisao')?.value || 'Não informado';
+                const responsavelRevisao = document.getElementById('responsavelRevisao')?.value || 'Não informado';
+                const statusAcompanhamento = document.getElementById('statusAcompanhamento')?.value || 'Não informado';
+
+                // Coleta de dados dos checkboxes
+                const getCheckboxValues = (name) => {
+                    const values = [];
+                    document.querySelectorAll(`input[name="${name}"]:checked`).forEach(cb => values.push(cb.value));
+                    return values.length ? values.join(', ') : 'Não selecionado';
+                };
+
+                const tipoMelhoria = getCheckboxValues('tipoMelhoria');
+                const origem = getCheckboxValues('origem');
+                const processo = getCheckboxValues('processo');
+                const viabilidadeTecnica = document.querySelector('input[name="viabilidadeTecnica"]:checked')?.value || 'Não informado';
+                const viabilidadeFinanceira = document.querySelector('input[name="viabilidadeFinanceira"]:checked')?.value || 'Não informado';
+                const decisaoFinal = document.querySelector('input[name="decisaoFinal"]:checked')?.value || 'Não informado';
+                const prioridade = document.querySelector('input[name="prioridade"]:checked')?.value || 'Não informado';
+                const avaliacaoGeral = document.querySelector('input[name="avaliacaoGeral"]:checked')?.value || 'Não informado';
+                const justificativaAvaliacao = document.getElementById('justificativaAvaliacao')?.value || 'Não informado';
+                
+                const beneficiosQuantitativos = document.getElementById('beneficiosQuantitativos')?.value || 'Não informado';
+                const beneficiosQualitativos = document.getElementById('beneficiosQualitativos')?.value || 'Não informado';
+                const beneficiosFinanceiros = document.getElementById('beneficiosFinanceiros')?.value || 'Não informado';
+                const inicioAvaliacao = document.getElementById('inicioAvaliacao')?.value || 'Não informado';
+                const fimAvaliacao = document.getElementById('fimAvaliacao')?.value || 'Não informado';
+                const responsavelAvaliacao = document.getElementById('responsavelAvaliacao')?.value || 'Não informado';
+                
+                const indicadorRes1 = document.getElementById('indicadorRes1')?.value || 'Não informado';
+                const metaRes1 = document.getElementById('metaRes1')?.value || 'Não informado';
+                const resultadoRes1 = document.getElementById('resultadoRes1')?.value || 'Não informado';
+                const statusRes1 = document.querySelector('input[name="statusRes1"]:checked')?.value || 'Não informado';
+                const indicadorRes2 = document.getElementById('indicadorRes2')?.value || 'Não informado';
+                const metaRes2 = document.getElementById('metaRes2')?.value || 'Não informado';
+                const resultadoRes2 = document.getElementById('resultadoRes2')?.value || 'Não informado';
+                const statusRes2 = document.querySelector('input[name="statusRes2"]:checked')?.value || 'Não informado';
+                const indicadorRes3 = document.getElementById('indicadorRes3')?.value || 'Não informado';
+                const metaRes3 = document.getElementById('metaRes3')?.value || 'Não informado';
+                const resultadoRes3 = document.getElementById('resultadoRes3')?.value || 'Não informado';
+                const statusRes3 = document.querySelector('input[name="statusRes3"]:checked')?.value || 'Não informado';
+
+
+                // Coleta de dados do cronograma
+                const cronograma = [];
+                const tbody = document.getElementById('cronogramaTable');
+                const rows = tbody.getElementsByTagName('tr');
+                for (let i = 0; i < rows.length; i++) {
+                    const inputs = rows[i].getElementsByTagName('input');
+                    const select = rows[i].getElementsByTagName('select')[0];
+                    if (inputs.length > 0) {
+                        cronograma.push({
+                            etapa: i + 1,
+                            atividade: inputs[0].value || 'Não informado',
+                            responsavel: inputs[1].value || 'Não informado',
+                            prazo: inputs[2].value || 'Não informado',
+                            status: select ? select.value : 'Não informado'
+                        });
+                    }
+                }
+
+                // Função auxiliar para criar a linha do cronograma no relatório
+                const generateCronogramaRows = () => {
+                    return cronograma.map(row => `
+                        <tr>
+                            <td>${row.etapa}</td>
+                            <td>${row.atividade}</td>
+                            <td>${row.responsavel}</td>
+                            <td>${row.prazo}</td>
+                            <td>${row.status}</td>
+                        </tr>
+                    `).join('');
+                };
+
+                const generateResultadosTable = () => {
+                  const resultados = [
+                    { indicador: indicadorRes1, meta: metaRes1, resultado: resultadoRes1, status: statusRes1 },
+                    { indicador: indicadorRes2, meta: metaRes2, resultado: resultadoRes2, status: statusRes2 },
+                    { indicador: indicadorRes3, meta: metaRes3, resultado: resultadoRes3, status: statusRes3 }
+                  ];
+
+                  return resultados.map(res => `
+                    <tr>
+                        <td>${res.indicador}</td>
+                        <td>${res.meta}</td>
+                        <td>${res.resultado}</td>
+                        <td>
+                            <span class="status-indicator status-${res.status}">
+                                ${res.status.replace('_', ' ').charAt(0).toUpperCase() + res.status.replace('_', ' ').slice(1)}
+                            </span>
+                        </td>
+                    </tr>
+                  `).join('');
+                };
+
+                // Construção do HTML do relatório (agora com o rodapé incluído)
+                const reportContent = `
+                    <div style="padding: 20px; font-family: Arial, sans-serif;">
+                        <!-- CABEÇALHO DO RELATÓRIO -->
+                        <div style="border: 2px solid #000; margin-bottom: 20px;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <tr>
+                                    <td style="width: 60%; text-align: center; padding: 15px; border: 1px solid #000;">
+                                        <div style="font-size: 18px; font-weight: bold;">Laboratório CDC</div>
+                                        <div style="font-size: 16px;">Formulário de Registro</div>
+                                        <div style="font-size: 16px; font-weight: bold;">Melhorias</div>
+                                    </td>
+                                    <td style="width: 40%; padding: 15px; border: 1px solid #000;">
+                                        <table style="width: 100%; border: none;">
+                                            <tr><td style="border: none;"><strong>Código:</strong> FORM QUA 003</td></tr>
+                                            <tr><td style="border: none;"><strong>Versão:</strong> 1</td></tr>
+                                            <tr><td style="border: none;"><strong>Páginas:</strong> 1 de 1</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <h2>IDENTIFICAÇÃO DA MELHORIA</h2>
+                        <table>
+                            <tr><th>Nº Registro</th><td>${numeroRegistro}</td><th>Data de Identificação</th><td>${dataIdentificacao}</td></tr>
+                            <tr><th>Identificado por</th><td>${identificadoPor}</td><th>Cargo/Setor</th><td>${cargoSetor}</td></tr>
+                        </table>
+
+                        <h2>1. DADOS GERAIS</h2>
+                        <table>
+                            <tr><th>Tipo de Melhoria</th><td colspan="3">${tipoMelhoria}</td></tr>
+                            <tr><th>Origem da Identificação</th><td colspan="3">${origem}</td></tr>
+                            <tr><th>Processo/Setor Envolvido</th><td colspan="3">${processo}</td></tr>
+                        </table>
+
+                        <h2>2. DESCRIÇÃO DA MELHORIA</h2>
+                        <table>
+                            <tr><th>Situação Atual</th><td>${situacaoAtual}</td></tr>
+                            <tr><th>Melhoria Proposta</th><td>${melhoriaProposta}</td></tr>
+                            <tr><th>Benefícios Esperados</th><td>${beneficiosEsperados}</td></tr>
+                            <tr><th>Justificativa</th><td>${justificativa}</td></tr>
+                        </table>
+
+                        <h2>3. ANÁLISE DE VIABILIDADE</h2>
+                        <h3>Recursos Necessários</h3>
+                        <table>
+                            <tr><th>Pessoas Envolvidas</th><td>${pessoasEnvolvidas}</td><th>Horas Estimadas</th><td>${horasEstimadas}</td></tr>
+                            <tr><th>Investimento Estimado</th><td>R$ ${investimento}</td><th>Economia Esperada</th><td>R$ ${economiaEsperada}</td></tr>
+                        </table>
+                        <h3>Análise de Riscos</h3>
+                        <table>
+                            <tr><th>Observações</th><td>${obsTecnicas}</td></tr>
+                        </table>
+                        
+                        <h2>4. PLANO DE IMPLEMENTAÇÃO</h2>
+                        <h3>Cronograma</h3>
+                        <table>
+                            <thead><tr><th>Etapa</th><th>Atividade</th><th>Responsável</th><th>Prazo</th><th>Status</th></tr></thead>
+                            <tbody>${generateCronogramaRows()}</tbody>
+                        </table>
+
+                        <h2>5. APROVAÇÃO</h2>
+                        <table>
+                            <tr><th>Análise Técnica</th><td>${viabilidadeTecnica}</td><th>Aprovação Final</th><td>${decisaoFinal}</td></tr>
+                            <tr><th>Prioridade</th><td>${prioridade}</td><th>Aprovado por</th><td>${aprovadoPor}</td></tr>
+                        </table>
+                        
+                        <h2>6. ANÁLISE DE CUSTO/BENEFÍCIO</h2>
+                        <table>
+                            <tr><th>Avaliação de Custo</th><td>${avaliacaoCusto}</td></tr>
+                            <tr><th>Avaliação de Benefício</th><td>${avaliacaoBeneficio}</td></tr>
+                            <tr><th>Justificativa da Relação Custo-Benefício</th><td>${justificativaCustoBeneficio}</td></tr>
+                        </table>
+
+                        <h2>7. AVALIAÇÃO DE EFICÁCIA</h2>
+                        <h3>Período de Avaliação</h3>
+                        <table>
+                            <tr><th>Início</th><td>${inicioAvaliacao}</td><th>Fim</th><td>${fimAvaliacao}</td></tr>
+                            <tr><th>Responsável pela avaliação</th><td colspan="3">${responsavelAvaliacao}</td></tr>
+                        </table>
+                        <h3>Resultados Obtidos</h3>
+                        <table>
+                            <thead><tr><th>Indicador</th><th>Meta</th><th>Resultado</th><th>Status</th></tr></thead>
+                            <tbody>${generateResultadosTable()}</tbody>
+                        </table>
+
+                        <div class="text-xs text-gray-500 mt-2">
+                            <strong>Legenda:</strong>
+                            <span class="mr-4">Verde: Meta atingida ou superada.</span>
+                            <span class="mr-4">Amarelo: Desvio de até 10% da meta.</span>
+                            <span>Vermelho: Desvio maior que 10% da meta ou crítico.</span>
+                        </div>
+                        <table>
+                            <tr><th>Benefícios Quantitativos</th><td>${beneficiosQuantitativos}</td></tr>
+                            <tr><th>Benefícios Qualitativos</th><td>${beneficiosQualitativos}</td></tr>
+                            <tr><th>Benefícios Financeiros</th><td>R$ ${beneficiosFinanceiros}</td></tr>
+                            <tr><th>Avaliação Geral</th><td>${avaliacaoGeral}</td></tr>
+                            <tr><th>Justificativa</th><td>${justificativaAvaliacao}</td></tr>
+                        </table>
+
+                        <h2>8. CONCLUSÃO INICIAL E PRÓXIMOS PASSOS</h2>
+                        <table>
+                            <tr><th>Resumo da Análise</th><td>${resumoAnalise}</td></tr>
+                            <tr><th>Recomendações Iniciais</th><td>${recomendacoesIniciais}</td></tr>
+                        </table>
+
+                        <h2>9. ACOMPANHAMENTO E REVISÃO</h2>
+                        <table>
+                            <tr><th>Data de Revisão</th><td>${dataRevisao}</td><th>Responsável</th><td>${responsavelRevisao}</td></tr>
+                            <tr><th>Status do Acompanhamento</th><td colspan="3">${statusAcompanhamento}</td></tr>
+                        </table>
+
+                        <h2>10. ENCERRAMENTO</h2>
+                        <table>
+                            <tr><th>Conclusão</th><td>${conclusao}</td></tr>
+                            <tr><th>Recomendações</th><td>${recomendacoes}</td></tr>
+                            <tr><th>Encerrado por</th><td>${concluidoPor}</td><th>Data</th><td>${dataEncerramento}</td></tr>
+                        </table>
+
+                        <!-- RODAPÉ - CORRIGIDO -->
+                        <div style="margin-top: 30px; border-top: 2px solid #000; padding-top: 10px; font-size: 10px; color: #000;">
+                            <table style="width: 100%; border-collapse: collapse; border: none;">
+                                <tr>
+                                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; border: none;">
+                                        <strong>Elaborado por:</strong><br>
+                                        Stephane Fernandes<br>
+                                        <strong>Cargo:</strong> Gestora da Qualidade<br>
+                                        <strong>Data:</strong> 28/08/2025<br>
+                                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                                    </td>
+                                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; text-align: center; border: none;">
+                                        <strong>Aprovado por:</strong><br>
+                                        Dimario Castro<br>
+                                        <strong>Cargo:</strong> Diretor<br>
+                                        <strong>Data:</strong> 28/08/2025<br>
+                                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                                    </td>
+                                    <td style="width: 40%; padding: 10px; font-size: 10px; color: #000; text-align: right; border: none;">
+                                        <strong>Próxima Revisão:</strong> 01/09/2026<br>
+                                        <strong>Arquivo:</strong> SGQ - Documentos Controlados<br>
+                                        <strong>Retenção:</strong> 5 anos após obsolescência
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div style="text-align: center; padding: 15px; background-color: #f8f9fa; font-size: 10px; color: #000; margin-top: 10px; border: 1px solid #000;">
+                                <strong>DOCUMENTO CONTROLADO - ISO 9001:2015</strong><br>
+                                Este documento faz parte do Sistema de Gestão da Qualidade do Laboratório CDC
+                                <br><br>
+                                <strong>CLASSIFICAÇÃO:</strong> Formulário de Melhoria Contínua | <strong>DISTRIBUIÇÃO:</strong> Controlada<br>
+                                <strong>OBSERVAÇÕES:</strong> Melhorias estratégicas/sistêmicas devem seguir este formulário.<br>
+                                Melhorias operacionais rotineiras seguir procedimento PRO QUA 002 (Shift Controller)
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                // Criar uma nova janela com o relatório
+                const novaJanela = window.open('', '_blank', 'width=1200,height=800');
+                novaJanela.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Relatório de Melhoria - ${numeroRegistro}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 0; }
+                            table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 12px; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+                            th { background-color: #f2f2f2; }
+                            h2 { font-size: 16px; font-weight: bold; margin: 15px 0 5px; }
+                            h3 { font-size: 14px; font-weight: bold; margin: 10px 0 5px; }
+                            .header-report { border: 2px solid #000; margin-bottom: 20px; }
+                            .header-report td { padding: 15px; text-align: center; border: 1px solid #000; }
+                            .footer-report { border-top: 2px solid #000; padding-top: 10px; font-size: 10px; color: #000; page-break-inside: avoid; }
+                            .status-indicator { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-right: 5px; }
+                            .status-green { background-color: #2ecc71; color: white; }
+                            .status-yellow { background-color: #f1c40f; color: black; }
+                            .status-red { background-color: #e74c3c; color: white; }
+                        </style>
+                    </head>
+                    <body>
+                        ${reportContent}
+                    </body>
+                    </html>
+                `);
+                novaJanela.document.close();
+            } catch (error) {
+                console.error('Erro ao gerar relatório:', error);
+                alert('Ocorreu um erro ao gerar o relatório. Verifique se os campos principais estão preenchidos.');
+            }
+        }
+
+        // Função para exportar PDF
+        function exportarPDF() {
+            alert(`O botão "Exportar PDF" já está configurado para o navegador. Clique em OK e, na janela de impressão, selecione "Salvar como PDF".`);
+            window.print();
+        }
+
+        // Função para inicializar o formulário
+        function inicializarFormulario() {
+            const hoje = new Date().toISOString().split('T')[0];
+
+            // Preencher automaticamente a data de identificação se estiver vazia
+            const dataIdentificacao = document.getElementById('dataIdentificacao');
+            if (dataIdentificacao && !dataIdentificacao.value) {
+                dataIdentificacao.value = hoje;
+            }
+
+            // Gerar número de registro automático se vazio
+            const numeroRegistro = document.getElementById('numeroRegistro');
+            if (numeroRegistro && !numeroRegistro.value) {
+                const ano = new Date().getFullYear();
+                const numero = Math.floor(Math.random() * 999).toString().padStart(3, '0');
+                numeroRegistro.value = `FORM QUA-003-${numero}/${ano}`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarFormulario();
+        });
+    </script>
+</body>
+</html>

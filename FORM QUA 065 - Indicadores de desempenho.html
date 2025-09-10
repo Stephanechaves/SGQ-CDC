@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORM QUA 065 - REGISTRO DE INDICADORES DE DESEMPENHO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f5f5f5; }
+        .container { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 1200px; margin: 0 auto; }
+        h1 { background-color: #2c3e50; color: white; padding: 15px; margin: -20px -20px 20px -20px; text-align: center; font-size: 24px; }
+        h2 { background-color: #34495e; color: white; padding: 10px; margin: 20px 0 10px 0; font-size: 18px; }
+        h3 { background-color: #95a5a6; color: white; padding: 8px; margin: 15px 0 5px; font-size: 16px; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; background-color: white; page-break-inside: avoid; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; font-size: 14px; }
+        th { background-color: #ecf0f1; font-weight: bold; }
+        input[type="text"], input[type="number"], input[type="date"], textarea, select { width: 100%; padding: 5px; border: 1px solid #ddd; border-radius: 3px; font-size: 14px; }
+        textarea { min-height: 60px; resize: vertical; }
+        .status-indicator { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .status-green { background-color: #2ecc71; color: white; }
+        .status-yellow { background-color: #f1c40f; color: black; }
+        .status-red { background-color: #e74c3c; color: white; }
+        .section { margin-bottom: 30px; page-break-inside: avoid; }
+        .btn { background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        .btn:hover { background-color: #2980b9; }
+        .btn-success { background-color: #27ae60; }
+        .btn-success:hover { background-color: #229954; }
+        .btn-danger { background-color: #e74c3c; }
+        .btn-danger:hover { background-color: #c0392b; }
+        .print-btn { text-align: center; margin: 20px 0; }
+        @media print { .btn, .print-btn { display: none; } body { background-color: white; } .container { box-shadow: none; } }
+        .header-section { margin-bottom: 20px; }
+        .header-section table { border-collapse: collapse; background-color: white; width: 100%; }
+        .header-section td { vertical-align: middle; border: 1px solid #000; }
+        .footer-section { margin-top: 30px; page-break-inside: avoid; }
+        .footer-section table { border: none; background-color: #f8f9fa; }
+        .footer-section td { border: 1px solid #bdc3c7; }
+        .read-only { background-color: #ecf0f1; }
+        .summary-box { display: flex; justify-content: space-around; padding: 10px; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 20px; }
+        .summary-item { text-align: center; }
+        .summary-count { font-size: 2.5rem; font-weight: bold; }
+        .input-error { border: 2px solid #e74c3c !important; }
+        .tooltip { position: relative; display: inline-block; }
+        .tooltip .tooltiptext { visibility: hidden; width: 140px; background-color: black; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -70px; opacity: 0; transition: opacity 0.3s; }
+        .tooltip .tooltiptext::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: black transparent transparent transparent; }
+        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+    </style>
+</head>
+<body onload="carregarDados()">
+    <div class="container">
+        <!-- CABEÇALHO -->
+        <div class="header-section">
+            <table style="width: 100%; border: 2px solid #000;">
+                <tr>
+                    <td rowspan="3" style="width: 25%; text-align: center; vertical-align: middle; border-right: 1px solid #000;">
+                        <img src="https://www.laboratoriocdc.com.br/wp-content/uploads/2023/05/logo-para-site-1.png" alt="Laboratório CDC Logo" style="max-width: 100px; max-height: 60px;">
+                    </td>
+                    <td style="width: 50%; text-align: center; font-weight: bold; font-size: 16px; border-bottom: 1px solid #000;">Laboratório CDC</td>
+                    <td style="width: 25%; font-size: 12px; padding-left: 5px;">Código: FORM QUA 065</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; font-weight: bold; font-size: 16px; border-bottom: 1px solid #000;">Formulário de Registro de Indicadores</td>
+                    <td style="font-size: 12px; padding-left: 5px;">Versão: 1</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center; font-weight: bold; font-size: 16px;">Indicadores de Desempenho</td>
+                    <td style="font-size: 12px; padding-left: 5px;">Páginas: <span id="pageNumber">1</span> de <span id="totalPages">1</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="print-btn">
+            <button class="btn btn-success" onclick="salvarDados()">Salvar e Calcular</button>
+            <button class="btn" onclick="limparFormulario()">Limpar Formulário</button>
+            <button class="btn" onclick="gerarFormularioVazio()">Gerar Formulário Vazio</button>
+            <button class="btn" onclick="exportarDados('json')">Exportar JSON</button>
+            <button class="btn" onclick="exportarDados('csv')">Exportar CSV</button>
+            <button class="btn" onclick="exportarPDF()">Imprimir/Exportar PDF</button>
+        </div>
+
+        <!-- RESUMO DOS INDICADORES -->
+        <div class="summary-box">
+            <div class="summary-item">
+                <span class="summary-count" id="countGreen">0</span>
+                <span class="status-indicator status-green">Verde</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-count" id="countYellow">0</span>
+                <span class="status-indicator status-yellow">Amarelo</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-count" id="countRed">0</span>
+                <span class="status-indicator status-red">Vermelho</span>
+            </div>
+        </div>
+
+        <!-- IDENTIFICAÇÃO -->
+        <div class="section">
+            <h2>IDENTIFICAÇÃO DO MONITORAMENTO</h2>
+            <table>
+                <tr>
+                    <th>Período</th>
+                    <td colspan="3">
+                        <input type="date" id="dataInicio" class="w-1/2"> até <input type="date" id="dataFim" class="w-1/2">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Período de monitoramento (ex: mês, trimestre).</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Responsável pelo Preenchimento</th>
+                    <td><input type="text" id="responsavelPreenchimento" placeholder="Nome completo"></td>
+                    <th>Data do Preenchimento</th>
+                    <td><input type="date" id="dataPreenchimento"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- INDICADORES POR CATEGORIA -->
+        <!-- ATENDIMENTO -->
+        <div class="section">
+            <h3>INDICADORES DE ATENDIMENTO</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Índice de Satisfação Geral</td>
+                        <td>(Superou + Atendeu) / Total * 100</td>
+                        <td><input type="number" id="satisfacaoSuperou" placeholder="Superou"> + <input type="number" id="satisfacaoAtendeu" placeholder="Atendeu"> / <input type="number" id="satisfacaoTotal" placeholder="Total"></td>
+                        <td>≥ 90%</td>
+                        <td><input type="text" id="satisfacaoResult" class="read-only" readonly></td>
+                        <td><span id="satisfacaoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoSatisfacao" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="satisfacaoObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Taxa "Superou Expectativas" (%)</td>
+                        <td>Superou / Total * 100</td>
+                        <td><input type="number" id="superouExpectativasSuperou" placeholder="Superou"> / <input type="number" id="superouExpectativasTotal" placeholder="Total"></td>
+                        <td>≥ 20%</td>
+                        <td><input type="text" id="superouExpectativasResult" class="read-only" readonly></td>
+                        <td><span id="superouExpectativasStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoSuperouExpectativas" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="superouExpectativasObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Taxa de Insatisfação (%)</td>
+                        <td>Não Atendeu / Total * 100</td>
+                        <td><input type="number" id="insatisfacaoNaoAtendeu" placeholder="Não Atendeu"> / <input type="number" id="insatisfacaoTotal" placeholder="Total"></td>
+                        <td>≤ 5%</td>
+                        <td><input type="text" id="insatisfacaoResult" class="read-only" readonly></td>
+                        <td><span id="insatisfacaoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoInsatisfacao" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="insatisfacaoObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Reclamações Resolvidas no Prazo (%)</td>
+                        <td>(Resolvidas no Prazo / Total) * 100</td>
+                        <td><input type="number" id="reclamacoesResolvidas" placeholder="Resolvidas"> / <input type="number" id="reclamacoesTotal" placeholder="Total"></td>
+                        <td>≥ 90%</td>
+                        <td><input type="text" id="reclamacoesResult" class="read-only" readonly></td>
+                        <td><span id="reclamacoesStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoReclamacoes" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="reclamacoesObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Tempo Médio de Atendimento (min)</td>
+                        <td>Média (Fim - Início)</td>
+                        <td><input type="number" step="0.01" id="tempoAtendimento" placeholder="Tempo em min"> min</td>
+                        <td>≤ 10 min</td>
+                        <td><input type="text" id="tempoAtendimentoResult" class="read-only" readonly></td>
+                        <td><span id="tempoAtendimentoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoTempoAtendimento" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="tempoAtendimentoObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Tempo Médio de Espera (min)</td>
+                        <td>Média (tempo de espera)</td>
+                        <td><input type="number" step="0.01" id="tempoEspera" placeholder="Tempo em min"> min</td>
+                        <td>≤ 10 min</td>
+                        <td><input type="text" id="tempoEsperaResult" class="read-only" readonly></td>
+                        <td><span id="tempoEsperaStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoTempoEspera" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="tempoEsperaObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- QUALIDADE ANALÍTICA -->
+        <div class="section">
+            <h3>INDICADORES DE QUALIDADE ANALÍTICA</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Conformidade CIQ (%)</td>
+                        <td>(Resultados OK / Total) * 100</td>
+                        <td><input type="number" id="ciqOk" placeholder="OK"> / <input type="number" id="ciqTotal" placeholder="Total"></td>
+                        <td>≥ 90%</td>
+                        <td><input type="text" id="ciqResult" class="read-only" readonly></td>
+                        <td><span id="ciqStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoCiq" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="ciqObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Conformidade CEQ (%)</td>
+                        <td>(Resultados Satisfatórios / Total) * 100</td>
+                        <td><input type="number" id="ceqOk" placeholder="Satisfatórios"> / <input type="number" id="ceqTotal" placeholder="Total"></td>
+                        <td>≥ 90%</td>
+                        <td><input type="text" id="ceqResult" class="read-only" readonly></td>
+                        <td><span id="ceqStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoCeq" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="ceqObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Taxa de Recoletas (%)</td>
+                        <td>(Recoletas / Total Coletas) * 100</td>
+                        <td><input type="number" id="recoletas" placeholder="Recoletas"> / <input type="number" id="totalColetas" placeholder="Total"></td>
+                        <td>≤ 5%</td>
+                        <td><input type="text" id="recoletasResult" class="read-only" readonly></td>
+                        <td><span id="recoletasStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoRecoletas" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="recoletasObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Resultados críticos comunicados no prazo (%)</td>
+                        <td>(Críticos Comunicados / Total Críticos) * 100</td>
+                        <td><input type="number" id="criticosComunicados" placeholder="Comunicados"> / <input type="number" id="criticosTotal" placeholder="Total"></td>
+                        <td>≥ 95%</td>
+                        <td><input type="text" id="criticosComunicadosResult" class="read-only" readonly></td>
+                        <td><span id="criticosComunicadosStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoCriticosComunicados" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="criticosComunicadosObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- INDICADORES COMERCIAIS -->
+        <div class="section">
+            <h3>INDICADORES COMERCIAIS</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Captação com Exame Adicional (%)</td>
+                        <td>(OS com exame adicional / Total OS) * 100</td>
+                        <td><input type="number" id="captacaoAdicionais" placeholder="Adicionais"> / <input type="number" id="totalAtendimentos" placeholder="Total"></td>
+                        <td>≥ 15%</td>
+                        <td><input type="text" id="captacaoResult" class="read-only" readonly></td>
+                        <td><span id="captacaoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoCaptacao" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="captacaoObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Conversão de Orçamentos (%)</td>
+                        <td>(Orçamentos Realizados / Emitidos) * 100</td>
+                        <td><input type="number" id="orcamentosRealizados" placeholder="Realizados"> / <input type="number" id="orcamentosEmitidos" placeholder="Emitidos"></td>
+                        <td>≥ 60%</td>
+                        <td><input type="text" id="orcamentoResult" class="read-only" readonly></td>
+                        <td><span id="orcamentoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoOrcamentos" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="orcamentoObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Retenção de Clientes (%)</td>
+                        <td>(Pacientes com 2+ OS / Total Pacientes) * 100</td>
+                        <td><input type="number" id="retencaoPacientes2OS" placeholder="2+ OS"> / <input type="number" id="totalPacientes" placeholder="Total"></td>
+                        <td>≥ 85%</td>
+                        <td><input type="text" id="retencaoResult" class="read-only" readonly></td>
+                        <td><span id="retencaoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoRetencao" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="retencaoObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>% de Novos Pacientes</td>
+                        <td>(Novos Pacientes / Total Pacientes) * 100</td>
+                        <td><input type="number" id="novosPacientes" placeholder="Novos"> / <input type="number" id="totalPacientes" placeholder="Total"></td>
+                        <td>≥ 20%</td>
+                        <td><input type="text" id="novosPacientesResult" class="read-only" readonly></td>
+                        <td><span id="novosPacientesStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoNovosPacientes" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="novosPacientesObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- INDICADORES OPERACIONAIS -->
+        <div class="section">
+            <h3>INDICADORES OPERACIONAIS</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>TAT Médio (h)</td>
+                        <td>Média (Hora Liberação - Hora Coleta)</td>
+                        <td><input type="number" step="0.01" id="tatMedio" placeholder="Tempo em horas"> horas</td>
+                        <td><input type="text" id="tatMedioMeta" placeholder="Especifique a meta"></td>
+                        <td><input type="text" id="tatMedioResult" class="read-only" readonly></td>
+                        <td><span id="tatMedioStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoTatMedio" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="tatMedioObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Prazo de Entrega (%)</td>
+                        <td>(Laudos entregues no prazo / Total) * 100</td>
+                        <td><input type="number" id="prazoEntregaOK" placeholder="Entregues no prazo"> / <input type="number" id="prazoEntregaTotal" placeholder="Total"></td>
+                        <td>≥ 90%</td>
+                        <td><input type="text" id="prazoEntregaResult" class="read-only" readonly></td>
+                        <td><span id="prazoEntregaStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoPrazoEntrega" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="prazoEntregaObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- INDICADORES FINANCEIROS -->
+        <div class="section">
+            <h3>INDICADORES FINANCEIROS</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Inadimplência (%)</td>
+                        <td>(Valores em Atraso / Faturamento) * 100</td>
+                        <td>R$ <input type="number" step="0.01" id="inadimplenciaAtraso" placeholder="Atraso"> / R$ <input type="number" step="0.01" id="inadimplenciaFaturamento" placeholder="Faturamento"></td>
+                        <td>≤ 8%</td>
+                        <td><input type="text" id="inadimplenciaResult" class="read-only" readonly></td>
+                        <td><span id="inadimplenciaStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoInadimplencia" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="inadimplenciaObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Margem de Contribuição (%)</td>
+                        <td>(Receita - Custos Variáveis) / Receita * 100</td>
+                        <td>R$ <input type="number" step="0.01" id="margemReceita" placeholder="Receita"> - R$ <input type="number" step="0.01" id="margemCustos" placeholder="Custos Variáveis"></td>
+                        <td>≥ 35%</td>
+                        <td><input type="text" id="margemResult" class="read-only" readonly></td>
+                        <td><span id="margemStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoMargem" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="margemObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- INDICADORES DE RECURSOS HUMANOS -->
+        <div class="section">
+            <h3>INDICADORES DE RECURSOS HUMANOS</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Rotatividade (Turnover) (%)</td>
+                        <td>(Saídas / Total Colaboradores) * 100</td>
+                        <td><input type="number" id="turnoverSaidas" placeholder="Saídas"> / <input type="number" id="totalColaboradores" placeholder="Total"></td>
+                        <td>≤ 10%</td>
+                        <td><input type="text" id="turnoverResult" class="read-only" readonly></td>
+                        <td><span id="turnoverStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoTurnover" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="turnoverObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Treinamentos em Dia (%)</td>
+                        <td>(Treinamentos Concluídos / Total) * 100</td>
+                        <td><input type="number" id="treinamentoConcluidos" placeholder="Concluídos"> / <input type="number" id="treinamentoTotal" placeholder="Total"></td>
+                        <td>≥ 95%</td>
+                        <td><input type="text" id="treinamentoResult" class="read-only" readonly></td>
+                        <td><span id="treinamentoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoTreinamento" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="treinamentoObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- INDICADORES DE FORNECEDORES -->
+        <div class="section">
+            <h3>INDICADORES DE FORNECEDORES</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Entregas no Prazo (%)</td>
+                        <td>(Entregas dentro do prazo / Total) * 100</td>
+                        <td><input type="number" id="entregasPrazo" placeholder="No prazo"> / <input type="number" id="entregasTotal" placeholder="Total"></td>
+                        <td>≥ 95%</td>
+                        <td><input type="text" id="entregasPrazoResult" class="read-only" readonly></td>
+                        <td><span id="entregasPrazoStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoEntregasPrazo" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="entregasPrazoObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Qualidade de Insumos (%)</td>
+                        <td>(Insumos sem NC / Total recebidos) * 100</td>
+                        <td><input type="number" id="insumosSemNC" placeholder="Sem NC"> / <input type="number" id="insumosTotal" placeholder="Total"></td>
+                        <td>≥ 98%</td>
+                        <td><input type="text" id="insumosQualidadeResult" class="read-only" readonly></td>
+                        <td><span id="insumosQualidadeStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoInsumosQualidade" placeholder="Ex: PRO QUA 002"></td>
+                        <td><textarea rows="1" id="insumosQualidadeObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- INDICADORES DE ESTRATÉGIA E RISCO -->
+        <div class="section">
+            <h3>INDICADORES DE ESTRATÉGIA E RISCO</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Indicador</th>
+                        <th>Fórmula</th>
+                        <th>Dados de Entrada</th>
+                        <th>Meta</th>
+                        <th>Resultado</th>
+                        <th>Status</th>
+                        <th>Ação</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Riscos Críticos Monitorados (%)</td>
+                        <td>(Riscos monitorados / Riscos críticos) * 100</td>
+                        <td><input type="number" id="riscosMonitorados" placeholder="Monitorados"> / <input type="number" id="riscosCriticos" placeholder="Críticos"></td>
+                        <td>100%</td>
+                        <td><input type="text" id="riscosMonitoradosResult" class="read-only" readonly></td>
+                        <td><span id="riscosMonitoradosStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoRiscos" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="riscosMonitoradosObs"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>Metas Estratégicas Atingidas (%)</td>
+                        <td>(Metas atingidas / Total metas) * 100</td>
+                        <td><input type="number" id="metasAtingidas" placeholder="Atingidas"> / <input type="number" id="metasTotal" placeholder="Total"></td>
+                        <td>≥ 90%</td>
+                        <td><input type="text" id="metasEstrategicasResult" class="read-only" readonly></td>
+                        <td><span id="metasEstrategicasStatus" class="status-indicator"></span></td>
+                        <td><input type="text" id="acaoMetasEstrategicas" placeholder="Ex: FORM QUA 003"></td>
+                        <td><textarea rows="1" id="metasEstrategicasObs"></textarea></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- RODAPÉ -->
+        <div class="footer-section">
+            <table style="margin-top: 30px; border-top: 2px solid #000;">
+                <tr>
+                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000;">
+                        <strong>Elaborado por:</strong><br>
+                        Stephane Fernandes<br>
+                        <strong>Cargo:</strong> Gestora da Qualidade<br>
+                        <strong>Data:</strong> 28/08/2025<br>
+                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                    </td>
+                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; text-align: center;">
+                        <strong>Aprovado por:</strong><br>
+                        Dimario Castro<br>
+                        <strong>Cargo:</strong> Diretor<br>
+                        <strong>Data:</strong> 28/08/2025<br>
+                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                    </td>
+                    <td style="width: 40%; padding: 10px; font-size: 10px; color: #000; text-align: right;">
+                        <strong>Revisão:</strong> Sempre que necessário, conforme PRO QUA 001 – Criação e Controle de Informação Documentada.<br>
+                        <strong>Arquivo:</strong> SGQ - Documentos Controlados<br>
+                        <strong>Retenção:</strong> 5 anos após obsolescência
+                    </td>
+                </tr>
+            </table>
+            <div style="text-align: center; padding: 15px; background-color: #f8f9fa; font-size: 10px; color: #000; margin-top: 10px; border: 1px solid #000;">
+                <p>Melhorias estratégicas/sistêmicas devem seguir o FORM QUA 003.</p>
+                <p>Melhorias operacionais rotineiras devem seguir o procedimento PRO QUA 002 (Shift Controller).</p>
+                <strong>DOCUMENTO CONTROLADO - ISO 9001:2015</strong><br>
+                Este documento faz parte do Sistema de Gestão da Qualidade do Laboratório CDC
+                <br><br>
+                <strong>CLASSIFICAÇÃO:</strong> Formulário de Indicadores de Desempenho | <strong>DISTRIBUIÇÃO:</strong> Controlada<br>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados de todos os indicadores com suas propriedades, fórmulas e metas
+        const indicators = [
+            // Atendimento
+            { id: 'satisfacao', resultId: 'satisfacaoResult', statusId: 'satisfacaoStatus', formula: () => { const s = parseFloat(document.getElementById('satisfacaoSuperou')?.value) || 0; const a = parseFloat(document.getElementById('satisfacaoAtendeu')?.value) || 0; const t = parseFloat(document.getElementById('satisfacaoTotal')?.value) || 0; return t > 0 ? ((s + a) / t) * 100 : 0; }, meta: 90, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'superouExpectativas', resultId: 'superouExpectativasResult', statusId: 'superouExpectativasStatus', formula: () => { const s = parseFloat(document.getElementById('superouExpectativasSuperou')?.value) || 0; const t = parseFloat(document.getElementById('superouExpectativasTotal')?.value) || 0; return t > 0 ? (s / t) * 100 : 0; }, meta: 20, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'insatisfacao', resultId: 'insatisfacaoResult', statusId: 'insatisfacaoStatus', formula: () => { const n = parseFloat(document.getElementById('insatisfacaoNaoAtendeu')?.value) || 0; const t = parseFloat(document.getElementById('insatisfacaoTotal')?.value) || 0; return t > 0 ? (n / t) * 100 : 0; }, meta: 5, type: 'percent', greaterOrEqual: false, tolerance: 0.05 },
+            { id: 'reclamacoes', resultId: 'reclamacoesResult', statusId: 'reclamacoesStatus', formula: () => { const r = parseFloat(document.getElementById('reclamacoesResolvidas')?.value) || 0; const t = parseFloat(document.getElementById('reclamacoesTotal')?.value) || 0; return t > 0 ? (r / t) * 100 : 0; }, meta: 90, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'tempoAtendimento', resultId: 'tempoAtendimentoResult', statusId: 'tempoAtendimentoStatus', formula: () => parseFloat(document.getElementById('tempoAtendimento')?.value) || 0, meta: 10, type: 'minutes', greaterOrEqual: false, tolerance: 0.05 },
+            { id: 'tempoEspera', resultId: 'tempoEsperaResult', statusId: 'tempoEsperaStatus', formula: () => parseFloat(document.getElementById('tempoEspera')?.value) || 0, meta: 10, type: 'minutes', greaterOrEqual: false, tolerance: 0.05 },
+            // Qualidade Analítica
+            { id: 'ciq', resultId: 'ciqResult', statusId: 'ciqStatus', formula: () => { const ok = parseFloat(document.getElementById('ciqOk')?.value) || 0; const total = parseFloat(document.getElementById('ciqTotal')?.value) || 0; return total > 0 ? (ok / total) * 100 : 0; }, meta: 90, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'ceq', resultId: 'ceqResult', statusId: 'ceqStatus', formula: () => { const ok = parseFloat(document.getElementById('ceqOk')?.value) || 0; const total = parseFloat(document.getElementById('ceqTotal')?.value) || 0; return total > 0 ? (ok / total) * 100 : 0; }, meta: 90, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'recoletas', resultId: 'recoletasResult', statusId: 'recoletasStatus', formula: () => { const r = parseFloat(document.getElementById('recoletas')?.value) || 0; const t = parseFloat(document.getElementById('totalColetas')?.value) || 0; return t > 0 ? (r / t) * 100 : 0; }, meta: 5, type: 'percent', greaterOrEqual: false, tolerance: 0.05 },
+            { id: 'criticosComunicados', resultId: 'criticosComunicadosResult', statusId: 'criticosComunicadosStatus', formula: () => { const r = parseFloat(document.getElementById('criticosComunicados')?.value) || 0; const t = parseFloat(document.getElementById('criticosTotal')?.value) || 0; return t > 0 ? (r / t) * 100 : 0; }, meta: 95, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            // Comerciais
+            { id: 'captacao', resultId: 'captacaoResult', statusId: 'captacaoStatus', formula: () => { const a = parseFloat(document.getElementById('captacaoAdicionais')?.value) || 0; const t = parseFloat(document.getElementById('totalAtendimentos')?.value) || 0; return t > 0 ? (a / t) * 100 : 0; }, meta: 15, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'orcamento', resultId: 'orcamentoResult', statusId: 'orcamentoStatus', formula: () => { const r = parseFloat(document.getElementById('orcamentosRealizados')?.value) || 0; const e = parseFloat(document.getElementById('orcamentosEmitidos')?.value) || 0; return e > 0 ? (r / e) * 100 : 0; }, meta: 60, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'retencao', resultId: 'retencaoResult', statusId: 'retencaoStatus', formula: () => { const p = parseFloat(document.getElementById('retencaoPacientes2OS')?.value) || 0; const t = parseFloat(document.getElementById('totalPacientes')?.value) || 0; return t > 0 ? (p / t) * 100 : 0; }, meta: 85, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'novosPacientes', resultId: 'novosPacientesResult', statusId: 'novosPacientesStatus', formula: () => { const n = parseFloat(document.getElementById('novosPacientes')?.value) || 0; const t = parseFloat(document.getElementById('totalPacientes')?.value) || 0; return t > 0 ? (n / t) * 100 : 0; }, meta: 20, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            // Operacionais
+            { id: 'tatMedio', resultId: 'tatMedioResult', statusId: 'tatMedioStatus', formula: () => parseFloat(document.getElementById('tatMedio')?.value) || 0, meta: () => parseFloat(document.getElementById('tatMedioMeta')?.value) || 0, type: 'hours', greaterOrEqual: false, tolerance: 0.05 },
+            { id: 'prazoEntrega', resultId: 'prazoEntregaResult', statusId: 'prazoEntregaStatus', formula: () => { const ok = parseFloat(document.getElementById('prazoEntregaOK')?.value) || 0; const total = parseFloat(document.getElementById('prazoEntregaTotal')?.value) || 0; return total > 0 ? (ok / total) * 100 : 0; }, meta: 90, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            // Financeiros
+            { id: 'inadimplencia', resultId: 'inadimplenciaResult', statusId: 'inadimplenciaStatus', formula: () => { const a = parseFloat(document.getElementById('inadimplenciaAtraso')?.value) || 0; const f = parseFloat(document.getElementById('inadimplenciaFaturamento')?.value) || 0; return f > 0 ? (a / f) * 100 : 0; }, meta: 8, type: 'percent', greaterOrEqual: false, tolerance: 0.05 },
+            { id: 'margem', resultId: 'margemResult', statusId: 'margemStatus', formula: () => { const r = parseFloat(document.getElementById('margemReceita')?.value) || 0; const c = parseFloat(document.getElementById('margemCustos')?.value) || 0; return r > 0 ? ((r - c) / r) * 100 : 0; }, meta: 35, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            // RH
+            { id: 'turnover', resultId: 'turnoverResult', statusId: 'turnoverStatus', formula: () => { const s = parseFloat(document.getElementById('turnoverSaidas')?.value) || 0; const t = parseFloat(document.getElementById('totalColaboradores')?.value) || 0; return t > 0 ? (s / t) * 100 : 0; }, meta: 10, type: 'percent', greaterOrEqual: false, tolerance: 0.05 },
+            { id: 'treinamento', resultId: 'treinamentoResult', statusId: 'treinamentoStatus', formula: () => { const c = parseFloat(document.getElementById('treinamentoConcluidos')?.value) || 0; const t = parseFloat(document.getElementById('treinamentoTotal')?.value) || 0; return t > 0 ? (c / t) * 100 : 0; }, meta: 95, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            // Fornecedores
+            { id: 'entregasPrazo', resultId: 'entregasPrazoResult', statusId: 'entregasPrazoStatus', formula: () => { const ok = parseFloat(document.getElementById('entregasPrazo')?.value) || 0; const total = parseFloat(document.getElementById('entregasTotal')?.value) || 0; return total > 0 ? (ok / total) * 100 : 0; }, meta: 95, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            { id: 'insumosQualidade', resultId: 'insumosQualidadeResult', statusId: 'insumosQualidadeStatus', formula: () => { const semNC = parseFloat(document.getElementById('insumosSemNC')?.value) || 0; const total = parseFloat(document.getElementById('insumosTotal')?.value) || 0; return total > 0 ? (semNC / total) * 100 : 0; }, meta: 98, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+            // Estratégia e Risco
+            { id: 'riscosMonitorados', resultId: 'riscosMonitoradosResult', statusId: 'riscosMonitoradosStatus', formula: () => { const m = parseFloat(document.getElementById('riscosMonitorados')?.value) || 0; const c = parseFloat(document.getElementById('riscosCriticos')?.value) || 0; return c > 0 ? (m / c) * 100 : 0; }, meta: 100, type: 'percent', greaterOrEqual: true, tolerance: 0 }, // Sem tolerância
+            { id: 'metasEstrategicas', resultId: 'metasEstrategicasResult', statusId: 'metasEstrategicasStatus', formula: () => { const a = parseFloat(document.getElementById('metasAtingidas')?.value) || 0; const t = parseFloat(document.getElementById('metasTotal')?.value) || 0; return t > 0 ? (a / t) * 100 : 0; }, meta: 90, type: 'percent', greaterOrEqual: true, tolerance: 0.05 },
+        ];
+
+        // Função para formatar números para o padrão brasileiro (vírgula)
+        function formatNumber(value) {
+            if (typeof value !== 'number' || isNaN(value)) {
+                return '0,0';
+            }
+            return value.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+        }
+
+        // Função principal para calcular todos os indicadores e atualizar a UI
+        function calcularIndicadores() {
+            let greenCount = 0;
+            let yellowCount = 0;
+            let redCount = 0;
+            let hasError = false;
+
+            indicators.forEach(ind => {
+                const inputs = document.querySelectorAll(`#${ind.id} input, #${ind.id} textarea`);
+                inputs.forEach(input => input.classList.remove('input-error'));
+                
+                let result = 0;
+                try {
+                    result = ind.formula();
+                    if (isNaN(result) || !isFinite(result)) result = 0;
+                } catch (e) {
+                    console.error(`Erro ao calcular o indicador ${ind.id}:`, e);
+                    hasError = true;
+                }
+
+                const meta = typeof ind.meta === 'function' ? ind.meta() : ind.meta;
+                const tolerance = ind.tolerance || 0;
+                let status = '';
+
+                // Lógica do semáforo
+                if (ind.greaterOrEqual) {
+                    if (result >= meta) {
+                        status = 'green';
+                    } else if (result >= meta * (1 - tolerance)) {
+                        status = 'yellow';
+                    } else {
+                        status = 'red';
+                    }
+                } else {
+                    if (result <= meta) {
+                        status = 'green';
+                    } else if (result <= meta * (1 + tolerance)) {
+                        status = 'yellow';
+                    } else {
+                        status = 'red';
+                    }
+                }
+
+                // Atualizar a UI com o resultado e o status
+                const resultElement = document.getElementById(ind.resultId);
+                const statusElement = document.getElementById(ind.statusId);
+                
+                if (resultElement) {
+                    resultElement.value = ind.type === 'percent' ? `${formatNumber(result)}%` : formatNumber(result);
+                }
+                
+                if (statusElement) {
+                    statusElement.textContent = status === 'green' ? 'Verde' : (status === 'yellow' ? 'Amarelo' : 'Vermelho');
+                    statusElement.className = `status-indicator status-${status}`;
+                }
+
+                if (status === 'green') {
+                    greenCount++;
+                } else if (status === 'yellow') {
+                    yellowCount++;
+                } else {
+                    redCount++;
+                }
+            });
+
+            document.getElementById('countGreen').textContent = greenCount;
+            document.getElementById('countYellow').textContent = yellowCount;
+            document.getElementById('countRed').textContent = redCount;
+            
+            return hasError;
+        }
+
+        // Função para salvar dados no LocalStorage
+        function salvarDados() {
+            if(calcularIndicadores()) {
+                console.error('Dados não salvos devido a erros de cálculo.');
+                return;
+            }
+
+            const dados = {};
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if(input.id) {
+                    dados[input.id] = input.value;
+                }
+            });
+
+            try {
+                localStorage.setItem('formQua065Data', JSON.stringify(dados));
+                console.log('Dados salvos no LocalStorage com sucesso:', dados);
+            } catch (error) {
+                console.error('Erro ao salvar no LocalStorage:', error);
+            }
+        }
+
+        // Função para carregar dados do LocalStorage
+        function carregarDados() {
+            try {
+                const savedData = localStorage.getItem('formQua065Data');
+                if (savedData) {
+                    const dados = JSON.parse(savedData);
+                    const inputs = document.querySelectorAll('input, textarea');
+                    inputs.forEach(input => {
+                        if (input.id && dados[input.id] !== undefined) {
+                            input.value = dados[input.id];
+                        }
+                    });
+                    calcularIndicadores();
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do LocalStorage:', error);
+            }
+        }
+
+        // Função para exportar dados em diferentes formatos
+        function exportarDados(type) {
+            const data = {};
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                if(input.id) {
+                    data[input.id] = input.value;
+                }
+            });
+            // Exportar a meta do TAT Médio
+            data.tatMedioMeta = document.getElementById('tatMedioMeta')?.value || 'Não informada';
+
+            if (type === 'json') {
+                const jsonData = JSON.stringify(data, null, 2);
+                const blob = new Blob([jsonData], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dados_indicadores.json';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            } else if (type === 'csv') {
+                const headers = Object.keys(data).join(';');
+                const values = Object.values(data).map(v => `"${v}"`).join(';');
+                const csvData = `${headers}\n${values}`;
+                const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'dados_indicadores.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        // Função para gerar um formulário vazio para impressão
+        function gerarFormularioVazio() {
+            limparFormulario();
+            // Adiciona um pequeno atraso para garantir que a UI seja renderizada antes de imprimir
+            setTimeout(exportarPDF, 100);
+        }
+        
+        // Função para exportar o formulário como PDF usando html2pdf.js
+        function exportarPDF() {
+            const element = document.body;
+            const opt = {
+                margin: [10, 10, 10, 10],
+                filename: 'FORM_QUA_065.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            html2pdf().set(opt).from(element).save();
+        }
+
+        // Funções para limpar formulário
+        function limparFormulario() {
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            const spans = document.querySelectorAll('.status-indicator');
+            spans.forEach(span => {
+                span.textContent = '';
+                span.className = 'status-indicator';
+            });
+            document.getElementById('countGreen').textContent = 0;
+            document.getElementById('countYellow').textContent = 0;
+            document.getElementById('countRed').textContent = 0;
+            localStorage.removeItem('formQua065Data');
+        }
+    </script>
+</body>
+</html>
