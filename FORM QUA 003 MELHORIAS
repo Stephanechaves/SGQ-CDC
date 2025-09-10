@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORM QUA 003 - REGISTRO DE MELHORIAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            font-weight: bold;
+        }
+
+        h1 {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            margin: -20px -20px 20px -20px;
+            text-align: center;
+            font-size: 24px;
+            border-radius: 8px 8px 0 0;
+        }
+
+        h2 {
+            background-color: #34495e;
+            color: white;
+            padding: 10px;
+            margin: 20px 0 10px 0;
+            font-size: 18px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h3 {
+            background-color: #ecf0f1;
+            padding: 8px;
+            margin-top: 20px;
+            font-size: 16px;
+            border-left: 5px solid #3498db;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .collapsible-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-icon.rotated {
+            transform: rotate(90deg);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #ecf0f1;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], input[type="date"], textarea, select {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            font-size: 14px;
+        }
+        
+        input[type="date"] {
+            font-family: inherit;
+        }
+        
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            margin-bottom: 5px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
+
+        .status-verde { background-color: #2ecc71; color: white; }
+        .status-amarelo { background-color: #f1c40f; color: black; }
+        .status-vermelho { background-color: #e74c3c; color: white; }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover { background-color: #2980b9; }
+        .btn-success { background-color: #27ae60; }
+        .btn-success:hover { background-color: #229954; }
+        .btn-danger { background-color: #e74c3c; }
+        .btn-danger:hover { background-color: #c0392b; }
+
+        .add-row-btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+        }
+        
+        .add-row-btn:hover {
+            background-color: #229954;
+        }
+        
+        .print-btn {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            .btn, .print-btn, .add-row-btn, .btn-danger, .collapsible-icon { display: none; }
+            body { background-color: white; margin: 0; padding: 0; }
+            .container { box-shadow: none; margin: 0; padding: 0; }
+            
+            .header-section {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                background-color: white;
+                margin-bottom: 0 !important;
+                padding: 10px 20px 0 20px;
+            }
+
+            .footer-section {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                background-color: white;
+                margin-top: 0 !important;
+                padding: 0 20px 10px 20px;
+            }
+
+            .container { padding-top: 150px; padding-bottom: 200px; }
+
+            .section, table {
+                page-break-inside: avoid;
+            }
+
+            .header-section table, .footer-section table {
+                border: 2px solid #000;
+            }
+
+            .collapsible-content {
+                display: block !important;
+            }
+        }
+
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            z-index: 2000;
+            transition: opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
+        .message-box.show {
+            opacity: 1;
+        }
+        .message-success { background-color: #27ae60; }
+        .message-error { background-color: #e74c3c; }
+        .message-info { background-color: #3498db; }
+        .required-field {
+            border: 1px solid #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div id="messageBox" class="message-box"></div>
+    <div class="container">
+        <!-- CABEÇALHO -->
+        <div class="header-section">
+            <table style="margin-bottom: 0; border: 2px solid #000;">
+                <tr>
+                    <td style="width: 60%; text-align: center; padding: 15px; border-right: 1px solid #000;">
+                        <div style="font-size: 18px; font-weight: bold; margin-bottom: 8px;">Laboratório CDC</div>
+                        <div style="font-size: 16px; font-weight: bold; margin-bottom: 8px;">Formulário de Registro</div>
+                        <div style="font-size: 16px; font-weight: bold;">Melhorias</div>
+                        <div style="font-size: 10px; color: #555; margin-top: 10px;">
+                            Este registro possui versão eletrônica para coleta de dados (HTML/mobile). A versão controlada é a publicada no PNCQ Gestor em PDF/Word. Após aprovação, qualquer complemento ocorrerá por Revisão (R1, R2...) ou Aditivo vinculado ao número original.
+                        </div>
+                    </td>
+                    <td style="width: 40%; padding: 15px;">
+                        <table style="width: 100%; border: none;">
+                            <tr>
+                                <td style="border: none; padding: 3px 0; font-size: 14px;">
+                                    <strong>Código:</strong> <span style="font-weight: bold;">FORM QUA 003</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: none; padding: 3px 0; font-size: 14px;">
+                                    <strong>Versão:</strong> <span style="font-weight: bold;">1</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border: none; padding: 3px 0; font-size: 14px;">
+                                    <strong>Páginas:</strong> <span style="font-weight: bold;">1 de 1</span>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="print-btn">
+             <button class="btn btn-success" onclick="salvarDados()">Salvar Dados (JSON)</button>
+             <button class="btn" onclick="gerarRelatorio()">Pré-visualizar Relatório</button>
+             <button class="btn" onclick="exportarPDF()">Imprimir / Exportar PDF</button>
+             <button class="btn btn-danger" onclick="limparFormulario()">Limpar Formulário</button>
+        </div>
+
+        <!-- IDENTIFICAÇÃO -->
+        <div class="section">
+            <h2>IDENTIFICAÇÃO DA MELHORIA</h2>
+            <table>
+                <tr>
+                    <th>Número de Registro</th>
+                    <td>
+                        <input type="text" id="numeroRegistro" readonly class="bg-gray-100">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Número gerado automaticamente para garantir a rastreabilidade.</div>
+                    </td>
+                    <th>Data de Identificação</th>
+                    <td>
+                        <input type="date" id="dataIdentificacao">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Quando a melhoria foi percebida.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Identificado por</th>
+                    <td>
+                        <input type="text" id="identificadoPor">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Nome completo do colaborador.</div>
+                    </td>
+                    <th>Cargo/Setor</th>
+                    <td>
+                        <input type="text" id="cargoSetor">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Setor ou cargo do colaborador.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Status do Registro</th>
+                    <td colspan="3">
+                        <select id="statusRegistro" class="rounded-md p-2">
+                            <option value="Rascunho">Rascunho</option>
+                            <option value="Em análise">Em análise</option>
+                            <option value="Aprovado">Aprovado</option>
+                            <option value="Encerrado">Encerrado</option>
+                        </select>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Situação atual do registro.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 1. DADOS GERAIS -->
+        <div class="section">
+            <h2>1. DADOS GERAIS</h2>
+            <table>
+                <tr>
+                    <th>Tipo de Melhoria</th>
+                    <td colspan="3">
+                        <div class="checkbox-group">
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="Estratégica - Mudança de processo/sistema"> Estratégica - Mudança de processo/sistema</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="Sistêmica - Adequação normativa/regulamentar"> Sistêmica - Adequação normativa/regulamentar</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="Inovação - Nova tecnologia/metodologia"> Inovação - Nova tecnologia/metodologia</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="Benchmarking - Baseada em melhores práticas"> Benchmarking - Baseada em melhores práticas</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="Auditoria Externa - Recomendação de auditores"> Auditoria Externa - Recomendação de auditores</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="Análise Crítica - Decisão da direção"> Análise Crítica - Decisão da direção</div>
+                            <div class="checkbox-item"><input type="checkbox" name="tipoMelhoria" value="Sugestão Colaborador - Iniciativa da equipe"> Sugestão Colaborador - Iniciativa da equipe</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2">Guia: Marque o tipo da melhoria.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Origem da Identificação</th>
+                    <td colspan="3">
+                        <div class="checkbox-group" id="origemChecklist">
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Análise de Indicadores (PRO QUA 007)"> Análise de Indicadores (PRO QUA 007)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Auditoria interna (PRO QUA 003)"> Auditoria interna (PRO QUA 003)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Satisfação do cliente (PRO QUA 005)"> Satisfação do cliente (PRO QUA 005)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Análise crítica (PRO QUA 013)"> Análise crítica (PRO QUA 013)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Gestão de riscos (PRO QUA 008)"> Gestão de riscos (PRO QUA 008)</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Benchmarking externo"> Benchmarking externo</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Sugestão de colaborador"> Sugestão de colaborador</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Reclamação de cliente"> Reclamação de cliente</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Não conformidade recorrente"> Não conformidade recorrente</div>
+                            <div class="checkbox-item"><input type="checkbox" name="origem" value="Oportunidade identificada"> Oportunidade identificada</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2">Guia: Marque a origem da melhoria. Use as referências de documentos quando aplicável.</div>
+                    </td>
+                </tr>
+                <!-- NOVO CAMPO: Risco/Oportunidade Associada -->
+                <tr>
+                    <th>Risco/Oportunidade Associada</th>
+                    <td colspan="3">
+                        <input type="text" id="riscoOportunidade" placeholder="Ex: R012, OP005">
+                        <div class="text-xs text-gray-500 mt-1">Guia: Se esta melhoria trata um risco ou oportunidade já registado anteriormente, insira aqui o seu código de identificação para rastreabilidade (Ex: R012, OP005).</div>
+                    </td>
+                </tr>
+                 <!-- NOVO CAMPO: Alinhamento Estratégico -->
+                <tr>
+                    <th>Alinhamento Estratégico</th>
+                    <td colspan="3">
+                        <textarea id="alinhamentoEstrategico" rows="2" placeholder="Descreva como esta melhoria contribui para os objetivos estratégicos do laboratório."></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Conecte a melhoria com os objetivos da qualidade ou metas da empresa. Ex: "Reduzir o tempo de entrega de resultados em 10%".</div>
+                    </td>
+                </tr>
+                <!-- NOVO CAMPO: Trigger para Riscos/Oportunidades -->
+                <tr>
+                    <th>Registo de Novo Risco/Oportunidade?</th>
+                    <td colspan="3">
+                         <div class="checkbox-item"><input type="checkbox" id="novoRiscoOportunidade"> Registar e Tratar um Novo Risco/Oportunidade?</div>
+                         <div class="text-xs text-gray-500 mt-1">Guia: Marque para documentar e tratar um novo risco/oportunidade neste formulário. Isto serve como o registo formal, <strong>substituindo a PL 003</strong> para este item.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Processo/Setor Envolvido</th>
+                    <td colspan="3">
+                        <div class="checkbox-group">
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Pré-analítico"> Pré-analítico</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Analítico"> Analítico</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Pós-analítico"> Pós-analítico</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Atendimento"> Atendimento</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Qualidade"> Qualidade</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Administrativo"> Administrativo</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Sistemas"> Sistemas</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="RH"> Recursos Humanos</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Financeiro"> Financeiro</div>
+                            <div class="checkbox-item"><input type="checkbox" name="processo" value="Todos os processos"> Todos os processos</div>
+                        </div>
+                        <div class="text-xs text-gray-500 mt-2">Guia: Marque o(s) setor(es) que serão impactados pela melhoria.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 1.1 REGISTRO DE RISCO / OPORTUNIDADE (DINÂMICO) -->
+        <div class="section" id="riscoOportunidadeSection" style="display: none; border: 2px solid #3498db; padding: 15px; border-radius: 8px; background-color: #f5faff;">
+            <h2 onclick="toggleCollapse(this)" style="background-color: #2980b9;">1.1. REGISTRO DE RISCO / OPORTUNIDADE (PL 003) <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <div class="text-sm text-gray-700 mb-4 p-2 bg-blue-100 border-l-4 border-blue-500">
+                    <strong>Atenção:</strong> Esta secção deve ser preenchida para registar formalmente um novo risco ou oportunidade. O preenchimento substitui a necessidade de abrir o formulário PL 003 em separado.
+                </div>
+                <table>
+                    <tr>
+                        <th>Tipo de Registo</th>
+                        <td colspan="3">
+                            <input type="radio" name="tipoRegistoRisco" value="Risco" class="mr-1"> Risco
+                            <input type="radio" name="tipoRegistoRisco" value="Oportunidade" class="ml-4 mr-1"> Oportunidade
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Atividade Específica</th>
+                        <td colspan="3"><input type="text" id="atividadeEspecificaRisco" placeholder="Se aplicável, detalhe a atividade específica dentro do processo."></td>
+                    </tr>
+                    <tr>
+                        <th>Descrição do Risco/Oportunidade</th>
+                        <td colspan="3"><textarea id="descricaoRiscoOportunidade" rows="3" placeholder="Descreva o evento de risco ou a circunstância favorável."></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Causas Potenciais (para Riscos)</th>
+                        <td colspan="3"><textarea id="causasRisco" rows="2" placeholder="O que pode motivar a ocorrência do evento de risco?"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Consequências Potenciais (para Riscos)</th>
+                        <td colspan="3"><textarea id="consequenciasRisco" rows="2" placeholder="Quais as consequências caso o risco aconteça?"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Probabilidade de Ocorrência</th>
+                        <td>
+                            <select id="probabilidadeRisco" onchange="calcularSeveridade()">
+                                <option value="0">Selecione...</option>
+                                <option value="1">1 - Baixa</option>
+                                <option value="2">2 - Média</option>
+                                <option value="3">3 - Alta</option>
+                            </select>
+                        </td>
+                        <th>Impacto</th>
+                        <td>
+                            <select id="impactoRisco" onchange="calcularSeveridade()">
+                                <option value="0">Selecione...</option>
+                                <option value="1">1 - Baixo</option>
+                                <option value="2">2 - Moderado</option>
+                                <option value="3">3 - Alto</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Severidade (Probabilidade x Impacto)</th>
+                        <td>
+                            <input type="text" id="severidadeRisco" readonly class="bg-gray-200 font-bold">
+                        </td>
+                        <th>Nível de Risco</th>
+                        <td>
+                            <div id="nivelRiscoDisplay" class="p-2 rounded-md text-center font-bold"></div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Resposta ao Risco/Oportunidade</th>
+                        <td colspan="3">
+                            <select id="respostaRisco">
+                                <option value="">Selecione a estratégia...</option>
+                                <option value="Aceitar">Aceitar (para riscos baixos)</option>
+                                <option value="Mitigar">Mitigar (reduzir probabilidade/impacto)</option>
+                                <option value="Transferir">Transferir (terceirizar, seguro)</option>
+                                <option value="Evitar">Evitar (eliminar a atividade)</option>
+                                <option value="Explorar">Explorar (para oportunidades)</option>
+                                <option value="Melhorar">Melhorar (para oportunidades)</option>
+                                <option value="Compartilhar">Compartilhar (para oportunidades)</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. DESCRIÇÃO DA MELHORIA -->
+        <div class="section">
+            <h2>2. DESCRIÇÃO DA MELHORIA</h2>
+            <table>
+                <tr>
+                    <th>Situação Atual</th>
+                    <td>
+                        <textarea id="situacaoAtual" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Explique o problema ou situação atual de forma detalhada.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Melhoria Proposta</th>
+                    <td>
+                        <textarea id="melhoriaProposta" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Explique a sugestão ou ideia a ser implantada.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Benefícios Esperados</th>
+                    <td>
+                        <textarea id="beneficiosEsperados" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Quais os ganhos esperados (Ex: Redução de custo, agilidade, segurança)?</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Justificativa</th>
+                    <td>
+                        <textarea id="justificativa" rows="4"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Por que esta melhoria é necessária? (Ex: Impacto regulatório, satisfação do cliente).</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Consequências de Não Realizar a Mudança</th>
+                    <td><textarea id="consequenciasNaoMudar" rows="3" placeholder="Descreva as consequências negativas ou perda de oportunidade caso a mudança não seja implementada."></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Reforce a justificativa explicando o que acontece se nada for feito.</div>
+                    </td>
+                </tr>
+                 <!-- CAMPOS DE RISCO INTEGRADOS -->
+                <tr>
+                    <th>Riscos da Implementação</th>
+                    <td>
+                        <textarea id="riscosImplementacao" rows="3" placeholder="Quais riscos a implementação desta melhoria pode gerar? Ex: Aumento de custo, necessidade de treinamento extra, impacto em outros processos."></textarea>
+                         <div class="text-xs text-gray-500 mt-1">Guia: Avalie os riscos potenciais que a *implementação* desta melhoria pode causar.</div>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Medidas de Mitigação</th>
+                    <td>
+                        <textarea id="medidasMitigacao" rows="3" placeholder="Como os riscos acima serão controlados ou evitados?"></textarea>
+                        <div class="text-xs text-gray-500 mt-1">Guia: Descreva as ações para minimizar os riscos identificados.</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 3. PLANO DE IMPLEMENTAÇÃO -->
+        <div class="section">
+            <h2 onclick="toggleCollapse(this)">3. PLANO DE IMPLEMENTAÇÃO <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <h3>Cronograma</h3>
+                <table class="cronograma-table">
+                    <thead>
+                        <tr>
+                            <th>Etapa</th>
+                            <th>Ação</th>
+                            <th>Responsável</th>
+                            <th>Prazo</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cronogramaTable">
+                        <tr>
+                            <td>1</td>
+                            <td><input type="text" placeholder="Descrição da atividade"></td>
+                            <td><input type="text" placeholder="Nome do responsável"></td>
+                            <td><input type="date"></td>
+                            <td>
+                                <select>
+                                    <option value="Pendente">Pendente</option>
+                                    <option value="Em andamento">Em andamento</option>
+                                    <option value="Concluída">Concluída</option>
+                                </select>
+                            </td>
+                            <td><button type="button" class="btn-danger" onclick="removerLinha(this)">Remover</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" class="add-row-btn" onclick="adicionarLinhaCronograma()">Adicionar Etapa</button>
+            </div>
+            
+        </div>
+        
+        <!-- 4. ANÁLISE DE VIABILIDADE -->
+        <div class="section">
+            <h2 onclick="toggleCollapse(this)">4. ANÁLISE DE VIABILIDADE <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <h3>Recursos Necessários</h3>
+                <table>
+                    <tr>
+                        <th colspan="4" style="background-color: #95a5a6; text-align: center;">RECURSOS HUMANOS</th>
+                    </tr>
+                    <tr>
+                        <th>Pessoas Envolvidas</th>
+                        <td><input type="text" id="pessoasEnvolvidas"></td>
+                        <th>Horas Estimadas</th>
+                        <td><input type="number" id="horasEstimadas"> horas</td>
+                    </tr>
+                    <tr>
+                        <th>Treinamento Necessário</th>
+                        <td>
+                            <input type="radio" name="treinamento" value="Sim"> Sim
+                            <input type="radio" name="treinamento" value="Não"> Não
+                        </td>
+                        <th>Detalhes</th>
+                        <td><input type="text" id="detalhesTreinamento"></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th colspan="4" style="background-color: #95a5a6; text-align: center;">RECURSOS FINANCEIROS</th>
+                    </tr>
+                    <tr>
+                        <th>Investimento Estimado</th>
+                        <td><input type="text" id="investimento" oninput="formatCurrency(this)"></td>
+                        <th>Custo de Implementação</th>
+                        <td><input type="text" id="custoImplementacao" oninput="formatCurrency(this)"></td>
+                    </tr>
+                    <tr>
+                        <th>Economia Esperada (anual)</th>
+                        <td><input type="text" id="economiaEsperada" oninput="formatCurrency(this)"></td>
+                        <th>ROI Estimado</th>
+                        <td><input type="number" id="roi">% em <input type="number" id="prazoRoi" style="width: 60px;"> meses</td>
+                    </tr>
+                </table>
+                <table>
+                    <th colspan="2" style="background-color: #95a5a6; text-align: center;">RECURSOS MATERIAIS/TECNOLÓGICOS</th>
+                    <tr>
+                        <th>Equipamentos</th>
+                        <td><textarea id="equipamentos" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Sistemas</th>
+                        <td><textarea id="sistemas" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Infraestrutura</th>
+                        <td><textarea id="infraestrutura" rows="2"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        
+        <!-- 5. APROVAÇÃO -->
+        <div class="section">
+            <h2 onclick="toggleCollapse(this)">5. APROVAÇÃO <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <h3>Análise Técnica e Financeira</h3>
+                <table>
+                    <tr>
+                        <th colspan="4" style="background-color: #95a5a6; text-align: center;">ANÁLISE TÉCNICA</th>
+                    </tr>
+                    <tr>
+                        <th>Viabilidade Técnica</th>
+                        <td>
+                            <input type="radio" name="viabilidadeTecnica" value="Viável"> Viável
+                            <input type="radio" name="viabilidadeTecnica" value="Viável com restrições"> Viável com restrições
+                            <input type="radio" name="viabilidadeTecnica" value="Inviável"> Inviável
+                        </td>
+                        <th>Observações</th>
+                        <td><textarea id="observacoesTecnicas" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Analisado por</th>
+                        <td><input type="text" id="analisadoPorTecnico"></td>
+                        <th>Data</th>
+                        <td><input type="date" id="dataAnaliseTecnica"></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th colspan="4" style="background-color: #95a5a6; text-align: center;">ANÁLISE FINANCEIRA</th>
+                    </tr>
+                    <tr>
+                        <th>Viabilidade Financeira</th>
+                        <td>
+                            <input type="radio" name="viabilidadeFinanceira" value="Aprovada"> Aprovada
+                            <input type="radio" name="viabilidadeFinanceira" value="Aprovada com restrições"> Aprovada com restrições
+                            <input type="radio" name="viabilidadeFinanceira" value="Rejeitada"> Rejeitada
+                        </td>
+                        <th>Observações</th>
+                        <td><textarea id="observacoesFinanceiras" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Analisado por</th>
+                        <td><input type="text" id="analisadoPorFinanceiro"></td>
+                        <th>Data</th>
+                        <td><input type="date" id="dataAnaliseFinanceira"></td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th colspan="4" style="background-color: #95a5a6; text-align: center;">APROVAÇÃO FINAL</th>
+                    </tr>
+                    <tr>
+                        <th>Decisão</th>
+                        <td>
+                            <input type="radio" name="decisaoFinal" value="Aprovada"> Aprovada
+                            <input type="radio" name="decisaoFinal" value="Aprovada com modificações"> Aprovada com modificações
+                            <input type="radio" name="decisaoFinal" value="Rejeitada"> Rejeitada
+                            <input type="radio" name="decisaoFinal" value="Adiada"> Adiada
+                        </td>
+                        <th>Prioridade</th>
+                        <td>
+                            <input type="radio" name="prioridade" value="Alta"> Alta
+                            <input type="radio" name="prioridade" value="Média"> Média
+                            <input type="radio" name="prioridade" value="Baixa"> Baixa
+                        </td>
+                    </tr>
+                    <!-- NOVO CAMPO: Gestão de Mudanças -->
+                    <tr>
+                        <th>Gestão de Mudanças (MOC)</th>
+                        <td colspan="3">
+                             <div class="checkbox-item"><input type="checkbox" id="requerMOC"> Esta melhoria requer um processo formal de Gestão de Mudança?</div>
+                             <div class="text-xs text-gray-500 mt-1">Guia: Marque se a mudança for significativa (novo equipamento, tecnologia, processo crítico). Ao marcar, a secção 5.1 será ativada para registo, <strong>substituindo a PL 004</strong>.</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Observações</th>
+                        <td colspan="3"><textarea id="observacoesAprovacao" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Aprovado por</th>
+                        <td><input type="text" id="aprovadoPor"></td>
+                        <th>Data</th>
+                        <td><input type="date" id="dataAprovacao"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 5.1 GESTÃO DE MUDANÇA (DINÂMICO) -->
+        <div class="section" id="gestaoMudancaSection" style="display: none; border: 2px solid #e74c3c; padding: 15px; border-radius: 8px; background-color: #fef9f9;">
+            <h2 onclick="toggleCollapse(this)" style="background-color: #c0392b;">5.1. REGISTRO FORMAL DE MUDANÇA (PL 004) <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <div class="text-sm text-gray-700 mb-4 p-2 bg-yellow-100 border-l-4 border-yellow-500">
+                    <strong>Atenção:</strong> Esta secção deve ser preenchida por ser uma mudança significativa. O preenchimento substitui a necessidade de abrir o formulário PL 004 em separado.
+                </div>
+                <table>
+                    <tr>
+                        <th>Tipo de Mudança</th>
+                        <td>
+                            <select id="tipoMudanca">
+                                <option value="">Selecione...</option>
+                                <option value="Processo">Processo</option>
+                                <option value="Sistema/Software">Sistema/Software</option>
+                                <option value="Equipamento/Hardware">Equipamento/Hardware</option>
+                                <option value="Documento">Documento</option>
+                                <option value="Layout/Instalações">Layout/Instalações</option>
+                                <option value="Regulamentar">Regulamentar</option>
+                                <option value="Outro">Outro</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Análise de Impacto da Mudança</th>
+                        <td><textarea id="impactoMudanca" rows="3" placeholder="Descreva o impacto em outros processos, documentos, sistemas, treinamentos e nos clientes."></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Plano de Comunicação</th>
+                        <td><textarea id="planoComunicacao" rows="3" placeholder="Como a mudança será comunicada? Para quem (partes interessadas)? Quando?"></textarea></td>
+                    </tr>
+                     <tr>
+                        <th>Plano de Treinamento</th>
+                        <td><textarea id="planoTreinamento" rows="3" placeholder="Quais treinamentos são necessários? Quem será treinado e por quem?"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Plano de Validação Pós-Implementação</th>
+                        <td><textarea id="planoValidacao" rows="3" placeholder="Como será verificado se a mudança atingiu os objetivos sem efeitos adversos? Quais indicadores serão monitorados?"></textarea></td>
+                    </tr>
+                     <tr>
+                        <th>Responsável pela Gestão da Mudança</th>
+                        <td><input type="text" id="responsavelMOC"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 6. AVALIAÇÃO DE EFICÁCIA -->
+        <div class="section">
+            <h2 onclick="toggleCollapse(this)">6. AVALIAÇÃO DE EFICÁCIA <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <h3>Período de Avaliação</h3>
+                <table>
+                    <tr>
+                        <th>Período de Avaliação - Início</th>
+                        <td><input type="date" id="inicioAvaliacao"></td>
+                        <th>Fim</th>
+                        <td><input type="date" id="fimAvaliacao"></td>
+                    </tr>
+                    <tr>
+                        <th>Responsável pela avaliação</th>
+                        <td colspan="3"><input type="text" id="responsavelAvaliacao"></td>
+                    </tr>
+                </table>
+                <h3>Resultados Obtidos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Indicador</th>
+                            <th>Meta</th>
+                            <th>Resultado</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultadosTbody">
+                        <tr>
+                            <td><input type="text" id="indicadorRes1"></td>
+                            <td><input type="text" id="metaRes1"></td>
+                            <td><input type="text" id="resultadoRes1"></td>
+                            <td>
+                                <label><input type="radio" name="statusRes1" value="verde" class="mr-1"> Verde</label>
+                                <label><input type="radio" name="statusRes1" value="amarelo" class="mr-1"> Amarelo</label>
+                                <label><input type="radio" name="statusRes1" value="vermelho" class="mr-1"> Vermelho</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="indicadorRes2"></td>
+                            <td><input type="text" id="metaRes2"></td>
+                            <td><input type="text" id="resultadoRes2"></td>
+                            <td>
+                                <label><input type="radio" name="statusRes2" value="verde" class="mr-1"> Verde</label>
+                                <label><input type="radio" name="statusRes2" value="amarelo" class="mr-1"> Amarelo</label>
+                                <label><input type="radio" name="statusRes2" value="vermelho" class="mr-1"> Vermelho</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="indicadorRes3"></td>
+                            <td><input type="text" id="metaRes3"></td>
+                            <td><input type="text" id="resultadoRes3"></td>
+                            <td>
+                                <label><input type="radio" name="statusRes3" value="verde" class="mr-1"> Verde</label>
+                                <label><input type="radio" name="statusRes3" value="amarelo" class="mr-1"> Amarelo</label>
+                                <label><input type="radio" name="statusRes3" value="vermelho" class="mr-1"> Vermelho</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-xs text-gray-500 mt-2">
+                    <strong>Legenda:</strong>
+                    <span class="mr-4">Verde: Meta atingida ou superada.</span>
+                    <span class="mr-4">Amarelo: Desvio de até 10% da meta.</span>
+                    <span>Vermelho: Desvio maior que 10% da meta ou crítico.</span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Benefícios Quantitativos</th>
+                        <td><textarea id="beneficiosQuantitativos" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Benefícios Qualitativos</th>
+                        <td><textarea id="beneficiosQualitativos" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Benefícios Financeiros</th>
+                        <td><input type="text" id="beneficiosFinanceiros" oninput="formatCurrency(this)"> (economia/receita)</td>
+                    </tr>
+                    <tr>
+                        <th>Avaliação Geral</th>
+                        <td>
+                            <input type="radio" name="avaliacaoGeral" value="Eficaz - Objetivos plenamente alcançados"> Eficaz - Objetivos plenamente alcançados<br>
+                            <input type="radio" name="avaliacaoGeral" value="Parcialmente eficaz - Objetivos parcialmente alcançados"> Parcialmente eficaz - Objetivos parcialmente alcançados<br>
+                            <input type="radio" name="avaliacaoGeral" value="Ineficaz - Objetivos não alcançados"> Ineficaz - Objetivos não alcançados
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Justificativa</th>
+                        <td><textarea id="justificativaAvaliacao" rows="3"></textarea></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 7. ACOMPANHAMENTO E REVISÃO -->
+        <div class="section">
+            <h2 onclick="toggleCollapse(this)">7. ACOMPANHAMENTO E REVISÃO <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <table>
+                    <tr>
+                        <th>Data de Revisão</th>
+                        <td><input type="date" id="dataRevisao"></td>
+                        <th>Responsável</th>
+                        <td><input type="text" id="responsavelRevisao"></td>
+                    </tr>
+                    <tr>
+                        <th>Status do Acompanhamento</th>
+                        <td colspan="3">
+                            <select id="statusAcompanhamento">
+                                <option value="Em monitoramento">Em monitoramento</option>
+                                <option value="Concluído com sucesso">Concluído com sucesso</option>
+                                <option value="Em replanejamento">Em replanejamento</option>
+                                <option value="Arquivado">Arquivado</option>
+                            </select>
+                            <div class="text-xs text-gray-500 mt-1">Guia: Indique o estado atual da melhoria.</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- 8. ENCERRAMENTO E LIÇÕES APRENDIDAS -->
+        <div class="section">
+            <h2 onclick="toggleCollapse(this)">8. ENCERRAMENTO E LIÇÕES APRENDIDAS <span class="collapsible-icon">></span></h2>
+            <div class="collapsible-content">
+                <table>
+                    <tr>
+                        <th>Conclusão Final</th>
+                        <td><textarea id="conclusao" rows="4" placeholder="Faça um resumo final do projeto, incluindo os resultados da avaliação de eficácia."></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Lições Aprendidas e Recomendações</th>
+                        <td><textarea id="recomendacoes" rows="4" placeholder="O que foi aprendido com este processo? Quais são as recomendações para futuros projetos ou para a organização?"></textarea></td>
+                    </tr>
+                    <tr>
+                        <th>Encerrado por</th>
+                        <td><input type="text" id="encerradoPor"></td>
+                        <th>Data de Encerramento</th>
+                        <td><input type="date" id="dataEncerramento"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="print-btn" style="display: none;">
+            <button class="btn btn-success" onclick="gerarRelatorio()">Gerar Relatório</button>
+            <button class="btn" onclick="exportarPDF()">Exportar PDF</button>
+        </div>
+
+        <!-- RODAPÉ -->
+        <div class="footer-section">
+            <table style="margin-top: 30px; border-top: 2px solid #000;">
+                <tr>
+                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; border: none;">
+                        <strong>Elaborado por:</strong><br>
+                        Stephane Fernandes<br>
+                        <strong>Cargo:</strong> Gestora da Qualidade<br>
+                        <strong>Data:</strong> 28/08/2025<br>
+                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                    </td>
+                    <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; text-align: center; border: none;">
+                        <strong>Aprovado por:</strong><br>
+                        Dimario Castro<br>
+                        <strong>Cargo:</strong> Diretor<br>
+                        <strong>Data:</strong> 28/08/2025<br>
+                        <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                    </td>
+                    <td style="width: 40%; padding: 10px; font-size: 10px; color: #000; text-align: right; border: none;">
+                        <strong>Próxima Revisão:</strong> 01/09/2026<br>
+                        <strong>Arquivo:</strong> SGQ - Documentos Controlados<br>
+                        <strong>Retenção:</strong> 5 anos após obsolescência
+                    </td>
+                </tr>
+            </table>
+
+            <div style="text-align: center; padding: 15px; background-color: #f8f9fa; font-size: 10px; color: #000; margin-top: 10px; border: 1px solid #000;">
+                <strong>DOCUMENTO CONTROLADO - ISO 9001:2015</strong><br>
+                Este documento faz parte do Sistema de Gestão da Qualidade do Laboratório CDC
+                <br><br>
+                <strong>CLASSIFICAÇÃO:</strong> Formulário de Melhoria Contínua | <strong>DISTRIBUIÇÃO:</strong> Controlada<br>
+                <strong>OBSERVAÇÕES:</strong> Melhorias estratégicas/sistêmicas devem seguir este formulário.<br>
+                Melhorias operacionais rotineiras seguir procedimento PRO QUA 002 (Shift Controller)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Função utilitária para exibir mensagens na tela
+        function showMessage(message, type) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.textContent = message;
+            messageBox.className = `message-box show message-${type}`;
+            setTimeout(() => {
+                messageBox.className = 'message-box';
+            }, 3000);
+        }
+
+        // Função utilitária para formatar a data para o padrão brasileiro (dd/mm/yyyy)
+        function formatDate(dateString) {
+            if (!dateString) return 'Não informado';
+            const [year, month, day] = dateString.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        // Função para formatar campos de moeda
+        function formatCurrency(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value === '') {
+                input.value = '';
+                return;
+            }
+            value = (value / 100).toFixed(2);
+            value = value.replace('.', ',');
+            value = value.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            input.value = `R$ ${value}`;
+        }
+        
+        // Função para alternar o colapso das seções
+        function toggleCollapse(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.collapsible-icon');
+            if (content.style.display === "block" || content.style.display === "") {
+                content.style.display = "none";
+                icon.classList.remove('rotated');
+            } else {
+                content.style.display = "block";
+                icon.classList.add('rotated');
+            }
+        }
+        
+        // Função para adicionar linha ao cronograma
+        function adicionarLinhaCronograma() {
+            const tbody = document.getElementById('cronogramaTable');
+            const rowCount = tbody.rows.length + 1;
+            const newRow = tbody.insertRow();
+            
+            newRow.innerHTML = `
+                <td>${rowCount}</td>
+                <td><input type="text" placeholder="Descrição da atividade"></td>
+                <td><input type="text" placeholder="Nome do responsável" class="responsavel-campo"></td>
+                <td><input type="date" class="prazo-campo"></td>
+                <td>
+                    <select class="rounded-md p-1 status-campo">
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Concluída">Concluída</option>
+                    </select>
+                </td>
+                <td><button type="button" class="btn-danger" onclick="removerLinha(this)">Remover</button></td>
+            `;
+        }
+
+        // Função para remover linha do cronograma
+        function removerLinha(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+
+        // Função para validar campos obrigatórios
+        function validateForm() {
+            // Limpa qualquer campo que ainda possa estar marcado como 'required-field' de uma validação anterior
+            document.querySelectorAll('.required-field').forEach(el => el.classList.remove('required-field'));
+            // Retorna sempre verdadeiro, desativando a validação de obrigatoriedade
+            return true;
+        }
+
+        // Função para salvar dados
+        function salvarDados() {
+            if (validateForm()) {
+                const dados = {};
+                document.querySelectorAll('input, textarea, select').forEach(input => {
+                    const id = input.id || input.name;
+                    if (input.type === 'checkbox') {
+                        if (input.checked) {
+                            if (!dados[id]) dados[id] = [];
+                            dados[id].push(input.value);
+                        }
+                    } else if (input.type === 'radio') {
+                        if (input.checked) {
+                            dados[id] = input.value;
+                        }
+                    } else if (input.id) {
+                        dados[id] = input.value;
+                    }
+                });
+
+                const cronograma = [];
+                document.querySelectorAll('#cronogramaTable tr').forEach(row => {
+                    const inputs = row.querySelectorAll('input, select');
+                    cronograma.push({
+                        etapa: row.cells[0].textContent,
+                        acao: inputs[0].value,
+                        responsavel: inputs[1].value,
+                        prazo: inputs[2].value,
+                        status: inputs[3].value
+                    });
+                });
+                dados['cronograma'] = cronograma;
+
+                try {
+                    const numeroRegistro = document.getElementById('numeroRegistro').value || 'dados-melhoria';
+                    const fileName = `Melhoria-${numeroRegistro}.json`;
+                    const dataStr = JSON.stringify(dados, null, 2); // O 'null, 2' formata o JSON para ser legível
+                    const blob = new Blob([dataStr], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    showMessage('Dados exportados como JSON com sucesso!', 'success');
+                } catch (error) {
+                    console.error('Erro ao salvar dados como JSON:', error);
+                    showMessage('Ocorreu um erro ao salvar o ficheiro.', 'error');
+                }
+            } else {
+                showMessage('Por favor, preencha todos os campos obrigatórios.', 'error');
+            }
+        }
+
+        // Função para limpar formulário
+        function limparFormulario() {
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                if (input.type === 'checkbox' || input.type === 'radio') {
+                    input.checked = false;
+                } else {
+                    input.value = '';
+                }
+                input.classList.remove('required-field');
+            });
+            document.getElementById('origemChecklist').classList.remove('required-field');
+            document.getElementById('cronogramaTable').innerHTML = `
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" placeholder="Descrição da atividade"></td>
+                    <td><input type="text" placeholder="Nome do responsável"></td>
+                    <td><input type="date"></td>
+                    <td>
+                        <select>
+                            <option value="Pendente">Pendente</option>
+                            <option value="Em andamento">Em andamento</option>
+                            <option value="Concluída">Concluída</option>
+                        </select>
+                    </td>
+                    <td><button type="button" class="btn-danger" onclick="removerLinha(this)">Remover</button></td>
+                </tr>
+            `;
+            // Re-inicializa o formulário para gerar um novo número de registro
+            inicializarFormulario();
+            showMessage('Formulário limpo com sucesso!', 'success');
+        }
+
+        // Função auxiliar para gerar o conteúdo HTML do relatório
+        function _getCompleteReportHTML() {
+            if (!validateForm()) {
+                showMessage('Por favor, preencha todos os campos obrigatórios para gerar o relatório.', 'error');
+                return null;
+            }
+
+            try {
+                // Coleta de dados de todos os campos
+                const numeroRegistro = document.getElementById('numeroRegistro')?.value || 'Não informado';
+                const dataIdentificacao = formatDate(document.getElementById('dataIdentificacao')?.value);
+                const identificadoPor = document.getElementById('identificadoPor')?.value || 'Não informado';
+                const cargoSetor = document.getElementById('cargoSetor')?.value || 'Não informado';
+                const statusRegistro = document.getElementById('statusRegistro')?.value || 'Não informado';
+                const alinhamentoEstrategico = document.getElementById('alinhamentoEstrategico')?.value || 'Não informado';
+                const riscoOportunidade = document.getElementById('riscoOportunidade')?.value || 'Não informado';
+                const situacaoAtual = document.getElementById('situacaoAtual')?.value || 'Não informado';
+                const melhoriaProposta = document.getElementById('melhoriaProposta')?.value || 'Não informado';
+                const beneficiosEsperados = document.getElementById('beneficiosEsperados')?.value || 'Não informado';
+                const justificativa = document.getElementById('justificativa')?.value || 'Não informado';
+                const riscosImplementacao = document.getElementById('riscosImplementacao')?.value || 'Não informado';
+                const medidasMitigacao = document.getElementById('medidasMitigacao')?.value || 'Não informado';
+                const consequenciasNaoMudar = document.getElementById('consequenciasNaoMudar')?.value || 'Não informado';
+
+                // Seções colapsáveis
+                const pessoasEnvolvidas = document.getElementById('pessoasEnvolvidas')?.value || 'Não informado';
+                const horasEstimadas = document.getElementById('horasEstimadas')?.value || 'Não informado';
+                const detalhesTreinamento = document.getElementById('detalhesTreinamento')?.value || 'Não informado';
+                const investimento = document.getElementById('investimento')?.value || 'Não informado';
+                const custoImplementacao = document.getElementById('custoImplementacao')?.value || 'Não informado';
+                const economiaEsperada = document.getElementById('economiaEsperada')?.value || 'Não informado';
+                const roi = document.getElementById('roi')?.value || 'Não informado';
+                const prazoRoi = document.getElementById('prazoRoi')?.value || 'Não informado';
+                const equipamentos = document.getElementById('equipamentos')?.value || 'Não informado';
+                const sistemas = document.getElementById('sistemas')?.value || 'Não informado';
+                const infraestrutura = document.getElementById('infraestrutura')?.value || 'Não informado';
+                const observacoesTecnicas = document.getElementById('observacoesTecnicas')?.value || 'Não informado';
+                const analisadoPorTecnico = document.getElementById('analisadoPorTecnico')?.value || 'Não informado';
+                const dataAnaliseTecnica = formatDate(document.getElementById('dataAnaliseTecnica')?.value);
+                const observacoesFinanceiras = document.getElementById('observacoesFinanceiras')?.value || 'Não informado';
+                const analisadoPorFinanceiro = document.getElementById('analisadoPorFinanceiro')?.value || 'Não informado';
+                const dataAnaliseFinanceira = formatDate(document.getElementById('dataAnaliseFinanceira')?.value);
+                const observacoesAprovacao = document.getElementById('observacoesAprovacao')?.value || 'Não informado';
+                const aprovadoPor = document.getElementById('aprovadoPor')?.value || 'Não informado';
+                const dataAprovacao = formatDate(document.getElementById('dataAprovacao')?.value);
+                const inicioAvaliacao = formatDate(document.getElementById('inicioAvaliacao')?.value);
+                const fimAvaliacao = formatDate(document.getElementById('fimAvaliacao')?.value);
+                const responsavelAvaliacao = document.getElementById('responsavelAvaliacao')?.value || 'Não informado';
+                const indicadorRes1 = document.getElementById('indicadorRes1')?.value || 'Não informado';
+                const metaRes1 = document.getElementById('metaRes1')?.value || 'Não informado';
+                const resultadoRes1 = document.getElementById('resultadoRes1')?.value || 'Não informado';
+                const indicadorRes2 = document.getElementById('indicadorRes2')?.value || 'Não informado';
+                const metaRes2 = document.getElementById('metaRes2')?.value || 'Não informado';
+                const resultadoRes2 = document.getElementById('resultadoRes2')?.value || 'Não informado';
+                const indicadorRes3 = document.getElementById('indicadorRes3')?.value || 'Não informado';
+                const metaRes3 = document.getElementById('metaRes3')?.value || 'Não informado';
+                const resultadoRes3 = document.getElementById('resultadoRes3')?.value || 'Não informado';
+                const beneficiosQuantitativos = document.getElementById('beneficiosQuantitativos')?.value || 'Não informado';
+                const beneficiosQualitativos = document.getElementById('beneficiosQualitativos')?.value || 'Não informado';
+                const beneficiosFinanceiros = document.getElementById('beneficiosFinanceiros')?.value || 'Não informado';
+                const justificativaAvaliacao = document.getElementById('justificativaAvaliacao')?.value || 'Não informado';
+                const dataRevisao = formatDate(document.getElementById('dataRevisao')?.value);
+                const responsavelRevisao = document.getElementById('responsavelRevisao')?.value || 'Não informado';
+                const statusAcompanhamento = document.getElementById('statusAcompanhamento')?.value || 'Não informado';
+                const conclusao = document.getElementById('conclusao')?.value || 'Não informado';
+                const recomendacoes = document.getElementById('recomendacoes')?.value || 'Não informado';
+                const encerradoPor = document.getElementById('encerradoPor')?.value || 'Não informado';
+                const dataEncerramento = formatDate(document.getElementById('dataEncerramento')?.value);
+
+
+                // Coleta de dados dos checkboxes e radios
+                const getCheckedValues = (name) => {
+                    const values = [];
+                    document.querySelectorAll(`input[name="${name}"]:checked`).forEach(cb => values.push(cb.value));
+                    return values.length ? values.join(', ') : 'Não selecionado';
+                };
+                const getRadioValue = (name) => {
+                    const radio = document.querySelector(`input[name="${name}"]:checked`);
+                    return radio ? radio.value : 'Não informado';
+                };
+                const getCheckboxStatus = (id) => {
+                    const checkbox = document.getElementById(id);
+                    return checkbox && checkbox.checked ? 'Sim' : 'Não';
+                }
+
+                const tipoMelhoria = getCheckedValues('tipoMelhoria');
+                const origem = getCheckedValues('origem');
+                const processo = getCheckedValues('processo');
+                const treinamento = getRadioValue('treinamento');
+                const viabilidadeTecnica = getRadioValue('viabilidadeTecnica');
+                const viabilidadeFinanceira = getRadioValue('viabilidadeFinanceira');
+                const decisaoFinal = getRadioValue('decisaoFinal');
+                const prioridade = getRadioValue('prioridade');
+                const avaliacaoGeral = getRadioValue('avaliacaoGeral');
+                const statusRes1 = getRadioValue('statusRes1');
+                const statusRes2 = getRadioValue('statusRes2');
+                const statusRes3 = getRadioValue('statusRes3');
+                const requerMOC = getCheckboxStatus('requerMOC');
+                const novoRiscoOportunidade = getCheckboxStatus('novoRiscoOportunidade');
+
+                // Novos campos da Gestão de Mudança
+                const tipoMudanca = document.getElementById('tipoMudanca')?.value || 'Não aplicável';
+                const impactoMudanca = document.getElementById('impactoMudanca')?.value || 'Não aplicável';
+                const planoComunicacao = document.getElementById('planoComunicacao')?.value || 'Não aplicável';
+                const planoTreinamento = document.getElementById('planoTreinamento')?.value || 'Não aplicável';
+                const planoValidacao = document.getElementById('planoValidacao')?.value || 'Não aplicável';
+                const responsavelMOC = document.getElementById('responsavelMOC')?.value || 'Não aplicável';
+
+                // Novos campos de Riscos/Oportunidades
+                const tipoRegistoRisco = getRadioValue('tipoRegistoRisco');
+                const atividadeEspecificaRisco = document.getElementById('atividadeEspecificaRisco')?.value || 'Não aplicável';
+                const descricaoRiscoOportunidade = document.getElementById('descricaoRiscoOportunidade')?.value || 'Não aplicável';
+                const causasRisco = document.getElementById('causasRisco')?.value || 'Não aplicável';
+                const consequenciasRisco = document.getElementById('consequenciasRisco')?.value || 'Não aplicável';
+                const probabilidadeRisco = document.getElementById('probabilidadeRisco')?.value || '0';
+                const impactoRisco = document.getElementById('impactoRisco')?.value || '0';
+                const severidadeRisco = document.getElementById('severidadeRisco')?.value || 'Não aplicável';
+                const respostaRisco = document.getElementById('respostaRisco')?.value || 'Não aplicável';
+                const nivelRisco = calcularNivelRisco(parseInt(probabilidadeRisco, 10) * parseInt(impactoRisco, 10));
+
+
+                const statusMap = { 'verde': 'Verde', 'amarelo': 'Amarelo', 'vermelho': 'Vermelho' };
+                const statusPT1 = statusMap[statusRes1] || 'Não avaliado';
+                const statusPT2 = statusMap[statusRes2] || 'Não avaliado';
+                const statusPT3 = statusMap[statusRes3] || 'Não avaliado';
+                
+                // Coleta de dados do cronograma
+                const cronograma = [];
+                document.querySelectorAll('#cronogramaTable tr').forEach(row => {
+                    const inputs = row.querySelectorAll('input, select');
+                    if (inputs.length > 0) {
+                        cronograma.push({
+                            etapa: row.cells[0].textContent,
+                            acao: inputs[0].value || 'Não informado',
+                            responsavel: inputs[1].value || 'Não informado',
+                            prazo: formatDate(inputs[2].value),
+                            status: inputs[3].value || 'Não informado'
+                        });
+                    }
+                });
+
+                const generateCronogramaRows = () => {
+                    return cronograma.map(row => `
+                        <tr>
+                            <td>${row.etapa}</td>
+                            <td>${row.acao}</td>
+                            <td>${row.responsavel}</td>
+                            <td>${row.prazo}</td>
+                            <td>${row.status}</td>
+                        </tr>
+                    `).join('');
+                };
+
+                const reportHeaderHTML = `
+                    <div class="header-report">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <tr>
+                                <td style="width: 60%; text-align: center; padding: 15px; border: 1px solid #000;">
+                                    <div style="font-size: 18px; font-weight: bold;">Laboratório CDC</div>
+                                    <div style="font-size: 16px;">Formulário de Registro</div>
+                                    <div style="font-size: 16px; font-weight: bold;">Melhorias</div>
+                                    <div style="font-size: 10px; color: #555; margin-top: 10px;">Este registro possui versão eletrônica para coleta de dados (HTML/mobile). A versão controlada é a publicada no PNCQ Gestor em PDF/Word. Após aprovação, qualquer complemento ocorrerá por Revisão (R1, R2...) ou Aditivo vinculado ao número original.</div>
+                                </td>
+                                <td style="width: 40%; padding: 15px; border: 1px solid #000;">
+                                    <table style="width: 100%; border: none;">
+                                        <tr><td style="border: none;"><strong>Código:</strong> FORM QUA 003</td></tr>
+                                        <tr><td style="border: none;"><strong>Versão:</strong> 1</td></tr>
+                                        <tr><td style="border: none;"><strong>Páginas:</strong> 1 de 1</td></tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>`;
+
+                const reportFooterHTML = `
+                     <div class="footer-report">
+                        <table style="width: 100%; border-collapse: collapse; border: none;">
+                            <tr>
+                                <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; border: none;">
+                                    <strong>Elaborado por:</strong><br>
+                                    Stephane Fernandes<br>
+                                    <strong>Cargo:</strong> Gestora da Qualidade<br>
+                                    <strong>Data:</strong> 28/08/2025<br>
+                                    <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                                </td>
+                                <td style="width: 30%; padding: 10px; font-size: 10px; color: #000; text-align: center; border: none;">
+                                    <strong>Aprovado por:</strong><br>
+                                    Dimario Castro<br>
+                                    <strong>Cargo:</strong> Diretor<br>
+                                    <strong>Data:</strong> 28/08/2025<br>
+                                    <strong>Assinatura:</strong> Elaborado e aprovado eletronicamente conforme controle de documentos no PNCQ Gestor
+                                </td>
+                                <td style="width: 40%; padding: 10px; font-size: 10px; color: #000; text-align: right; border: none;">
+                                    <strong>Próxima Revisão:</strong> 01/09/2026<br>
+                                    <strong>Arquivo:</strong> SGQ - Documentos Controlados<br>
+                                    <strong>Retenção:</strong> 5 anos após obsolescência
+                                </td>
+                            </tr>
+                        </table>
+                        <div style="text-align: center; padding: 15px; background-color: #f8f9fa; font-size: 10px; color: #000; margin-top: 10px; border: 1px solid #000;">
+                            <strong>DOCUMENTO CONTROLADO - ISO 9001:2015</strong><br>
+                            Este documento faz parte do Sistema de Gestão da Qualidade do Laboratório CDC
+                            <br><br>
+                            <strong>CLASSIFICAÇÃO:</strong> Formulário de Melhoria Contínua | <strong>DISTRIBUIÇÃO:</strong> Controlada<br>
+                            <strong>OBSERVAÇÕES:</strong> Melhorias estratégicas/sistêmicas devem seguir este formulário.<br>
+                            Melhorias operacionais rotineiras seguir procedimento PRO QUA 002 (Shift Controller)
+                        </div>
+                    </div>`;
+
+                // Construção do HTML do relatório
+                const reportContent = `
+                    <div style="padding: 20px; font-family: Arial, sans-serif;">
+                        ${reportHeaderHTML}
+                        <h2>IDENTIFICAÇÃO DA MELHORIA</h2>
+                        <table>
+                            <tr><th>Nº Registro</th><td>${numeroRegistro}</td><th>Data de Identificação</th><td>${dataIdentificacao}</td></tr>
+                            <tr><th>Identificado por</th><td>${identificadoPor}</td><th>Cargo/Setor</th><td>${cargoSetor}</td></tr>
+                            <tr><th>Status do Registro</th><td colspan="3">${statusRegistro}</td></tr>
+                        </table>
+                        <h2>1. DADOS GERAIS</h2>
+                        <table>
+                            <tr><th>Tipo de Melhoria</th><td colspan="3">${tipoMelhoria}</td></tr>
+                            <tr><th>Origem da Identificação</th><td colspan="3">${origem}</td></tr>
+                            <tr><th>Risco/Oportunidade Associada (PL 003)</th><td colspan="3">${riscoOportunidade}</td></tr>
+                            <tr><th>Alinhamento Estratégico</th><td colspan="3">${alinhamentoEstrategico}</td></tr>
+                            <tr><th>Processo/Setor Envolvido</th><td colspan="3">${processo}</td></tr>
+                        </table>
+                        
+                        ${novoRiscoOportunidade === 'Sim' ? `
+                        <h2 style="background-color: #2980b9; color: white; padding: 5px;">1.1. REGISTRO DE RISCO / OPORTUNIDADE (PL 003)</h2>
+                        <table>
+                            <tr><th style="width: 30%;">Tipo de Registo</th><td colspan="3">${tipoRegistoRisco}</td></tr>
+                            <tr><th>Atividade Específica</th><td colspan="3">${atividadeEspecificaRisco}</td></tr>
+                            <tr><th>Descrição do Risco/Oportunidade</th><td colspan="3">${descricaoRiscoOportunidade}</td></tr>
+                            <tr><th>Causas Potenciais (para Riscos)</th><td colspan="3">${causasRisco}</td></tr>
+                            <tr><th>Consequências Potenciais (para Riscos)</th><td colspan="3">${consequenciasRisco}</td></tr>
+                            <tr><th>Probabilidade</th><td>${probabilidadeRisco}</td><th>Impacto</th><td>${impactoRisco}</td></tr>
+                            <tr><th>Severidade</th><td>${severidadeRisco}</td><th>Nível de Risco</th><td><span style="padding: 5px; border-radius: 4px; color: ${nivelRisco.color}; background-color: ${nivelRisco.bgColor};">${nivelRisco.texto}</span></td></tr>
+                            <tr><th>Resposta ao Risco/Oportunidade</th><td colspan="3">${respostaRisco}</td></tr>
+                        </table>
+                        ` : ''}
+
+                        <h2>2. DESCRIÇÃO DA MELHORIA</h2>
+                        <table>
+                            <tr><th>Situação Atual</th><td>${situacaoAtual}</td></tr>
+                            <tr><th>Melhoria Proposta</th><td>${melhoriaProposta}</td></tr>
+                            <tr><th>Benefícios Esperados</th><td>${beneficiosEsperados}</td></tr>
+                            <tr><th>Justificativa</th><td>${justificativa}</td></tr>
+                            <tr><th>Consequências de Não Realizar a Mudança</th><td>${consequenciasNaoMudar}</td></tr>
+                            <tr><th>Riscos da Implementação</th><td>${riscosImplementacao}</td></tr>
+                            <tr><th>Medidas de Mitigação</th><td>${medidasMitigacao}</td></tr>
+                        </table>
+                        <h2>3. PLANO DE IMPLEMENTAÇÃO</h2>
+                        <h3>Cronograma e Ações</h3>
+                        <table>
+                            <thead><tr><th>Etapa</th><th>Ação</th><th>Responsável</th><th>Prazo</th><th>Status</th></tr></thead>
+                            <tbody>${generateCronogramaRows()}</tbody>
+                        </table>
+                        <h2>4. ANÁLISE DE VIABILIDADE</h2>
+                        <h3>Recursos Necessários</h3>
+                        <table>
+                            <tr><th colspan="4" style="background-color: #95a5a6; text-align: center;">RECURSOS HUMANOS</th></tr>
+                            <tr><th>Pessoas Envolvidas</th><td>${pessoasEnvolvidas}</td><th>Horas Estimadas</th><td>${horasEstimadas} horas</td></tr>
+                            <tr><th>Treinamento Necessário</th><td>${treinamento}</td><th>Detalhes</th><td>${detalhesTreinamento}</td></tr>
+                        </table>
+                        <table>
+                            <tr><th colspan="4" style="background-color: #95a5a6; text-align: center;">RECURSOS FINANCEIROS</th></tr>
+                            <tr><th>Investimento Estimado</th><td>${investimento}</td><th>Custo de Implementação</th><td>${custoImplementacao}</td></tr>
+                            <tr><th>Economia Esperada (anual)</th><td>${economiaEsperada}</td><th>ROI Estimado</th><td>${roi}% em ${prazoRoi} meses</td></tr>
+                        </table>
+                        <table>
+                            <tr><th colspan="2" style="background-color: #95a5a6; text-align: center;">RECURSOS MATERIAIS/TECNOLÓGICOS</th></tr>
+                            <tr><th>Equipamentos</th><td>${equipamentos}</td></tr>
+                            <tr><th>Sistemas</th><td>${sistemas}</td></tr>
+                            <tr><th>Infraestrutura</th><td>${infraestrutura}</td></tr>
+                        </table>
+                        <h2>5. APROVAÇÃO</h2>
+                        <h3>Análise Técnica e Financeira</h3>
+                        <table>
+                            <tr><th colspan="4" style="background-color: #95a5a6; text-align: center;">ANÁLISE TÉCNICA</th></tr>
+                            <tr><th>Viabilidade Técnica</th><td>${viabilidadeTecnica}</td><th>Observações</th><td>${observacoesTecnicas}</td></tr>
+                            <tr><th>Analisado por</th><td>${analisadoPorTecnico}</td><th>Data</th><td>${dataAnaliseTecnica}</td></tr>
+                        </table>
+                        <table>
+                            <tr><th colspan="4" style="background-color: #95a5a6; text-align: center;">ANÁLISE FINANCEIRA</th></tr>
+                            <tr><th>Viabilidade Financeira</th><td>${viabilidadeFinanceira}</td><th>Observações</th><td>${observacoesFinanceiras}</td></tr>
+                            <tr><th>Analisado por</th><td>${analisadoPorFinanceiro}</td><th>Data</th><td>${dataAnaliseFinanceira}</td></tr>
+                        </table>
+                        <table>
+                            <tr><th colspan="4" style="background-color: #95a5a6; text-align: center;">APROVAÇÃO FINAL</th></tr>
+                            <tr><th>Decisão</th><td>${decisaoFinal}</td><th>Prioridade</th><td>${prioridade}</td></tr>
+                             <tr><th>Requer Gestão de Mudança (PL 004)?</th><td colspan="3">${requerMOC}</td></tr>
+                            <tr><th>Observações</th><td colspan="3">${observacoesAprovacao}</td></tr>
+                            <tr><th>Aprovado por</th><td>${aprovadoPor}</td><th>Data</th><td>${dataAprovacao}</td></tr>
+                        </table>
+                        
+                        ${requerMOC === 'Sim' ? `
+                        <h2 style="background-color: #c0392b; color: white; padding: 5px;">5.1. REGISTRO FORMAL DE MUDANÇA (PL 004)</h2>
+                        <table>
+                            <tr><th style="width: 30%;">Tipo de Mudança</th><td>${tipoMudanca}</td></tr>
+                            <tr><th>Análise de Impacto da Mudança</th><td>${impactoMudanca}</td></tr>
+                            <tr><th>Plano de Comunicação</th><td>${planoComunicacao}</td></tr>
+                            <tr><th>Plano de Treinamento</th><td>${planoTreinamento}</td></tr>
+                            <tr><th>Plano de Validação Pós-Implementação</th><td>${planoValidacao}</td></tr>
+                            <tr><th>Responsável pela Gestão da Mudança</th><td>${responsavelMOC}</td></tr>
+                        </table>
+                        ` : ''}
+
+                        <h2>6. AVALIAÇÃO DE EFICÁCIA</h2>
+                        <h3>Período de Avaliação</h3>
+                        <table>
+                            <tr><th>Início</th><td>${inicioAvaliacao}</td><th>Fim</th><td>${fimAvaliacao}</td></tr>
+                            <tr><th>Responsável pela avaliação</th><td colspan="3">${responsavelAvaliacao}</td></tr>
+                        </table>
+                        <h3>Resultados Obtidos</h3>
+                        <table>
+                            <thead><tr><th>Indicador</th><th>Meta</th><th>Resultado</th><th>Status</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td>${indicadorRes1}</td>
+                                    <td>${metaRes1}</td>
+                                    <td>${resultadoRes1}</td>
+                                    <td><span class="status-indicator status-${statusPT1.toLowerCase()}">${statusPT1}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>${indicadorRes2}</td>
+                                    <td>${metaRes2}</td>
+                                    <td>${resultadoRes2}</td>
+                                    <td><span class="status-indicator status-${statusPT2.toLowerCase()}">${statusPT2}</span></td>
+                                </tr>
+                                <tr>
+                                    <td>${indicadorRes3}</td>
+                                    <td>${metaRes3}</td>
+                                    <td>${resultadoRes3}</td>
+                                    <td><span class="status-indicator status-${statusPT3.toLowerCase()}">${statusPT3}</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="font-size: 12px; color: #5a5a5a; margin-top: 10px;">
+                            <strong>Legenda:</strong>
+                            <span style="margin-right: 1rem;">Verde: Meta atingida ou superada.</span>
+                            <span style="margin-right: 1rem;">Amarelo: Desvio de até 10% da meta.</span>
+                            <span>Vermelho: Desvio maior que 10% da meta ou crítico.</span>
+                        </div>
+                        <table>
+                            <tr><th>Benefícios Quantitativos</th><td>${beneficiosQuantitativos}</td></tr>
+                            <tr><th>Benefícios Qualitativos</th><td>${beneficiosQualitativos}</td></tr>
+                            <tr><th>Benefícios Financeiros</th><td>${beneficiosFinanceiros}</td></tr>
+                            <tr><th>Avaliação Geral</th><td>${avaliacaoGeral}</td></tr>
+                            <tr><th>Justificativa</th><td>${justificativaAvaliacao}</td></tr>
+                        </table>
+                        <h2>7. ACOMPANHAMENTO E REVISÃO</h2>
+                        <table>
+                            <tr><th>Data de Revisão</th><td>${dataRevisao}</td><th>Responsável</th><td>${responsavelRevisao}</td></tr>
+                            <tr><th>Status do Acompanhamento</th><td colspan="3">${statusAcompanhamento}</td></tr>
+                        </table>
+                        <h2>8. ENCERRAMENTO E LIÇÕES APRENDIDAS</h2>
+                        <table>
+                            <tr><th>Conclusão Final</th><td>${conclusao}</td></tr>
+                            <tr><th>Lições Aprendidas e Recomendações</th><td>${recomendacoes}</td></tr>
+                            <tr><th>Encerrado por</th><td>${encerradoPor}</td><th>Data de Encerramento</th><td>${dataEncerramento}</td></tr>
+                        </table>
+                        ${reportFooterHTML}
+                    </div>
+                `;
+
+                return `
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Relatório de Melhoria - ${numeroRegistro}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; margin: 0; }
+                            table { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 12px; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+                            th { background-color: #f2f2f2; }
+                            h2 { font-size: 16px; font-weight: bold; margin: 15px 0 5px; }
+                            h3 { font-size: 14px; font-weight: bold; margin: 10px 0 5px; }
+                            .header-report { border: 2px solid #000; margin-bottom: 20px; }
+                            .header-report td { padding: 15px; text-align: center; border: 1px solid #000; }
+                            .footer-report { border-top: 2px solid #000; padding-top: 10px; font-size: 10px; color: #000; page-break-inside: avoid; }
+                            .status-indicator { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-right: 5px; }
+                            .status-verde { background-color: #2ecc71; color: white; }
+                            .status-amarelo { background-color: #f1c40f; color: black; }
+                            .status-vermelho { background-color: #e74c3c; color: white; }
+                        </style>
+                    </head>
+                    <body>
+                        ${reportContent}
+                    </body>
+                    </html>
+                `;
+            } catch (error) {
+                console.error('Erro ao gerar HTML do relatório:', error);
+                showMessage('Ocorreu um erro ao preparar o relatório.', 'error');
+                return null;
+            }
+        }
+
+        // Função para gerar relatório
+        function gerarRelatorio() {
+            try {
+                const fullHtml = _getCompleteReportHTML();
+                if (fullHtml) {
+                    const novaJanela = window.open('', '_blank', 'width=1200,height=800');
+                    novaJanela.document.write(fullHtml);
+                    novaJanela.document.close();
+                }
+            } catch (error) {
+                console.error('Erro ao gerar relatório:', error);
+                showMessage('Ocorreu um erro ao gerar o relatório.', 'error');
+            }
+        }
+
+        function exportarPDF() {
+            try {
+                const fullHtml = _getCompleteReportHTML();
+                if (fullHtml) {
+                    const novaJanela = window.open('', '_blank');
+                    novaJanela.document.write(fullHtml);
+                    novaJanela.document.close();
+                    setTimeout(() => {
+                        novaJanela.focus();
+                        novaJanela.print();
+                    }, 500); // Aguarda um pouco para o conteúdo renderizar antes de imprimir
+                }
+            } catch (error) {
+                console.error('Erro ao exportar PDF:', error);
+                showMessage('Ocorreu um erro ao exportar o PDF.', 'error');
+            }
+        }
+        
+        function inicializarFormulario() {
+            const hoje = new Date().toISOString().split('T')[0];
+            const dataIdentificacao = document.getElementById('dataIdentificacao');
+            if (dataIdentificacao && !dataIdentificacao.value) {
+                dataIdentificacao.value = hoje;
+            }
+
+            const numeroRegistro = document.getElementById('numeroRegistro');
+            if (numeroRegistro) {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = (now.getMonth() + 1).toString().padStart(2, '0');
+                const day = now.getDate().toString().padStart(2, '0');
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const seconds = now.getSeconds().toString().padStart(2, '0');
+                
+                // Format: FORM QUA-003-YYYYMMDD-HHMMSS
+                const uniqueId = `FORM QUA-003-${year}${month}${day}-${hours}${minutes}${seconds}`;
+                
+                numeroRegistro.value = uniqueId;
+            }
+
+            document.querySelectorAll('h2, h3').forEach(header => {
+                if (header.textContent.includes('PLANO DE IMPLEMENTAÇÃO') ||
+                    header.textContent.includes('ANÁLISE DE VIABILIDADE') ||
+                    header.textContent.includes('APROVAÇÃO') ||
+                    header.textContent.includes('AVALIAÇÃO DE EFICÁCIA') ||
+                    header.textContent.includes('ACOMPANHAMENTO E REVISÃO') ||
+                    header.textContent.includes('ENCERRAMENTO')) {
+                    const content = header.nextElementSibling;
+                    const icon = document.createElement('span');
+                    icon.classList.add('collapsible-icon');
+                    icon.textContent = '>';
+                    header.appendChild(icon);
+                    content.style.display = 'none';
+                }
+            });
+            
+            document.querySelectorAll('h2, h3').forEach(header => {
+                if (header.textContent.includes('PLANO DE IMPLEMENTAÇÃO') ||
+                    header.textContent.includes('ANÁLISE DE VIABILIDADE') ||
+                    header.textContent.includes('APROVAÇÃO') ||
+                    header.textContent.includes('REGISTRO FORMAL DE MUDANÇA') ||
+                    header.textContent.includes('AVALIAÇÃO DE EFICÁCIA') ||
+                    header.textContent.includes('ACOMPANHAMENTO E REVISÃO') ||
+                    header.textContent.includes('ENCERRAMENTO')
+                ) {
+                    header.onclick = () => toggleCollapse(header);
+                }
+            });
+        }
+
+        // Função para calcular e exibir a severidade e o nível de risco
+        function calcularSeveridade() {
+            const prob = parseInt(document.getElementById('probabilidadeRisco').value, 10) || 0;
+            const imp = parseInt(document.getElementById('impactoRisco').value, 10) || 0;
+            const severidade = prob * imp;
+            const severidadeInput = document.getElementById('severidadeRisco');
+            const nivelDisplay = document.getElementById('nivelRiscoDisplay');
+
+            severidadeInput.value = severidade;
+            
+            const nivel = calcularNivelRisco(severidade);
+            nivelDisplay.textContent = nivel.texto;
+            nivelDisplay.style.backgroundColor = nivel.bgColor;
+            nivelDisplay.style.color = nivel.color;
+        }
+
+        function calcularNivelRisco(severidade) {
+             if (severidade >= 9) {
+                return { texto: 'CRÍTICO', bgColor: '#c0392b', color: 'white' };
+            } else if (severidade >= 6) {
+                return { texto: 'ALTO', bgColor: '#e67e22', color: 'white' };
+            } else if (severidade >= 3) {
+                return { texto: 'MÉDIO', bgColor: '#f1c40f', color: 'black' };
+            } else if (severidade >= 1) {
+                return { texto: 'BAIXO', bgColor: '#2ecc71', color: 'white' };
+            } else {
+                return { texto: 'N/A', bgColor: '#ecf0f1', color: 'black' };
+            }
+        }
+
+        // Função para alternar o colapso das seções
+        function toggleCollapse(header) {
+            const content = header.nextElementSibling;
+            const icon = header.querySelector('.collapsible-icon');
+            if (content && icon) {
+                if (content.style.display === "block" || content.style.display === "") {
+                    content.style.display = "none";
+                    icon.classList.remove('rotated');
+                } else {
+                    content.style.display = "block";
+                    icon.classList.add('rotated');
+                }
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarFormulario();
+
+            // Adiciona o listener para o checkbox de MOC
+            const mocCheckbox = document.getElementById('requerMOC');
+            const mocSection = document.getElementById('gestaoMudancaSection');
+            mocCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    mocSection.style.display = 'block';
+                } else {
+                    mocSection.style.display = 'none';
+                }
+            });
+
+            // Adiciona o listener para o checkbox de Risco/Oportunidade
+            const riscoCheckbox = document.getElementById('novoRiscoOportunidade');
+            const riscoSection = document.getElementById('riscoOportunidadeSection');
+            riscoCheckbox.addEventListener('change', function() {
+                if (this.checked) {
+                    riscoSection.style.display = 'block';
+                } else {
+                    riscoSection.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
